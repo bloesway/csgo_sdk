@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{4435f2b5-95df-4f36-8312-201b5aa34238}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)sdk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\cfg\cfg.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\cfg\detail\data_types\base_cfg_var.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\cfg\detail\detail.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\math\detail\data_types\array_wrapper.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\math\detail\data_types\base_clr.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\math\detail\data_types\base_mat.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\math\detail\data_types\base_qang.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\math\detail\data_types\base_rect.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\math\detail\data_types\base_vec.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\math\detail\detail.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\math\math.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\mem\detail\data_types\base_address.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\mem\detail\data_types\base_stack_frame.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\mem\detail\data_types\pe_format.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\mem\detail\detail.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\mem\mem.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\util\detail\detail.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\util\util.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\cfg\impl\cfg.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)src\cfg\impl\cfg.inl" />
+    <None Include="$(MSBuildThisFileDirectory)src\math\impl\math.inl" />
+    <None Include="$(MSBuildThisFileDirectory)src\mem\impl\mem.inl" />
+    <None Include="$(MSBuildThisFileDirectory)src\util\impl\util.inl" />
+  </ItemGroup>
+</Project>

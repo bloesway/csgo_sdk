@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.31911.260
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "csgo", "csgo\csgo.vcxproj", "{44C304CF-F031-47DC-BC63-47763F03B9EE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sdk", "sdk\sdk.vcxitems", "{4435F2B5-95DF-4F36-8312-201B5AA34238}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		debug|x86 = debug|x86
+		release|x86 = release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{44C304CF-F031-47DC-BC63-47763F03B9EE}.debug|x86.ActiveCfg = debug|Win32
+		{44C304CF-F031-47DC-BC63-47763F03B9EE}.debug|x86.Build.0 = debug|Win32
+		{44C304CF-F031-47DC-BC63-47763F03B9EE}.release|x86.ActiveCfg = release|Win32
+		{44C304CF-F031-47DC-BC63-47763F03B9EE}.release|x86.Build.0 = release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {87F462E4-48BD-450F-95DB-5BD5D473CBCF}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		sdk\sdk.vcxitems*{4435f2b5-95df-4f36-8312-201b5aa34238}*SharedItemsImports = 9
+		sdk\sdk.vcxitems*{44c304cf-f031-47dc-bc63-47763f03b9ee}*SharedItemsImports = 4
+	EndGlobalSection
+EndGlobal

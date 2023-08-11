@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="debug|Win32">
+      <Configuration>debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="release|Win32">
+      <Configuration>release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{44c304cf-f031-47dc-bc63-47763f03b9ee}</ProjectGuid>
+    <RootNamespace>csgosdk</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>ClangCL</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>ClangCL</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+    <Import Project="..\sdk\sdk.vcxitems" Label="Shared" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)output\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)output\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)thirdparty\include\;$(DXSDK_DIR)\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)thirdparty\lib\;$(DXSDK_DIR)\lib\x86\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)output\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)output\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)thirdparty\include\;$(DXSDK_DIR)\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)thirdparty\lib\;$(DXSDK_DIR)\lib\x86\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalOptions>/DSDK_CFG_ID_OBJECT="\"wok sdk\"" %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>minhook_x86_v143_mdd.lib; d3d9.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <AdditionalOptions>/DSDK_CFG_ID_OBJECT="\"wok sdk\"" %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalDependencies>minhook_x86_v143_md.lib; d3d9.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ctx\impl\ctx.cpp" />
+    <ClCompile Include="hacks\models\impl\models.cpp" />
+    <ClCompile Include="hacks\move\impl\move.cpp" />
+    <ClCompile Include="hooks\impl\client.cpp" />
+    <ClCompile Include="hooks\impl\render.cpp" />
+    <ClCompile Include="hooks\impl\ui.cpp" />
+    <ClCompile Include="local_player\impl\local_player.cpp" />
+    <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\imgui_draw.cpp" />
+    <ClCompile Include="imgui\imgui_impl_dx9.cpp" />
+    <ClCompile Include="imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="imgui\imgui_tables.cpp" />
+    <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="menu\impl\menu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="csgo.hpp" />
+    <ClInclude Include="ctx\ctx.hpp" />
+    <ClInclude Include="hacks\hacks.hpp" />
+    <ClInclude Include="hacks\models\models.hpp" />
+    <ClInclude Include="hacks\move\move.hpp" />
+    <ClInclude Include="hooks\hooks.hpp" />
+    <ClInclude Include="local_player\local_player.hpp" />
+    <ClInclude Include="imgui\imconfig.h" />
+    <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\imgui_impl_dx9.h" />
+    <ClInclude Include="imgui\imgui_impl_win32.h" />
+    <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="imgui\imstb_rectpack.h" />
+    <ClInclude Include="imgui\imstb_textedit.h" />
+    <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="menu\menu.hpp" />
+    <ClInclude Include="valve\entities\entities.hpp" />
+    <ClInclude Include="valve\interfaces\interfaces.hpp" />
+    <ClInclude Include="valve\other\other.hpp" />
+    <ClInclude Include="valve\util\util.hpp" />
+    <ClInclude Include="valve\valve.hpp" />
+    <ClInclude Include="sdk\sdk.hpp" />
+    <ClInclude Include="sdk\src\cfg\cfg.hpp" />
+    <ClInclude Include="sdk\src\cfg\detail\data_types\base_cfg_var.hpp" />
+    <ClInclude Include="sdk\src\cfg\detail\detail.hpp" />
+    <ClInclude Include="sdk\src\math\detail\data_types\array_wrapper.hpp" />
+    <ClInclude Include="sdk\src\math\detail\data_types\base_clr.hpp" />
+    <ClInclude Include="sdk\src\math\detail\data_types\base_mat.hpp" />
+    <ClInclude Include="sdk\src\math\detail\data_types\base_qang.hpp" />
+    <ClInclude Include="sdk\src\math\detail\data_types\base_rect.hpp" />
+    <ClInclude Include="sdk\src\math\detail\data_types\base_vec.hpp" />
+    <ClInclude Include="sdk\src\math\detail\detail.hpp" />
+    <ClInclude Include="sdk\src\math\math.hpp" />
+    <ClInclude Include="sdk\src\mem\detail\data_types\base_address.hpp" />
+    <ClInclude Include="sdk\src\mem\detail\data_types\base_stack_frame.hpp" />
+    <ClInclude Include="sdk\src\mem\detail\data_types\pe_format.hpp" />
+    <ClInclude Include="sdk\src\mem\detail\detail.hpp" />
+    <ClInclude Include="sdk\src\mem\mem.hpp" />
+    <ClInclude Include="sdk\src\util\detail\detail.hpp" />
+    <ClInclude Include="sdk\src\util\util.hpp" />
+    <ClInclude Include="thirdparty\include\imgui\imconfig.h" />
+    <ClInclude Include="thirdparty\include\imgui\imgui.h" />
+    <ClInclude Include="thirdparty\include\imgui\imgui_impl_dx9.h" />
+    <ClInclude Include="thirdparty\include\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="thirdparty\include\imgui\imgui_internal.h" />
+    <ClInclude Include="thirdparty\include\imgui\imstb_rectpack.h" />
+    <ClInclude Include="thirdparty\include\imgui\imstb_textedit.h" />
+    <ClInclude Include="thirdparty\include\imgui\imstb_truetype.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ctx\impl\ctx.inl" />
+    <None Include="hacks\models\impl\models.inl" />
+    <None Include="local_player\impl\local_player.inl" />
+    <None Include="menu\impl\menu.inl" />
+    <None Include="valve\entities\impl\entities.inl" />
+    <None Include="valve\interfaces\impl\interfaces.inl" />
+    <None Include="valve\other\impl\other.inl" />
+    <None Include="valve\util\impl\util.inl" />
+    <None Include="sdk\src\cfg\impl\cfg.inl" />
+    <None Include="sdk\src\math\impl\math.inl" />
+    <None Include="sdk\src\mem\impl\mem.inl" />
+    <None Include="sdk\src\util\impl\util.inl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

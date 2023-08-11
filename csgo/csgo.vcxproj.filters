@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="ctx\impl\ctx.cpp" />
+    <ClCompile Include="hacks\move\impl\move.cpp" />
+    <ClCompile Include="local_player\impl\local_player.cpp" />
+    <ClCompile Include="menu\impl\menu.cpp" />
+    <ClCompile Include="hooks\impl\ui.cpp" />
+    <ClCompile Include="hooks\impl\client.cpp" />
+    <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\imgui_draw.cpp" />
+    <ClCompile Include="imgui\imgui_impl_dx9.cpp" />
+    <ClCompile Include="imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="imgui\imgui_tables.cpp" />
+    <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="hooks\impl\render.cpp" />
+    <ClCompile Include="hacks\models\impl\models.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ctx\ctx.hpp" />
+    <ClInclude Include="csgo.hpp" />
+    <ClInclude Include="valve\valve.hpp" />
+    <ClInclude Include="sdk\sdk.hpp" />
+    <ClInclude Include="sdk\src\cfg\detail\data_types\base_cfg_var.hpp" />
+    <ClInclude Include="sdk\src\cfg\detail\detail.hpp" />
+    <ClInclude Include="sdk\src\cfg\cfg.hpp" />
+    <ClInclude Include="sdk\src\util\detail\detail.hpp" />
+    <ClInclude Include="sdk\src\util\util.hpp" />
+    <ClInclude Include="sdk\src\mem\detail\data_types\base_address.hpp" />
+    <ClInclude Include="sdk\src\mem\detail\data_types\base_stack_frame.hpp" />
+    <ClInclude Include="sdk\src\mem\detail\data_types\pe_format.hpp" />
+    <ClInclude Include="sdk\src\mem\detail\detail.hpp" />
+    <ClInclude Include="sdk\src\mem\mem.hpp" />
+    <ClInclude Include="sdk\src\math\detail\data_types\array_wrapper.hpp" />
+    <ClInclude Include="sdk\src\math\detail\data_types\base_clr.hpp" />
+    <ClInclude Include="sdk\src\math\detail\data_types\base_mat.hpp" />
+    <ClInclude Include="sdk\src\math\detail\data_types\base_qang.hpp" />
+    <ClInclude Include="sdk\src\math\detail\data_types\base_rect.hpp" />
+    <ClInclude Include="sdk\src\math\detail\data_types\base_vec.hpp" />
+    <ClInclude Include="sdk\src\math\detail\detail.hpp" />
+    <ClInclude Include="sdk\src\math\math.hpp" />
+    <ClInclude Include="valve\entities\entities.hpp" />
+    <ClInclude Include="hooks\hooks.hpp" />
+    <ClInclude Include="hacks\hacks.hpp" />
+    <ClInclude Include="valve\interfaces\interfaces.hpp" />
+    <ClInclude Include="valve\other\other.hpp" />
+    <ClInclude Include="valve\util\util.hpp" />
+    <ClInclude Include="hacks\move\move.hpp" />
+    <ClInclude Include="thirdparty\include\imgui\imconfig.h" />
+    <ClInclude Include="thirdparty\include\imgui\imgui.h" />
+    <ClInclude Include="thirdparty\include\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="thirdparty\include\imgui\imgui_internal.h" />
+    <ClInclude Include="thirdparty\include\imgui\imstb_rectpack.h" />
+    <ClInclude Include="thirdparty\include\imgui\imstb_textedit.h" />
+    <ClInclude Include="thirdparty\include\imgui\imstb_truetype.h" />
+    <ClInclude Include="thirdparty\include\imgui\imgui_impl_dx9.h" />
+    <ClInclude Include="local_player\local_player.hpp" />
+    <ClInclude Include="menu\menu.hpp" />
+    <ClInclude Include="imgui\imconfig.h" />
+    <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\imgui_impl_dx9.h" />
+    <ClInclude Include="imgui\imgui_impl_win32.h" />
+    <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="imgui\imstb_rectpack.h" />
+    <ClInclude Include="imgui\imstb_textedit.h" />
+    <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="hacks\models\models.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sdk\src\cfg\impl\cfg.inl" />
+    <None Include="sdk\src\mem\impl\mem.inl" />
+    <None Include="sdk\src\util\impl\util.inl" />
+    <None Include="sdk\src\math\impl\math.inl" />
+    <None Include="valve\entities\impl\entities.inl" />
+    <None Include="ctx\impl\ctx.inl" />
+    <None Include="valve\other\impl\other.inl" />
+    <None Include="valve\util\impl\util.inl" />
+    <None Include="local_player\impl\local_player.inl" />
+    <None Include="menu\impl\menu.inl" />
+    <None Include="valve\interfaces\impl\interfaces.inl" />
+    <None Include="hacks\models\impl\models.inl" />
+  </ItemGroup>
+</Project>
