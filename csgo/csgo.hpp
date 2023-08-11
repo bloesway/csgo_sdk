@@ -56,5 +56,7 @@
 #include "valve/valve.hpp"
 #include "local_player/local_player.hpp"
 
+#include "player_list/player_list.hpp"
+
 #include "hacks/hacks.hpp"
 #include "hooks/hooks.hpp"

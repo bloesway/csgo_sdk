@@ -420,6 +420,10 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
     const code_section_t vguimatsurface{ modules.at( HASH( "vguimatsurface.dll" ) ) };
     const code_section_t studiorender{ modules.at( HASH( "studiorender.dll" ) ) };
 
+    HOOK_VFUNC( valve::g_entity_list, 11u, hooks::on_entity_add, hooks::o_on_entity_add );
+
+    HOOK_VFUNC( valve::g_entity_list, 12u, hooks::on_entity_remove, hooks::o_on_entity_remove );
+
     HOOK_VFUNC( valve::g_client, VARVAL( 21u, 22u ), hooks::create_move_proxy, hooks::o_create_move );
 
     HOOK_VFUNC( valve::g_client, VARVAL( 36u, 37u ), hooks::frame_stage, hooks::o_frame_stage );

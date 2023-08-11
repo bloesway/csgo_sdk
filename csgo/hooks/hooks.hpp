@@ -37,4 +37,12 @@ namespace hooks {
     );
     inline decltype( &draw_model ) o_draw_model{};
 #pragma endregion
+
+#pragma region entity_list
+    void __fastcall on_entity_add( void* ecx, void* edx, valve::base_entity_t* entity, valve::ent_handle_t handle );
+    inline decltype( &on_entity_add ) o_on_entity_add{};
+
+    void __fastcall on_entity_remove( void* ecx, void* edx, valve::base_entity_t* entity, valve::ent_handle_t handle );
+    inline decltype( &on_entity_remove ) o_on_entity_remove{};
+#pragma endregion
 }

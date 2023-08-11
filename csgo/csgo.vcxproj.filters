@@ -16,6 +16,8 @@
     <ClCompile Include="hooks\impl\render.cpp" />
     <ClCompile Include="hacks\models\impl\models.cpp" />
     <ClCompile Include="renderer\impl\renderer.cpp" />
+    <ClCompile Include="player_list\impl\player_list.cpp" />
+    <ClCompile Include="hooks\impl\entity_list.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ctx\ctx.hpp" />
@@ -67,6 +69,7 @@
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="hacks\models\models.hpp" />
     <ClInclude Include="renderer\renderer.hpp" />
+    <ClInclude Include="player_list\player_list.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sdk\src\cfg\impl\cfg.inl" />
@@ -81,5 +84,6 @@
     <None Include="menu\impl\menu.inl" />
     <None Include="valve\interfaces\impl\interfaces.inl" />
     <None Include="hacks\models\impl\models.inl" />
+    <None Include="player_list\impl\player_list.inl" />
   </ItemGroup>
 </Project>

@@ -100,6 +100,7 @@
     <ClCompile Include="hacks\models\impl\models.cpp" />
     <ClCompile Include="hacks\move\impl\move.cpp" />
     <ClCompile Include="hooks\impl\client.cpp" />
+    <ClCompile Include="hooks\impl\entity_list.cpp" />
     <ClCompile Include="hooks\impl\render.cpp" />
     <ClCompile Include="hooks\impl\ui.cpp" />
     <ClCompile Include="local_player\impl\local_player.cpp" />
@@ -110,6 +111,7 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="menu\impl\menu.cpp" />
+    <ClCompile Include="player_list\impl\player_list.cpp" />
     <ClCompile Include="renderer\impl\renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +131,7 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="menu\menu.hpp" />
+    <ClInclude Include="player_list\player_list.hpp" />
     <ClInclude Include="renderer\renderer.hpp" />
     <ClInclude Include="valve\entities\entities.hpp" />
     <ClInclude Include="valve\interfaces\interfaces.hpp" />
@@ -168,6 +171,7 @@
     <None Include="hacks\models\impl\models.inl" />
     <None Include="local_player\impl\local_player.inl" />
     <None Include="menu\impl\menu.inl" />
+    <None Include="player_list\impl\player_list.inl" />
     <None Include="valve\entities\impl\entities.inl" />
     <None Include="valve\interfaces\impl\interfaces.inl" />
     <None Include="valve\other\impl\other.inl" />
