@@ -311,12 +311,19 @@ void c_ctx::init_offsets( const modules_t& modules ) {
     m_offsets.m_base_entity.m_flags = offsets.at( HASH( "C_BaseEntity->m_fFlags" ) ).m_offset;
     m_offsets.m_base_entity.m_origin = offsets.at( HASH( "CBaseEntity->m_vecOrigin" ) ).m_offset;
     m_offsets.m_base_entity.m_velocity = offsets.at( HASH( "C_BaseEntity->m_vecVelocity" ) ).m_offset;
-    m_offsets.m_base_entity.m_abs_origin = offsets.at( HASH( "C_BaseEntity->m_vecAbsOrigin" ) ).m_offset;
     m_offsets.m_base_entity.m_abs_velocity = offsets.at( HASH( "C_BaseEntity->m_vecAbsVelocity" ) ).m_offset;
     m_offsets.m_base_entity.m_abs_rotation = offsets.at( HASH( "C_BaseEntity->m_angAbsRotation" ) ).m_offset;
     m_offsets.m_base_entity.m_move_type = offsets.at( HASH( "C_BaseEntity->m_MoveType" ) ).m_offset;
     m_offsets.m_base_entity.m_mins = offsets.at( HASH( "CBaseEntity->m_vecMins" ) ).m_offset;
     m_offsets.m_base_entity.m_maxs = offsets.at( HASH( "CBaseEntity->m_vecMaxs" ) ).m_offset;
+
+    m_offsets.m_base_entity.m_set_abs_origin = BYTESEQ( "55 8B EC 83 E4 F8 51 53 56 57 8B F1 E8 ? ? ? ? 8B 7D" ).search(
+        client.m_start, client.m_end
+    );
+
+    m_offsets.m_base_entity.m_set_abs_angles = BYTESEQ( "55 8B EC 83 E4 F8 83 EC 64 53 56 57 8B F1" ).search(
+        client.m_start, client.m_end
+    );
 
     m_offsets.m_base_animating.m_sequence = offsets.at( HASH( "CBaseAnimating->m_nSequence" ) ).m_offset;
     m_offsets.m_base_animating.m_hitbox_set_index = offsets.at( HASH( "CBaseAnimating->m_nHitboxSet" ) ).m_offset;

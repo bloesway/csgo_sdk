@@ -28,7 +28,6 @@ namespace valve {
         OFFSET( sdk::vec3_t, origin( ), g_ctx->offsets( ).m_base_entity.m_origin );
         OFFSET( sdk::vec3_t, velocity( ), g_ctx->offsets( ).m_base_entity.m_velocity );
 
-        OFFSET( sdk::vec3_t, abs_origin( ), g_ctx->offsets( ).m_base_entity.m_abs_origin );
         OFFSET( sdk::vec3_t, abs_velocity( ), g_ctx->offsets( ).m_base_entity.m_abs_velocity );
         OFFSET( sdk::qang_t, abs_rotation( ), g_ctx->offsets( ).m_base_entity.m_abs_rotation );
 
@@ -39,6 +38,18 @@ namespace valve {
 
         OFFSET( bones_t, bones( ), g_ctx->offsets( ).m_renderable.m_bone_cache + sizeof( std::uintptr_t ) );
         OFFSET( sdk::ulong_t, mdl_bone_cnt( ), g_ctx->offsets( ).m_renderable.m_mdl_bone_cnt + sizeof( std::uintptr_t ) );
+
+        VFUNC( sdk::vec3_t& ( __thiscall* )( decltype( this ) ), abs_origin( ), 10u );
+
+        VFUNC( sdk::qang_t& ( __thiscall* )( decltype( this ) ), abs_angles( ), 11u );
+
+        OFFSET_VFUNC( bool( __thiscall* )( decltype( this ), sdk::vec3_t& ),
+            set_abs_origin( sdk::vec3_t& new_origin ), g_ctx->offsets( ).m_base_entity.m_set_abs_origin, new_origin
+        );
+
+        OFFSET_VFUNC( bool( __thiscall* )( decltype( this ), sdk::qang_t& ),
+            set_abs_angles( sdk::qang_t& new_angles ), g_ctx->offsets( ).m_base_entity.m_set_abs_angles, new_angles
+        );
     };
 
     struct base_animating_t : public base_entity_t {
