@@ -93,6 +93,16 @@ void c_ctx::init_imgui( const modules_t& modules ) const {
     HOOK_VFUNC( device, 17u, hooks::dx9_present, hooks::o_dx9_present );
 }
 
+void c_ctx::init_renderer( ) const {
+    g_render->m_draw_list = std::make_shared< ImDrawList >( ImGui::GetDrawListSharedData( ) );
+    g_render->m_data_draw_list = std::make_shared< ImDrawList>( ImGui::GetDrawListSharedData( ) );
+    g_render->m_replace_draw_list = std::make_shared< ImDrawList >( ImGui::GetDrawListSharedData( ) );
+
+    auto& io = ImGui::GetIO( );
+
+    g_render->m_fonts.m_verdana12 = io.Fonts->AddFontFromFileTTF( "C:\\Windows\\Fonts\\Verdana.ttf", 12.f, nullptr, io.Fonts->GetGlyphRangesCyrillic( ) );
+}
+
 void c_ctx::parse_interfaces( sdk::x86_pe_image_t* const image, interfaces_t& interfaces ) const {
     sdk::address_t list{};
 
@@ -141,7 +151,8 @@ void c_ctx::init_interfaces( const modules_t& modules ) const {
         HASH( "vphysics.dll" ),
         HASH( "matchmaking.dll" ),
         HASH( "studiorender.dll" ),
-        HASH( "materialsystem.dll" )
+        HASH( "materialsystem.dll" ),
+        HASH( "vgui2.dll" )
     };
 
     for ( const auto hash : k_needed_modules )
@@ -180,6 +191,8 @@ void c_ctx::init_interfaces( const modules_t& modules ) const {
     ).self_offset( 0x1 ).as< valve::input_t** >( );
 
     valve::g_cvar = interfaces.at( HASH( "VEngineCvar007" ) ).as< valve::c_cvar* >( );
+
+    valve::g_panel = interfaces.at( HASH( "VGUI_Panel009" ) ).as< valve::c_panel* >( );
 
     valve::g_move_helper = **BYTESEQ( "8B 0D ? ? ? ? 8B 45 ? 51 8B D4 89 02 8B 01" ).search(
         client.m_start, client.m_end
@@ -411,6 +424,8 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
 
     HOOK_VFUNC( valve::g_client, VARVAL( 36u, 37u ), hooks::frame_stage, hooks::o_frame_stage );
 
+    HOOK_VFUNC( valve::g_panel, 41u, hooks::paint_traverse, hooks::o_paint_traverse );
+
     HOOK( BYTESEQ( "80 3D ? ? ? ? ? 8B 91 ? ? ? ? 8B 0D ? ? ? ? C6 05 ? ? ? ? 01" ).search(
         vguimatsurface.m_start, vguimatsurface.m_end
     ), hooks::lock_cursor, hooks::o_lock_cursor );
@@ -429,6 +444,8 @@ void c_ctx::init( ) {
         THROW_IF_DBG( "can't initialize minhook." );
 
     init_imgui( modules );
+
+    init_renderer( );
 
     init_interfaces( modules );
 

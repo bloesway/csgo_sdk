@@ -76,6 +76,14 @@ namespace sdk::detail {
             return argb;
         }
 
+        ALWAYS_INLINE constexpr std::uint32_t hex(
+            bool argb = false
+        ) const {
+            return argb
+                ? ( ( r( ) & 0xFF ) << 24 ) + ( ( g( ) & 0xFF ) << 16 ) + ( ( b( ) & 0xFF ) << 8 ) + ( a( ) & 0xFF )
+                : ( ( a( ) & 0xFF ) << 24 ) + ( ( b( ) & 0xFF ) << 16 ) + ( ( g( ) & 0xFF ) << 8 ) + ( r( ) & 0xFF );
+        }
+
         ALWAYS_INLINE constexpr _value_t& a( ) { return base_t::at( 3u ); }
 
         ALWAYS_INLINE constexpr _value_t a( ) const { return base_t::at( 3u ); }

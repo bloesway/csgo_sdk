@@ -37,6 +37,8 @@ namespace hooks {
 
         g_menu->render( );
 
+        g_render->replace_draw_list( );
+
         ImGui::EndFrame( );
 
         ImGui::Render( );
@@ -53,5 +55,25 @@ namespace hooks {
             return ( *sdk::address_t{ ecx }.as< unlock_cursor_t** >( ) )[ 66u ]( ecx );
 
         o_lock_cursor( ecx, edx );
+    }
+
+    void __fastcall paint_traverse( void* ecx, void* edx, uint32_t id, bool force_repaint, bool allow_force ) {
+        o_paint_traverse( ecx, edx, id, force_repaint, allow_force );
+
+        {
+            static auto draw_panel_id = 0u;
+
+            if ( !draw_panel_id ) {
+                if ( sdk::hash( valve::g_panel->name( id ) ) != HASH( "MatSystemTopPanel" ) )
+                    return;
+
+                draw_panel_id = id;
+            }
+
+            if ( id != draw_panel_id )
+                return;
+        }
+
+        g_render->process( );
     }
 }

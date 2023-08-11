@@ -23,6 +23,8 @@ private:
 
     void init_imgui( const modules_t& modules ) const;
 
+    void init_renderer( ) const;
+
     void parse_interfaces( sdk::x86_pe_image_t* const image, interfaces_t& interfaces ) const;
 
     void init_interfaces( const modules_t& modules ) const;

@@ -15,13 +15,14 @@ namespace hooks {
 
     void __fastcall lock_cursor( std::uintptr_t ecx, std::uintptr_t edx );
     inline decltype( &lock_cursor ) o_lock_cursor{};
+
+    void __fastcall paint_traverse( void* ecx, void* edx, uint32_t id, bool force_repaint, bool allow_force );
+    inline decltype( &paint_traverse ) o_paint_traverse{};
 #pragma endregion
 
 #pragma region client
     void __stdcall frame_stage( valve::e_frame_stage stage );
-
-    using o_frame_stage_t = void( __stdcall* )( valve::e_frame_stage );
-    inline o_frame_stage_t o_frame_stage{};
+    inline decltype( &frame_stage ) o_frame_stage{};
 
     void __stdcall create_move_proxy( int seq_number, float input_sample_frame_time, bool active );
     void __stdcall create_move( int seq_number, float input_sample_frame_time, bool active, bool& send_packet );

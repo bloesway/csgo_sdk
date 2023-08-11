@@ -110,6 +110,7 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="menu\impl\menu.cpp" />
+    <ClCompile Include="renderer\impl\renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="csgo.hpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="menu\menu.hpp" />
+    <ClInclude Include="renderer\renderer.hpp" />
     <ClInclude Include="valve\entities\entities.hpp" />
     <ClInclude Include="valve\interfaces\interfaces.hpp" />
     <ClInclude Include="valve\other\other.hpp" />

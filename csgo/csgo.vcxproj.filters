@@ -15,6 +15,7 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="hooks\impl\render.cpp" />
     <ClCompile Include="hacks\models\impl\models.cpp" />
+    <ClCompile Include="renderer\impl\renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ctx\ctx.hpp" />
@@ -65,6 +66,7 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="hacks\models\models.hpp" />
+    <ClInclude Include="renderer\renderer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sdk\src\cfg\impl\cfg.inl" />

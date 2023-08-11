@@ -104,6 +104,11 @@ namespace valve {
         std::uint8_t    pad10[ 208u ]{};
     } inline* g_client_state{};
 
+    class c_panel {
+    public:
+        VFUNC( const char* ( __thiscall* )( void*, uint32_t ), name( uint32_t id ), 36u, id );
+    } inline* g_panel{};
+
     struct input_t {
         std::uint8_t        pad0[ VARVAL( 4u, 12u ) ]{};
         bool                m_track_ir_available{},
