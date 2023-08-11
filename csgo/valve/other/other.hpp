@@ -9,6 +9,9 @@ namespace valve {
     inline constexpr auto k_max_roll = 50.f;
     inline constexpr auto k_lc_tp_dist = 4096.f;
 
+    inline constexpr auto k_max_layers = 13u;
+    inline constexpr auto k_max_poses = 24u;
+
     enum struct ent_handle_t : sdk::ulong_t {};
 
 #pragma region input
@@ -910,8 +913,8 @@ namespace valve {
     };
     ENUM_UNDERLYING_OPERATOR( e_anim_layer )
 
-    using pose_params_t = std::array< float, 24u >;
-    using anim_layers_t = utl_vec_t< anim_layer_t >;
+    using pose_params_t = std::array< float, k_max_poses >;
+    using anim_layers_t = std::array< anim_layer_t, k_max_layers >;
 
     using bones_t = utl_vec_t< sdk::mat3x4_t >;
 #pragma endregion

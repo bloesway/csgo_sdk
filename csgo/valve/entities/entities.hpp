@@ -48,7 +48,7 @@ namespace valve {
         OFFSET( studio_hdr_t*, studio_hdr( ), g_ctx->offsets( ).m_base_animating.m_studio_hdr );
 
         OFFSET( pose_params_t, pose_params( ), g_ctx->offsets( ).m_base_animating.m_pose_params );
-        OFFSET( anim_layers_t, anim_layers( ), g_ctx->offsets( ).m_base_animating.m_anim_layers );
+        PPOFFSET( anim_layers_t, anim_layers( ), g_ctx->offsets( ).m_base_animating.m_anim_layers );
     };
 
     struct base_attributable_item_t : public base_animating_t {

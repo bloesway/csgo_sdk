@@ -10,25 +10,36 @@
 #include "imgui/imgui_impl_dx9.h"
 #include "imgui/imgui_impl_win32.h"
 
-#define OFFSET( type, name, offset ) \
-    ALWAYS_INLINE type& name { \
-        return *sdk::address_t{ this }.self_offset( offset ).as< type* >( ); \
+#define OFFSET( type, definition, offset ) \
+    ALWAYS_INLINE auto& definition { \
+        return *reinterpret_cast< std::add_pointer_t< type > >( \
+            reinterpret_cast< std::uintptr_t >( this ) + offset \
+        ); \
     } \
 
-#define POFFSET( type, name, offset ) \
-    ALWAYS_INLINE type* name { \
-        return sdk::address_t{ this }.self_offset( offset ).as< type* >( ); \
+#define POFFSET( type, definition, offset ) \
+    ALWAYS_INLINE auto definition { \
+        return reinterpret_cast< std::add_pointer_t< type > >( \
+            reinterpret_cast< std::uintptr_t >( this ) + offset \
+        ); \
     } \
 
-#define VFUNC( type, name, index, ... ) \
-    ALWAYS_INLINE auto name { \
-        using fn_t = type; \
-        \
-        return ( *sdk::address_t{ this }.as< fn_t** >( ) )[ index ]( this, __VA_ARGS__ ); \
+#define PPOFFSET( type, definition, offset ) \
+    ALWAYS_INLINE auto& definition { \
+        return **reinterpret_cast< std::add_pointer_t< std::add_pointer_t< type > > >( \
+            reinterpret_cast< std::uintptr_t >( this ) + offset \
+        ); \
     } \
 
-#define OFFSET_VFUNC( type, name, offset, ... ) \
-    ALWAYS_INLINE auto name { \
+#define VFUNC( type, definition, index, ... ) \
+    ALWAYS_INLINE auto definition { \
+        return reinterpret_cast< type >( \
+            ( *reinterpret_cast< std::uintptr_t** >( this ) )[ index ] \
+        )( this, __VA_ARGS__ ); \
+    } \
+
+#define OFFSET_VFUNC( type, definition, offset, ... ) \
+    ALWAYS_INLINE auto definition { \
         return offset.as< type >( )( this, __VA_ARGS__ ); \
     } \
 
