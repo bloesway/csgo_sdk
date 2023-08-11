@@ -30,7 +30,7 @@ int __stdcall DllMain( _In_ HINSTANCE instance, _In_ DWORD reason, _In_ LPVOID r
 struct code_section_t {
     ALWAYS_INLINE constexpr code_section_t( ) = default;
 
-    /*ALWAYS_INLINE*/ code_section_t( const sdk::x86_pe_image_t* const image ) {
+    ALWAYS_INLINE code_section_t( const sdk::x86_pe_image_t* const image ) {
         if ( image->m_dos_hdr.e_magic != sdk::k_dos_hdr_magic )
             THROW_IF_DBG( "invalid dos hdr." );
 
@@ -170,6 +170,7 @@ void c_ctx::init_interfaces( const modules_t& modules ) const {
     valve::g_global_vars = **reinterpret_cast< valve::global_vars_base_t*** >(
         ( *reinterpret_cast< std::uintptr_t** >( valve::g_client ) )[ 11u ] + 0xau
     );
+
     valve::g_client_state = **reinterpret_cast< valve::client_state_t*** >(
         ( *reinterpret_cast< std::uintptr_t** >( valve::g_engine ) )[ 12u ] + 0x10u
     );
@@ -196,6 +197,7 @@ void c_ctx::init_interfaces( const modules_t& modules ) const {
     valve::g_game_rules = *BYTESEQ( VARVAL( "8B 0D ? ? ? ? E8 ? ? ? ? 84 C0 75 6B", "8B 0D ? ? ? ? 56 83 CE FF" ) ).search(
         client.m_start, client.m_end
     ).self_offset( 0x2 ).as< valve::game_rules_t*** >( );
+
     valve::g_game_types = interfaces.at( HASH( "VENGINE_GAMETYPES_VERSION002" ) ).as< valve::c_game_types* >( );
 }
 
@@ -212,16 +214,14 @@ bool c_ctx::parse_ent_offsets( ent_offsets_t& offsets, const modules_t& modules 
             const auto prop = &table->m_props[ i ];
 
             const auto child = prop->m_data_table;
-            if ( child
-                && child->m_props_count > 0 )
+            if ( child && child->m_props_count > 0 )
                 self( self, name, child, prop->m_offset + offset );
 
             concated = name;
             concated += "->";
             concated += prop->m_var_name;
 
-            offsets.insert_or_assign(
-                sdk::hash( concated.data( ), concated.size( ) ),
+            offsets.insert_or_assign( sdk::hash( concated.data( ), concated.size( ) ),
                 ent_offset_t{ prop, prop->m_offset + offset }
             );
         }
@@ -240,10 +240,9 @@ bool c_ctx::parse_ent_offsets( ent_offsets_t& offsets, const modules_t& modules 
             break;
 
         const auto data_map = start.offset( 0x6 ).self_deref( ).self_offset( -0x4 ).as< valve::data_map_t* >( );
-        if ( !data_map
-            || !data_map->m_name
-            || !data_map->m_descriptions
-            || data_map->m_size <= 0
+        if ( !data_map || !data_map->m_name 
+            || !data_map->m_descriptions 
+            || data_map->m_size <= 0 
             || data_map->m_size >= 200 )
             continue;
 
@@ -283,11 +282,13 @@ void c_ctx::init_offsets( const modules_t& modules ) {
     m_offsets.m_key_values.m_init = BYTESEQ( VARVAL( "E8 ? ? ? ? 5F 89 06", "E8 ? ? ? ? 8B F0 EB 22" ) ).search(
         client.m_start, client.m_end
     ).self_rel( );
+
     m_offsets.m_key_values.m_load_from_buffer = BYTESEQ( "55 8B EC 83 E4 F8 83 EC 34 53 8B 5D 0C 89" ).search( client.m_start, client.m_end );
 
     m_offsets.m_anim_state.m_reset = BYTESEQ( "56 6A 01 68 ? ? ? ? 8B F1" ).search(
         client.m_start, client.m_end
     );
+
     m_offsets.m_anim_state.m_update = BYTESEQ( "55 8B EC 83 E4 F8 83 EC 18 56 57 8B F9 F3 0F 11 54 24" ).search(
         client.m_start, client.m_end
     );
@@ -295,6 +296,7 @@ void c_ctx::init_offsets( const modules_t& modules ) {
     m_offsets.m_renderable.m_bone_cache = *BYTESEQ( "FF B7 ? ? ? ? 52" ).search(
         client.m_start, client.m_end
     ).self_offset( 0x2 ).as< std::uint32_t* >( );
+
     m_offsets.m_renderable.m_mdl_bone_cnt = *BYTESEQ( "EB 05 F3 0F 10 45 ? 8B 87 ? ? ? ?" ).search(
         client.m_start, client.m_end
     ).self_offset( 0x9 ).as< std::uint32_t* >( );
@@ -318,10 +320,13 @@ void c_ctx::init_offsets( const modules_t& modules ) {
 
     m_offsets.m_base_animating.m_sequence = offsets.at( HASH( "CBaseAnimating->m_nSequence" ) ).m_offset;
     m_offsets.m_base_animating.m_hitbox_set_index = offsets.at( HASH( "CBaseAnimating->m_nHitboxSet" ) ).m_offset;
+
     m_offsets.m_base_animating.m_studio_hdr = *BYTESEQ( "75 19 8B 40 04" ).search(
         client.m_start, client.m_end
     ).self_rel( 0x1, false ).self_offset( 0x2 ).as< std::uint32_t* >( );
+
     m_offsets.m_base_animating.m_pose_params = offsets.at( HASH( "CBaseAnimating->m_flPoseParameter" ) ).m_offset;
+
     m_offsets.m_base_animating.m_anim_layers = *BYTESEQ( "8B 80 ? ? ? ? 8D 34 C8" ).search(
         client.m_start, client.m_end
     ).self_offset( 0x2 ).as< std::uint32_t* >( );
@@ -353,9 +358,11 @@ void c_ctx::init_offsets( const modules_t& modules ) {
     m_offsets.m_base_player.m_life_state = offsets.at( HASH( "CBasePlayer->m_lifeState" ) ).m_offset;
     m_offsets.m_base_player.m_duck_amt = offsets.at( HASH( "CBasePlayer->m_flDuckAmount" ) ).m_offset;
     m_offsets.m_base_player.m_duck_speed = offsets.at( HASH( "CBasePlayer->m_flDuckSpeed" ) ).m_offset;
+
     m_offsets.m_base_player.m_spawn_time = *BYTESEQ( "89 86 ? ? ? ? E8 ? ? ? ? 80 BE" ).search(
         client.m_start, client.m_end
     ).self_offset( 0x2 ).as< std::uint32_t* >( );
+
     m_offsets.m_base_player.m_aim_punch = offsets.at( HASH( "CBasePlayer->m_aimPunchAngle" ) ).m_offset;
     m_offsets.m_base_player.m_view_punch = offsets.at( HASH( "CBasePlayer->m_viewPunchAngle" ) ).m_offset;
 
@@ -367,6 +374,7 @@ void c_ctx::init_offsets( const modules_t& modules ) {
     m_offsets.m_cs_player.m_anim_state = *BYTESEQ( "8B 8E ? ? ? ? 85 C9 74 3E" ).search(
         client.m_start, client.m_end
     ).self_offset( 0x2 ).as< std::uint32_t* >( );
+
     m_offsets.m_cs_player.m_defusing = offsets.at( HASH( "CCSPlayer->m_bIsDefusing" ) ).m_offset;
 
     m_offsets.m_game_rules.m_warmup_period = offsets.at( HASH( "CCSGameRulesProxy->m_bWarmupPeriod" ) ).m_offset;
@@ -392,11 +400,13 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
     const code_section_t vguimatsurface{ modules.at( HASH( "vguimatsurface.dll" ) ) };
     const code_section_t studiorender{ modules.at( HASH( "studiorender.dll" ) ) };
 
+    HOOK_VFUNC( valve::g_client, VARVAL( 21u, 22u ), hooks::create_move_proxy, hooks::o_create_move );
+
+    HOOK_VFUNC( valve::g_client, VARVAL( 36u, 37u ), hooks::frame_stage, hooks::o_frame_stage );
+
     HOOK( BYTESEQ( "80 3D ? ? ? ? ? 8B 91 ? ? ? ? 8B 0D ? ? ? ? C6 05 ? ? ? ? 01" ).search(
         vguimatsurface.m_start, vguimatsurface.m_end
     ), hooks::lock_cursor, hooks::o_lock_cursor );
-
-    HOOK_VFUNC( valve::g_client, VARVAL( 21u, 22u ), hooks::create_move_proxy, hooks::o_create_move );
 
     HOOK( BYTESEQ( "55 8B EC 83 E4 F8 83 EC 54" ).search(
         studiorender.m_start, studiorender.m_end

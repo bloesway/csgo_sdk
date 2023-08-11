@@ -1,5 +1,14 @@
 #include "../../csgo.hpp"
 
+void c_local_player::frame_stage( valve::e_frame_stage stage ) {
+    // here if not need to check local
+
+    if ( !self( ) || !self( )->alive( ) )
+        return;
+
+    // here if need to check local
+}
+
 void c_local_player::update_prediction( ) const {
     if ( valve::g_client_state->m_delta_tick <= 0 )
         return;

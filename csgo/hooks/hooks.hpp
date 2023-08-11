@@ -18,6 +18,11 @@ namespace hooks {
 #pragma endregion
 
 #pragma region client
+    void __stdcall frame_stage( valve::e_frame_stage stage );
+
+    using o_frame_stage_t = void( __stdcall* )( valve::e_frame_stage );
+    inline o_frame_stage_t o_frame_stage{};
+
     void __stdcall create_move_proxy( int seq_number, float input_sample_frame_time, bool active );
     void __stdcall create_move( int seq_number, float input_sample_frame_time, bool active, bool& send_packet );
 

@@ -7,6 +7,8 @@ private:
     valve::weapon_cs_base_gun_t*    m_weapon{};
     valve::weapon_info_t*           m_weapon_info{};
 public:
+    void frame_stage( valve::e_frame_stage stage );
+
     void create_move( bool& send_packet,
         valve::user_cmd_t& cmd, valve::vfyd_user_cmd_t& vfyd_cmd
     );

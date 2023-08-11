@@ -1,6 +1,12 @@
 #include "../../csgo.hpp"
 
 namespace hooks {
+    void __stdcall frame_stage( valve::e_frame_stage stage ) {
+        g_local_player->frame_stage( stage );
+
+        o_frame_stage( stage );
+    }
+
     NAKED void __stdcall create_move_proxy( int seq_number, float input_sample_frame_time, bool active ) {
         __asm {
             push ebp

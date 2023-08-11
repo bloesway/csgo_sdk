@@ -4,7 +4,6 @@ namespace valve {
     inline constexpr auto k_mp_backup = 150u;
 
     inline constexpr auto k_max_bones = 256u;
-    inline constexpr auto k_max_layers = 13u;
 
     inline constexpr auto k_max_roll = 50.f;
     inline constexpr auto k_lc_tp_dist = 4096.f;
