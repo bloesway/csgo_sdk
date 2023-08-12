@@ -74,6 +74,18 @@ namespace hooks {
                 return;
         }
 
+        static auto in_game = false;
+        if ( !in_game && valve::g_engine->in_game( ) ) {
+            in_game = true;
+
+            //
+        }
+        else if ( in_game && !valve::g_engine->in_game( ) ) {
+            in_game = false;
+
+            hacks::g_networking->reset( );
+        }
+
         g_render->process( );
     }
 }

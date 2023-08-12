@@ -45,4 +45,14 @@ namespace hooks {
     void __fastcall on_entity_remove( void* ecx, void* edx, valve::base_entity_t* entity, valve::ent_handle_t handle );
     inline decltype( &on_entity_remove ) o_on_entity_remove{};
 #pragma endregion
+
+#pragma region engine
+    void __cdecl cl_move( float frame_time, bool is_final_tick );
+    inline decltype( &cl_move ) o_cl_move{};
+#pragma endregion
+
+#pragma region client_state
+    void __fastcall packet_start( void* ecx, void* edx, int incoming, int outgoing );
+    inline decltype( &packet_start ) o_packet_start{};
+#pragma endregion
 }

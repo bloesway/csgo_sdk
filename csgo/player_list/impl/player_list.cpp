@@ -19,7 +19,7 @@ void c_players::on_entity_add( valve::base_entity_t* entity ) {
 }
 
 void c_players::on_entity_remove( valve::base_entity_t* entity ) {
-    if ( !entity 
+    if ( !entity
         || entity == g_local_player->self( ) )
         return;
 

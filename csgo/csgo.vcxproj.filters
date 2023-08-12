@@ -18,6 +18,9 @@
     <ClCompile Include="renderer\impl\renderer.cpp" />
     <ClCompile Include="player_list\impl\player_list.cpp" />
     <ClCompile Include="hooks\impl\entity_list.cpp" />
+    <ClCompile Include="hacks\networking\impl\networking.cpp" />
+    <ClCompile Include="hooks\impl\engine.cpp" />
+    <ClCompile Include="hooks\impl\client_state.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ctx\ctx.hpp" />
@@ -70,6 +73,7 @@
     <ClInclude Include="hacks\models\models.hpp" />
     <ClInclude Include="renderer\renderer.hpp" />
     <ClInclude Include="player_list\player_list.hpp" />
+    <ClInclude Include="hacks\networking\networking.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sdk\src\cfg\impl\cfg.inl" />
@@ -85,5 +89,6 @@
     <None Include="valve\interfaces\impl\interfaces.inl" />
     <None Include="hacks\models\impl\models.inl" />
     <None Include="player_list\impl\player_list.inl" />
+    <None Include="hacks\networking\impl\networking.inl" />
   </ItemGroup>
 </Project>

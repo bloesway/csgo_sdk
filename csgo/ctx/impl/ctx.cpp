@@ -426,6 +426,12 @@ void c_ctx::init_cvars( ) {
 void c_ctx::init_hooks( const modules_t& modules ) const {
     const code_section_t vguimatsurface{ modules.at( HASH( "vguimatsurface.dll" ) ) };
     const code_section_t studiorender{ modules.at( HASH( "studiorender.dll" ) ) };
+    const code_section_t engine{ modules.at( HASH( "engine.dll" ) ) };
+
+    const auto client_state_table = reinterpret_cast< DWORD** >( 
+        ( valve::client_state_t* )( std::uintptr_t( valve::g_client_state ) + 0x8 ) );
+
+    HOOK_VFUNC( client_state_table, 5u, hooks::packet_start, hooks::o_packet_start );
 
     HOOK_VFUNC( valve::g_entity_list, 11u, hooks::on_entity_add, hooks::o_on_entity_add );
 
@@ -444,6 +450,10 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
     HOOK( BYTESEQ( "55 8B EC 83 E4 F8 83 EC 54" ).search(
         studiorender.m_start, studiorender.m_end
     ), hooks::draw_model, hooks::o_draw_model );
+
+    HOOK( BYTESEQ( "55 8B EC 81 EC ? ? ? ? 53 56 8A F9" ).search(
+        engine.m_start, engine.m_end
+    ), hooks::cl_move, hooks::o_cl_move );
 }
 
 void c_ctx::init( ) {

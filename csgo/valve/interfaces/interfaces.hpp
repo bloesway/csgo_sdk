@@ -15,6 +15,8 @@ namespace valve {
         VFUNC( int( __thiscall* )( decltype( this ), int ), index_for_uid( int uid ), 9u, uid );
 
         VFUNC( bool( __thiscall* )( decltype( this ) ), in_game( ), 26u );
+
+        VFUNC( c_net_chan_info* ( __thiscall* )( decltype( this ) ), net_info( ), 78u );
     } inline* g_engine{};
 
     class c_entity_list {

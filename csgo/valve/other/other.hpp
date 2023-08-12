@@ -446,6 +446,27 @@ namespace valve {
     };
 #pragma endregion
 
+    enum struct e_net_flow : int;
+
+    class c_net_chan_info {
+    public:
+        virtual const char* name( ) const = 0;
+        virtual const char* address( ) const = 0;
+        virtual float		time( ) const = 0;
+        virtual float		time_connected( ) const = 0;
+        virtual int			buffer_size( ) const = 0;
+        virtual int			data_rate( ) const = 0;
+
+        virtual bool		loopback( ) const = 0;
+        virtual bool		timing_out( ) const = 0;
+        virtual bool		iplayback( ) const = 0;
+
+        virtual float		latency( e_net_flow flow ) const = 0;
+        virtual float		avg_latency( e_net_flow flow ) const = 0;
+        virtual float		avg_loss( e_net_flow flow ) const = 0;
+        virtual float		avg_choke( e_net_flow flow ) const = 0;
+    };
+
     enum struct e_model_type : int {
         bad,
         brush,
