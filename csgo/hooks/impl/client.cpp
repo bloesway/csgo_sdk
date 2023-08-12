@@ -30,8 +30,7 @@ namespace hooks {
     void __stdcall create_move( int seq_number, float input_sample_frame_time, bool active, bool& send_packet ) {
         o_create_move( valve::g_client, seq_number, input_sample_frame_time, active );
 
-        if ( !valve::g_engine->in_game( )
-            || !g_local_player->self( )
+        if ( !g_local_player->self( )
             || !g_local_player->self( )->alive( ) )
             return;
 

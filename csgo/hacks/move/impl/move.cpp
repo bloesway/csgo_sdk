@@ -3,7 +3,6 @@
 namespace hacks {
     void c_move::handle( valve::user_cmd_t& cmd ) const {
         if ( g_menu->main( ).m_move.m_bhop.get( )
-            /* there must be some other checks here, but again, this is enough for the example */
             && !( g_local_player->self( )->flags( ) & valve::e_ent_flags::on_ground ) )
             cmd.m_buttons &= ~valve::e_buttons::in_jump;
     }

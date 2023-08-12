@@ -31,7 +31,7 @@ sdk::vec2_t c_renderer::calc_text_size( ImFont* font, std::string_view txt ) {
 
 	const auto size = font->CalcTextSizeA( font->FontSize, std::numeric_limits< float >::max( ), 0.f, txt.data( ) );
 
-	return sdk::vec2_t( ( float )( int )( size.x + 0.95f ), size.y ); // (float)(int) - IM_FLOOR
+	return sdk::vec2_t( ( float )( int )( size.x + 0.95f ), size.y ); /* ( float )( int )--IM_FLOOR */
 }
 
 void c_renderer::text( std::string_view txt, sdk::vec2_t pos, const sdk::argb_t& clr, ImFont* font, e_font_flags flags ) {

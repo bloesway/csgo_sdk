@@ -121,7 +121,7 @@ void c_ctx::parse_interfaces( sdk::x86_pe_image_t* const image, interfaces_t& in
     if ( *list.offset( 0x4 ).as< std::uint8_t* >( ) == 0xe9u
         && *list.self_rel( 0x5, true ).offset( 0x5 ).as< std::uint8_t* >( ) == 0x35u )
         list.self_offset( 0x6 ).self_deref( 2u );
-    else if ( *list.offset( 0x2 ).as< std::uint8_t* >( ) == 0x35 )
+    else if ( *list.offset( 0x2 ).as< std::uint8_t* >( ) == 0x35u )
         list.self_offset( 0x3 ).self_deref( 2u );
     else
         THROW_IF_DBG( "can't find interfaces list." );
@@ -142,8 +142,6 @@ void c_ctx::parse_interfaces( sdk::x86_pe_image_t* const image, interfaces_t& in
 void c_ctx::init_interfaces( const modules_t& modules ) const {
     const code_section_t client{ modules.at( HASH( "client.dll" ) ) };
 
-    interfaces_t interfaces{};
-
     constexpr sdk::hash_t k_needed_modules[ ]{
         HASH( "client.dll" ),
         HASH( "engine.dll" ),
@@ -155,6 +153,7 @@ void c_ctx::init_interfaces( const modules_t& modules ) const {
         HASH( "vgui2.dll" )
     };
 
+    interfaces_t interfaces{};
     for ( const auto hash : k_needed_modules )
         parse_interfaces( modules.at( hash ), interfaces );
 
@@ -176,6 +175,7 @@ void c_ctx::init_interfaces( const modules_t& modules ) const {
 
     valve::g_client = interfaces.at( HASH( "VClient018" ) ).as< valve::c_client* >( );
     valve::g_engine = interfaces.at( HASH( "VEngineClient014" ) ).as< valve::c_engine* >( );
+
     valve::g_entity_list = interfaces.at( HASH( "VClientEntityList003" ) ).as< valve::c_entity_list* >( );
 
     valve::g_global_vars = **reinterpret_cast< valve::global_vars_base_t*** >(
@@ -223,7 +223,7 @@ bool c_ctx::parse_ent_offsets( ent_offsets_t& offsets, const modules_t& modules 
 
     const auto parse_recv_table = [ & ] ( const auto& self, const char* name,
         valve::recv_table_t* const table, const std::uint32_t offset = 0u ) -> void {
-        for ( int i{}; i < table->m_props_count; ++i ) {
+        for ( auto i = 0; i < table->m_props_count; ++i ) {
             const auto prop = &table->m_props[ i ];
 
             const auto child = prop->m_data_table;
@@ -255,11 +255,10 @@ bool c_ctx::parse_ent_offsets( ent_offsets_t& offsets, const modules_t& modules 
         const auto data_map = start.offset( 0x6 ).self_deref( ).self_offset( -0x4 ).as< valve::data_map_t* >( );
         if ( !data_map || !data_map->m_name 
             || !data_map->m_descriptions 
-            || data_map->m_size <= 0 
-            || data_map->m_size >= 200 )
+            || data_map->m_size <= 0 || data_map->m_size >= 200 )
             continue;
 
-        for ( int i{}; i < data_map->m_size; ++i ) {
+        for ( auto i = 0; i < data_map->m_size; ++i ) {
             const auto& desc = data_map->m_descriptions[ i ];
             if ( !desc.m_name )
                 continue;

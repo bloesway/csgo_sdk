@@ -6,11 +6,12 @@ private:
 	public:
 		ALWAYS_INLINE entry_t( ) = default;
 
-		ALWAYS_INLINE entry_t( valve::base_entity_t* entity );
+		ALWAYS_INLINE entry_t( valve::base_entity_t* entity, int index );
 	public:
 		valve::cs_player_t* m_player{};
+		int					m_index{};
 
-		// add your stuff, example lag_records for lag_comp and etc
+		/* add your stuff, example lag_records for lag_comp and etc */
 	};
 
 	std::vector< entry_t > m_entries{};

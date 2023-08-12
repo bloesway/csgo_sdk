@@ -77,7 +77,7 @@ namespace valve {
 
     template < typename _value_t >
     ALWAYS_INLINE void utl_vec_t< _value_t >::clear( ) {
-        for ( int i{}; i < m_size; ++i )
+        for ( auto i = 0; i < m_size; ++i )
             ( &at( i ) )->~_value_t( );
 
         m_size = 0;
@@ -100,7 +100,7 @@ namespace valve {
     ALWAYS_INLINE utl_vec_t< _value_t >& utl_vec_t< _value_t >::operator =( const utl_vec_t< _value_t >& other ) {
         reserve( m_size = other.m_size );
     
-        for ( int i{}; i < m_size; ++i )
+        for ( auto i = 0; i < m_size; ++i )
             at( i ) = other.at( i );
 
         return *this;
