@@ -149,6 +149,14 @@ namespace valve {
             finish_move( base_player_t* player, user_cmd_t* cmd, move_data_t* move_data ), 21u, player, cmd, move_data
         );
 
+        VFUNC( void( __thiscall* )( void*, const sdk::qang_t& ), 
+            set_view_angles( const sdk::qang_t& view_angles ), 13u, view_angles 
+        );
+
+        VFUNC( void( __thiscall* )( void*, base_player_t*, double ), 
+            check_moving_ground( base_player_t* player, float frame_time ), 18u, player, frame_time 
+        );
+
         std::uint8_t    pad0[ 8u ]{};
         bool            m_in_prediction{};
         std::uint8_t    pad1{};
@@ -168,6 +176,10 @@ namespace valve {
     public:
         VFUNC( void( __thiscall* )( decltype( this ), base_player_t*, move_data_t* ),
             process_movement( base_player_t* player, move_data_t* move_data ), 1u, player, move_data
+        );
+
+        VFUNC( void( __thiscall* )( void* ), 
+            reset( ), 2u 
         );
         
         VFUNC( void( __thiscall* )( decltype( this ), base_player_t* ),
@@ -241,6 +253,12 @@ namespace valve {
     public:
         VFUNC( e_game_type( __thiscall* )( decltype( this ) ), game_type( ), 8u );
     } inline* g_game_types{};
+
+    /* it can be anywhere else */
+    ALWAYS_INLINE int to_ticks( const float time );
+
+    /* it can be anywhere else */
+    ALWAYS_INLINE float to_time( const int ticks );
 }
 
 #include "impl/interfaces.inl"

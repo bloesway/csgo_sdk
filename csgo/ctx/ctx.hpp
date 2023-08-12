@@ -40,7 +40,9 @@ private:
     struct {
         sdk::address_t  m_local_player{},
                         m_weapon_system{},
-                        m_user_cmd_checksum{};
+                        m_user_cmd_checksum{},
+                        m_pred_player{},
+                        m_random_seed{};
 
         struct {
             sdk::address_t m_init{}, m_load_from_buffer{};

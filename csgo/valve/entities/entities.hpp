@@ -137,6 +137,9 @@ namespace valve {
         OFFSET( anim_state_t*, anim_state( ), g_ctx->offsets( ).m_cs_player.m_anim_state );
 
         OFFSET( bool, defusing( ), g_ctx->offsets( ).m_cs_player.m_defusing );
+
+        OFFSET( valve::user_cmd_t*, cur_cmd( ), 0x3348 );
+        OFFSET( valve::user_cmd_t*, last_cmd( ), 0x3298 );
     };
 }
 

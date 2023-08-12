@@ -285,6 +285,14 @@ void c_ctx::init_offsets( const modules_t& modules ) {
         client.m_start, client.m_end
     ).self_offset( 0x2 ).self_deref( );
 
+    m_offsets.m_pred_player = BYTESEQ( "89 35 ? ? ? ? F3 0F 10 48" ).search(
+        client.m_start, client.m_end
+    ).self_offset( 0x2 );
+
+    m_offsets.m_random_seed = BYTESEQ( "A3 ? ? ? ? 66 0F 6E 86" ).search(
+        client.m_start, client.m_end
+    ).self_offset( 0x1 );
+
     m_offsets.m_weapon_system = BYTESEQ( "8B 35 ? ? ? ? FF 10 0F B7 C0" ).search(
         client.m_start, client.m_end
     ).self_offset( 0x2 ).self_deref( );

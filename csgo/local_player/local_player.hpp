@@ -4,8 +4,31 @@ class c_local_player {
 private:
     void update_prediction( ) const;
 
+    void simulate_prediction( valve::user_cmd_t& cmd );
+
+    void finish_prediction( );
+
     valve::weapon_cs_base_gun_t*    m_weapon{};
     valve::weapon_info_t*           m_weapon_info{};
+
+    struct prediction_t {
+        ALWAYS_INLINE void store( );
+
+        ALWAYS_INLINE void restore( );
+
+        int                  m_tick_count{};
+
+        bool                 m_in_prediction{}, 
+                             m_first_time_predicted{};
+
+        float                m_cur_time{}, 
+                             m_frame_time{};
+
+        int*                 m_random_seed{};
+        valve::cs_player_t*  m_pred_player{};
+
+        valve::move_data_t*  m_move_data{};
+    } m_prediction{};
 public:
     void frame_stage( valve::e_frame_stage stage );
 
