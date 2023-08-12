@@ -13,40 +13,42 @@ namespace hacks {
 				m_seq = valve::g_client_state->m_net_chan->m_out_seq;
 		}
 
-		while ( m_process_cmds.size( ) > m_tick_rate )
-			m_process_cmds.pop_front( );
-
 		m_local_tick = m_server_tick = valve::g_global_vars->m_tick_count + valve::to_ticks( m_latency );
 	}
 
 	void c_networking::end( ) {
-		const auto client_state = valve::g_client_state;
-		if ( !client_state )
-			return;
-
-		if ( !g_local_player->self( ) || !g_local_player->self( )->alive( )
-			|| g_local_player->self( )->flags( ) & valve::e_ent_flags::frozen )
-			return;
-
-		auto net_channel = client_state->m_net_chan;
-		if ( !net_channel )
-			return;
-
-		if ( net_channel->m_choked_packets % 4 || !m_simulate_choke )
-			return;
-
-		const auto seq_number = net_channel->m_out_seq;
-		const auto choked_cmds = net_channel->m_choked_packets;
+		if ( m_process_cmds.size( ) > m_tick_rate )
+			m_process_cmds.pop_front( );
 
 		{
-			net_channel->m_choked_packets = 0;
-			net_channel->m_out_seq = m_seq;
+			const auto client_state = valve::g_client_state;
+			if ( !client_state )
+				return;
 
-			net_channel->send_datagram( );
+			if ( !g_local_player->self( ) || !g_local_player->self( )->alive( )
+				|| g_local_player->self( )->flags( ) & valve::e_ent_flags::frozen )
+				return;
+
+			auto net_channel = client_state->m_net_chan;
+			if ( !net_channel )
+				return;
+
+			if ( net_channel->m_choked_packets % 4 || !m_simulate_choke )
+				return;
+
+			const auto seq_number = net_channel->m_out_seq;
+			const auto choked_cmds = net_channel->m_choked_packets;
+
+			{
+				net_channel->m_choked_packets = 0;
+				net_channel->m_out_seq = m_seq;
+
+				net_channel->send_datagram( );
+			}
+
+			net_channel->m_out_seq = seq_number;
+			net_channel->m_choked_packets = choked_cmds;
 		}
-
-		net_channel->m_out_seq = seq_number;
-		net_channel->m_choked_packets = choked_cmds;
 	}
 
 	void c_networking::reset( ) {
