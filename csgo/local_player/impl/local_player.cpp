@@ -7,7 +7,8 @@ void c_local_player::frame_stage( valve::e_frame_stage stage, bool post ) {
         if ( !self( ) || !self( )->alive( ) )
             return;
 
-        /* here if need to check local */
+        if ( stage == valve::e_frame_stage::render_start )
+            hacks::g_interpolation->handle( true );
 
         return;
     }
@@ -17,7 +18,8 @@ void c_local_player::frame_stage( valve::e_frame_stage stage, bool post ) {
     if ( !self( ) || !self( )->alive( ) )
         return;
 
-    /* here if need to check local */
+    if ( stage == valve::e_frame_stage::render_start )
+        hacks::g_interpolation->handle( false );
 }
 
 void c_local_player::update_prediction( ) const {

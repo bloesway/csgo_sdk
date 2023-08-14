@@ -345,6 +345,8 @@ void c_ctx::init_offsets( const modules_t& modules ) {
         client.m_start, client.m_end
     );
 
+    m_offsets.m_view_model.m_owner = offsets.at( HASH( "CBaseViewModel->m_hOwner" ) ).m_offset;
+
     m_offsets.m_base_animating.m_sequence = offsets.at( HASH( "CBaseAnimating->m_nSequence" ) ).m_offset;
     m_offsets.m_base_animating.m_hitbox_set_index = offsets.at( HASH( "CBaseAnimating->m_nHitboxSet" ) ).m_offset;
 
@@ -427,8 +429,9 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
     const code_section_t vguimatsurface{ modules.at( HASH( "vguimatsurface.dll" ) ) };
     const code_section_t studiorender{ modules.at( HASH( "studiorender.dll" ) ) };
     const code_section_t engine{ modules.at( HASH( "engine.dll" ) ) };
+    const code_section_t client{ modules.at( HASH( "client.dll" ) ) };
 
-    const auto client_state_table = reinterpret_cast< DWORD** >( 
+    const auto client_state_table = reinterpret_cast< sdk::ulong_t** >( 
         ( valve::client_state_t* )( std::uintptr_t( valve::g_client_state ) + 0x8 ) );
 
     HOOK_VFUNC( client_state_table, 5u, hooks::packet_start, hooks::o_packet_start );
@@ -450,6 +453,10 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
     HOOK( BYTESEQ( "55 8B EC 83 E4 F8 83 EC 54" ).search(
         studiorender.m_start, studiorender.m_end
     ), hooks::draw_model, hooks::o_draw_model );
+
+    HOOK( BYTESEQ( "55 8B EC 83 E4 ? 83 EC ? 53 56 8B F1 57 83 BE ? ? ? ? ? 75 ? 8B 46 ? 8D 4E ? FF 50 ? 85 C0 74 ? 8B CE E8 ? ? ? ? 8B 9E" ).search(
+        client.m_start, client.m_end
+    ), hooks::interpolate_view_model, hooks::o_interpolate_view_model );
 
     HOOK( BYTESEQ( "55 8B EC 81 EC ? ? ? ? 53 56 8A F9" ).search(
         engine.m_start, engine.m_end

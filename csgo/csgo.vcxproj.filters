@@ -21,6 +21,8 @@
     <ClCompile Include="hacks\networking\impl\networking.cpp" />
     <ClCompile Include="hooks\impl\engine.cpp" />
     <ClCompile Include="hooks\impl\client_state.cpp" />
+    <ClCompile Include="hacks\interpolation\impl\interpolation.cpp" />
+    <ClCompile Include="hooks\impl\player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ctx\ctx.hpp" />
@@ -74,6 +76,7 @@
     <ClInclude Include="renderer\renderer.hpp" />
     <ClInclude Include="player_list\player_list.hpp" />
     <ClInclude Include="hacks\networking\networking.hpp" />
+    <ClInclude Include="hacks\interpolation\interpolation.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sdk\src\cfg\impl\cfg.inl" />

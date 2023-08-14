@@ -68,6 +68,10 @@ private:
         }               m_base_entity{};
 
         struct {
+            std::uint32_t   m_owner{};
+        }               m_view_model{};
+
+        struct {
             std::uint32_t   m_sequence{},
                             m_hitbox_set_index{}, m_studio_hdr{},
                             m_pose_params{}, m_anim_layers{};

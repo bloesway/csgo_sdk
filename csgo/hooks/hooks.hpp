@@ -55,4 +55,9 @@ namespace hooks {
     void __fastcall packet_start( void* ecx, void* edx, int incoming, int outgoing );
     inline decltype( &packet_start ) o_packet_start{};
 #pragma endregion
+
+#pragma region player
+    bool __fastcall interpolate_view_model( valve::base_entity_t* ecx, void* edx, float time );
+    inline decltype( &interpolate_view_model ) o_interpolate_view_model{};
+#pragma endregion
 }

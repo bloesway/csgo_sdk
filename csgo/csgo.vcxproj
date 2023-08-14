@@ -97,6 +97,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ctx\impl\ctx.cpp" />
+    <ClCompile Include="hacks\interpolation\impl\interpolation.cpp" />
     <ClCompile Include="hacks\models\impl\models.cpp" />
     <ClCompile Include="hacks\move\impl\move.cpp" />
     <ClCompile Include="hacks\networking\impl\networking.cpp" />
@@ -104,6 +105,7 @@
     <ClCompile Include="hooks\impl\client_state.cpp" />
     <ClCompile Include="hooks\impl\engine.cpp" />
     <ClCompile Include="hooks\impl\entity_list.cpp" />
+    <ClCompile Include="hooks\impl\player.cpp" />
     <ClCompile Include="hooks\impl\render.cpp" />
     <ClCompile Include="hooks\impl\ui.cpp" />
     <ClCompile Include="local_player\impl\local_player.cpp" />
@@ -121,6 +123,7 @@
     <ClInclude Include="csgo.hpp" />
     <ClInclude Include="ctx\ctx.hpp" />
     <ClInclude Include="hacks\hacks.hpp" />
+    <ClInclude Include="hacks\interpolation\interpolation.hpp" />
     <ClInclude Include="hacks\models\models.hpp" />
     <ClInclude Include="hacks\move\move.hpp" />
     <ClInclude Include="hacks\networking\networking.hpp" />

@@ -5,3 +5,5 @@
 #include "models/models.hpp"
 
 #include "networking/networking.hpp"
+
+#include "interpolation/interpolation.hpp"
