@@ -30,7 +30,7 @@ private:
         valve::move_data_t*  m_move_data{};
     } m_prediction{};
 public:
-    void frame_stage( valve::e_frame_stage stage );
+    void frame_stage( valve::e_frame_stage stage, bool post );
 
     void create_move( bool& send_packet,
         valve::user_cmd_t& cmd, valve::vfyd_user_cmd_t& vfyd_cmd

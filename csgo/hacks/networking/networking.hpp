@@ -11,9 +11,10 @@ namespace hacks {
 		};
 	public:
 		float						m_latency{};
+		bool						m_simulate_choke{};
+
 		int							m_tick_rate{};
 		int							m_seq{};
-		bool						m_simulate_choke{};
 
 		int							m_server_tick{};
 		int							m_local_tick{};

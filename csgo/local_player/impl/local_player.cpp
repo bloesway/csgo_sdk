@@ -1,6 +1,17 @@
 #include "../../csgo.hpp"
 
-void c_local_player::frame_stage( valve::e_frame_stage stage ) {
+void c_local_player::frame_stage( valve::e_frame_stage stage, bool post ) {
+    if ( post ) {
+        /* here if not need to check local */
+
+        if ( !self( ) || !self( )->alive( ) )
+            return;
+
+        /* here if need to check local */
+
+        return;
+    }
+
     /* here if not need to check local */
 
     if ( !self( ) || !self( )->alive( ) )
@@ -30,8 +41,7 @@ void c_local_player::simulate_prediction( valve::user_cmd_t& cmd ) {
 
         if ( !m_prediction.m_move_data )
             m_prediction.m_move_data = reinterpret_cast< valve::move_data_t* >(
-                valve::g_mem_alloc->alloc( sizeof( valve::move_data_t ) )
-                );
+                valve::g_mem_alloc->alloc( sizeof( valve::move_data_t ) ) );
     }
 
     self( )->last_cmd( ) = &cmd;

@@ -2,9 +2,11 @@
 
 namespace hooks {
     void __stdcall frame_stage( valve::e_frame_stage stage ) {
-        g_local_player->frame_stage( stage );
+        g_local_player->frame_stage( stage, false );
 
         o_frame_stage( stage );
+
+        g_local_player->frame_stage( stage, true );
     }
 
     NAKED void __stdcall create_move_proxy( int seq_number, float input_sample_frame_time, bool active ) {

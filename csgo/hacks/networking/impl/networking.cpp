@@ -2,11 +2,15 @@
 
 namespace hacks {
 	void c_networking::start( ) {
+		if ( !g_local_player->self( ) 
+			|| !g_local_player->self( )->alive( ) )
+			return;
+
 		m_tick_rate = static_cast< int >( 1.f / valve::g_global_vars->m_interval_per_tick );
 		m_simulate_choke = false;
 
 		if ( auto net_channel_info = valve::g_engine->net_info( ); net_channel_info ) {
-			m_latency = net_channel_info->latency( valve::e_net_flow::in ) 
+			m_latency = net_channel_info->latency( valve::e_net_flow::in )
 				+ net_channel_info->latency( valve::e_net_flow::out );
 
 			if ( valve::g_client_state->m_net_chan )
@@ -17,12 +21,13 @@ namespace hacks {
 	}
 
 	void c_networking::end( ) {
-		if ( m_process_cmds.size( ) > m_tick_rate )
-			m_process_cmds.pop_front( );
-
-		if ( !g_local_player->self( ) || !g_local_player->self( )->alive( )
+		if ( !g_local_player->self( ) 
+			|| !g_local_player->self( )->alive( )
 			|| g_local_player->self( )->flags( ) & valve::e_ent_flags::frozen )
 			return;
+
+		if ( m_process_cmds.size( ) > m_tick_rate )
+			m_process_cmds.pop_front( );
 
 		auto net_channel = valve::g_client_state->m_net_chan;
 		if ( !net_channel )
