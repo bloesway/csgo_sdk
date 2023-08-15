@@ -6,7 +6,7 @@ void c_players::on_entity_add( valve::base_entity_t* entity ) {
         return;
 
     const auto index = entity->networkable( )->index( );
-    if ( 1 < index 
+    if ( index < 1
         || index > valve::g_global_vars->m_max_clients )
         return;
 
