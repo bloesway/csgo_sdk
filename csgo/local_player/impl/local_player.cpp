@@ -20,6 +20,9 @@ void c_local_player::frame_stage( valve::e_frame_stage stage, bool post ) {
 
     if ( stage == valve::e_frame_stage::render_start )
         hacks::g_interpolation->handle( false );
+
+    if ( stage == valve::e_frame_stage::net_update_end )
+        hacks::g_lag_comp->handle( );
 }
 
 void c_local_player::update_prediction( ) const {

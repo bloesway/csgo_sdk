@@ -405,6 +405,8 @@ void c_ctx::init_offsets( const modules_t& modules ) {
     ).self_offset( 0x2 ).as< std::uint32_t* >( );
 
     m_offsets.m_cs_player.m_defusing = offsets.at( HASH( "CCSPlayer->m_bIsDefusing" ) ).m_offset;
+    m_offsets.m_cs_player.m_walking = offsets.at( HASH( "CCSPlayer->m_bIsWalking" ) ).m_offset;
+    m_offsets.m_cs_player.m_scoped = offsets.at( HASH( "CCSPlayer->m_bIsScoped" ) ).m_offset;
 
     m_offsets.m_game_rules.m_warmup_period = offsets.at( HASH( "CCSGameRulesProxy->m_bWarmupPeriod" ) ).m_offset;
     m_offsets.m_game_rules.m_freeze_period = offsets.at( HASH( "CCSGameRulesProxy->m_bFreezePeriod" ) ).m_offset;

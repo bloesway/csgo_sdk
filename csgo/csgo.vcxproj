@@ -100,6 +100,7 @@
   <ItemGroup>
     <ClCompile Include="ctx\impl\ctx.cpp" />
     <ClCompile Include="hacks\interpolation\impl\interpolation.cpp" />
+    <ClCompile Include="hacks\lag_comp\impl\lag_comp.cpp" />
     <ClCompile Include="hacks\models\impl\models.cpp" />
     <ClCompile Include="hacks\move\impl\move.cpp" />
     <ClCompile Include="hacks\networking\impl\networking.cpp" />
@@ -126,6 +127,7 @@
     <ClInclude Include="ctx\ctx.hpp" />
     <ClInclude Include="hacks\hacks.hpp" />
     <ClInclude Include="hacks\interpolation\interpolation.hpp" />
+    <ClInclude Include="hacks\lag_comp\lag_comp.hpp" />
     <ClInclude Include="hacks\models\models.hpp" />
     <ClInclude Include="hacks\move\move.hpp" />
     <ClInclude Include="hacks\networking\networking.hpp" />

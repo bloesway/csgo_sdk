@@ -7,3 +7,5 @@
 #include "networking/networking.hpp"
 
 #include "interpolation/interpolation.hpp"
+
+#include "lag_comp/lag_comp.hpp"

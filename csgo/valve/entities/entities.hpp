@@ -142,8 +142,56 @@ namespace valve {
 
         OFFSET( bool, defusing( ), g_ctx->offsets( ).m_cs_player.m_defusing );
 
+        OFFSET( bool, walking( ), g_ctx->offsets( ).m_cs_player.m_walking );
+        OFFSET( bool, scoped( ), g_ctx->offsets( ).m_cs_player.m_scoped );
+
         OFFSET( valve::user_cmd_t*, cur_cmd( ), 0x3348 );
         OFFSET( valve::user_cmd_t*, last_cmd( ), 0x3298 );
+    };
+
+    struct player_record_t {
+        ALWAYS_INLINE player_record_t( );
+
+        ALWAYS_INLINE player_record_t( valve::cs_player_t* player );
+
+        valve::cs_player_t*                             m_player{};
+
+        float                                           m_sim_time{},
+                                                        m_old_sim_time{};
+
+        float                                           m_duck_amt{},
+                                                        m_lby{};
+
+        float                                           m_eye_yaw{},
+                                                        m_max_speed{};
+
+        sdk::qang_t                                     m_eye_angles{},
+                                                        m_abs_angles{};
+
+        sdk::vec3_t                                     m_velocity{},
+                                                        m_origin{}, m_abs_origin{};
+
+        sdk::vec3_t                                     m_mins{},
+                                                        m_maxs{};
+
+        valve::e_ent_flags			                    m_flags{};
+        int								                m_sim_ticks{};
+
+        bool							                m_did_shot{};
+        int								                m_shot_tick{};
+
+        bool                                            m_fake_player{},
+                                                        m_invalid{};
+
+        bool                                            m_walking{},
+                                                        m_broke_lc{};
+
+        valve::anim_layers_t		                    m_layers{};
+        valve::pose_params_t			                m_pose_params{};
+
+        std::array< sdk::mat3x4_t, valve::k_max_bones > m_bones{};
+
+        bool                                            m_filled{};
     };
 }
 
