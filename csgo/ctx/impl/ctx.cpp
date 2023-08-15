@@ -336,6 +336,7 @@ void c_ctx::init_offsets( const modules_t& modules ) {
     m_offsets.m_base_entity.m_move_type = offsets.at( HASH( "C_BaseEntity->m_MoveType" ) ).m_offset;
     m_offsets.m_base_entity.m_mins = offsets.at( HASH( "CBaseEntity->m_vecMins" ) ).m_offset;
     m_offsets.m_base_entity.m_maxs = offsets.at( HASH( "CBaseEntity->m_vecMaxs" ) ).m_offset;
+    m_offsets.m_base_entity.m_eflags = offsets.at( HASH( "C_BaseEntity->m_iEFlags" ) ).m_offset;
 
     m_offsets.m_base_entity.m_set_abs_origin = BYTESEQ( "55 8B EC 83 E4 F8 51 53 56 57 8B F1 E8 ? ? ? ? 8B 7D" ).search(
         client.m_start, client.m_end
@@ -349,6 +350,7 @@ void c_ctx::init_offsets( const modules_t& modules ) {
 
     m_offsets.m_base_animating.m_sequence = offsets.at( HASH( "CBaseAnimating->m_nSequence" ) ).m_offset;
     m_offsets.m_base_animating.m_hitbox_set_index = offsets.at( HASH( "CBaseAnimating->m_nHitboxSet" ) ).m_offset;
+    m_offsets.m_base_animating.m_client_side_anim = offsets.at( HASH( "CBaseAnimating->m_bClientSideAnimation" ) ).m_offset;
 
     m_offsets.m_base_animating.m_studio_hdr = *BYTESEQ( "75 19 8B 40 04" ).search(
         client.m_start, client.m_end
@@ -395,6 +397,7 @@ void c_ctx::init_offsets( const modules_t& modules ) {
     m_offsets.m_base_player.m_aim_punch = offsets.at( HASH( "CBasePlayer->m_aimPunchAngle" ) ).m_offset;
     m_offsets.m_base_player.m_view_punch = offsets.at( HASH( "CBasePlayer->m_viewPunchAngle" ) ).m_offset;
 
+    m_offsets.m_cs_player.m_effects = offsets.at( HASH( "CCSPlayer->m_fEffects" ) ).m_offset;
     m_offsets.m_cs_player.m_lby = offsets.at( HASH( "CCSPlayer->m_flLowerBodyYawTarget" ) ).m_offset;
     m_offsets.m_cs_player.m_eye_angles = offsets.at( HASH( "CCSPlayer->m_angEyeAngles" ) ).m_offset;
 #ifndef CSGO2018
@@ -403,6 +406,14 @@ void c_ctx::init_offsets( const modules_t& modules ) {
     m_offsets.m_cs_player.m_anim_state = *BYTESEQ( "8B 8E ? ? ? ? 85 C9 74 3E" ).search(
         client.m_start, client.m_end
     ).self_offset( 0x2 ).as< std::uint32_t* >( );
+
+    m_offsets.m_cs_player.m_update_collision_bounds = BYTESEQ( "56 57 8B F9 8B 0D ? ? ? ? F6 87 04 01" ).search(
+        client.m_start, client.m_end
+    );
+
+    m_offsets.m_cs_player.m_most_recent_model_cnt = BYTESEQ( "80 3D ? ? ? ? ? 74 16 A1 ? ? ? ? 48 C7 81" ).search(
+        client.m_start, client.m_end
+    );
 
     m_offsets.m_cs_player.m_defusing = offsets.at( HASH( "CCSPlayer->m_bIsDefusing" ) ).m_offset;
     m_offsets.m_cs_player.m_walking = offsets.at( HASH( "CCSPlayer->m_bIsWalking" ) ).m_offset;

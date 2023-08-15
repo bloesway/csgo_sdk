@@ -24,6 +24,7 @@ namespace valve {
         OFFSET( float, old_sim_time( ), g_ctx->offsets( ).m_base_entity.m_sim_time + sizeof( float ) );
 
         OFFSET( e_ent_flags, flags( ), g_ctx->offsets( ).m_base_entity.m_flags );
+        OFFSET( std::uint32_t, eflags( ), g_ctx->offsets( ).m_base_entity.m_eflags );
 
         OFFSET( sdk::vec3_t, origin( ), g_ctx->offsets( ).m_base_entity.m_origin );
         OFFSET( sdk::vec3_t, velocity( ), g_ctx->offsets( ).m_base_entity.m_velocity );
@@ -38,6 +39,14 @@ namespace valve {
 
         OFFSET( bones_t, bones( ), g_ctx->offsets( ).m_renderable.m_bone_cache + sizeof( std::uintptr_t ) );
         OFFSET( sdk::ulong_t, mdl_bone_cnt( ), g_ctx->offsets( ).m_renderable.m_mdl_bone_cnt + sizeof( std::uintptr_t ) );
+
+        OFFSET( float, last_bones_time( ), 0x2928 );
+
+        OFFSET( bool, jiggle_bones( ), 0x2930 );
+
+        OFFSET( std::uint32_t, occlusion_mask( ), 0xA24 );
+
+        OFFSET( std::uint32_t, occlusion_frame_count( ), 0xA30 );
 
         VFUNC( sdk::vec3_t& ( __thiscall* )( decltype( this ) ), abs_origin( ), 10u );
 
@@ -63,6 +72,8 @@ namespace valve {
 
         OFFSET( pose_params_t, pose_params( ), g_ctx->offsets( ).m_base_animating.m_pose_params );
         PPOFFSET( anim_layers_t, anim_layers( ), g_ctx->offsets( ).m_base_animating.m_anim_layers );
+
+        OFFSET( bool, client_side_anim( ), g_ctx->offsets( ).m_base_animating.m_client_side_anim );
     };
 
     struct base_attributable_item_t : public base_animating_t {
@@ -131,12 +142,21 @@ namespace valve {
     struct cs_player_t : public base_player_t {
         ALWAYS_INLINE bool friendly( cs_player_t* const with );
 
+        ALWAYS_INLINE void update_collision_bounds( );
+
+        ALWAYS_INLINE void invalidate_bone_cache( );
+
+        ALWAYS_INLINE bool setup_bones( sdk::mat3x4_t* matrix, int bones_count, e_bone_flags flags, float time );
+
         OFFSET( float, lby( ), g_ctx->offsets( ).m_cs_player.m_lby );
         OFFSET( sdk::qang_t, eye_angles( ), g_ctx->offsets( ).m_cs_player.m_eye_angles );
 
 #ifndef CSGO2018
         OFFSET( int, survival_team( ), g_ctx->offsets( ).m_cs_player.m_survival_team );
 #endif
+        OFFSET( std::uint32_t, client_effects( ), 0x68 );
+
+        OFFSET( e_effects, effects( ), g_ctx->offsets( ).m_cs_player.m_effects );
 
         OFFSET( anim_state_t*, anim_state( ), g_ctx->offsets( ).m_cs_player.m_anim_state );
 

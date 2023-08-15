@@ -64,7 +64,7 @@ private:
                             m_origin{}, m_velocity{},
                             m_abs_velocity{}, m_abs_rotation{}, 
                             m_move_type{}, m_mins{}, 
-                            m_maxs{};
+                            m_maxs{}, m_eflags{};
         }               m_base_entity{};
 
         struct {
@@ -74,7 +74,8 @@ private:
         struct {
             std::uint32_t   m_sequence{},
                             m_hitbox_set_index{}, m_studio_hdr{},
-                            m_pose_params{}, m_anim_layers{};
+                            m_pose_params{}, m_anim_layers{},
+                            m_client_side_anim{};
         }               m_base_animating{};
 
         struct {
@@ -114,12 +115,15 @@ private:
         }               m_base_player{};
 
         struct {
+            sdk::address_t  m_most_recent_model_cnt{};
+
             std::uint32_t   m_lby{}, m_eye_angles{},
 #ifndef CSGO2018
                             m_survival_team{},
 #endif
                             m_anim_state{}, m_defusing{},
-                            m_walking, m_scoped{};
+                            m_walking, m_scoped{},                            
+                            m_update_collision_bounds{}, m_effects{};
         }               m_cs_player{};
 
         struct {

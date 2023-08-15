@@ -42,6 +42,25 @@ namespace valve {
         return team( ) == with->team( );
     }
 
+    ALWAYS_INLINE void cs_player_t::update_collision_bounds( ) {
+        using fn_t = void( __thiscall* )( void* );
+
+        return reinterpret_cast< fn_t >(
+            g_ctx->offsets( ).m_cs_player.m_update_collision_bounds )( this );
+    }
+
+    ALWAYS_INLINE void cs_player_t::invalidate_bone_cache( ) {
+        auto        most_recent_model_cnt_addr = g_ctx->offsets( ).m_cs_player.m_most_recent_model_cnt;
+        const auto  most_recent_model_cnt = **most_recent_model_cnt_addr.self_offset( 0xA ).as< unsigned long** >( );
+
+        last_bones_time( ) = std::numeric_limits< float >::lowest( );
+        mdl_bone_cnt( ) = most_recent_model_cnt - 1ul;
+    }
+
+    ALWAYS_INLINE bool cs_player_t::setup_bones( sdk::mat3x4_t* matrix, int bones_count, e_bone_flags flags, float time ) {
+        return renderable( )->setup_bones( matrix, bones_count, -flags, time );
+    }
+
     ALWAYS_INLINE player_record_t::player_record_t( ) {
         m_filled = false;
     }

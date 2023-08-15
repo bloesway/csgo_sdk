@@ -13,6 +13,25 @@ namespace valve {
 
     enum struct ent_handle_t : sdk::ulong_t {};
 
+    enum struct e_bone_flags {
+        used_by_hitbox = 1 << 8,
+        used_by_anything = ( 1 << 19 ) - used_by_hitbox,
+        used_mask = ( 1 << 19 ) - used_by_hitbox
+    };
+    ENUM_UNDERLYING_OPERATOR( e_bone_flags );
+
+    enum struct e_effects {
+        no_interp = 1 << 3
+    };
+    ENUM_BIT_OPERATORS( e_effects, true );
+    ENUM_UNDERLYING_OPERATOR( e_bone_flags );
+
+    enum struct e_eflags {
+        dirty_abs_transform = 1 << 11,
+        dirty_abs_velocity = 1 << 12
+    };
+    ENUM_BIT_OPERATORS( e_eflags, true );
+
 #pragma region input
     enum struct e_buttons : int {
         in_attack       = 1 << 0,
