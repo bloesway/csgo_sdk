@@ -128,6 +128,11 @@ namespace valve {
     class c_cvar {
     public:
         VFUNC( cvar_t*( __thiscall* )( decltype( this ), const char* ), find_var( const char* name ), 16u, name );
+
+        template < typename... _args_t >
+        VFUNC( void( __cdecl* )( void*, const sdk::argb_t&, const char*, ... ),
+            console_print( const sdk::argb_t& clr, const char* txt, _args_t... args ), 25u, clr, txt, args...
+        );
     } inline* g_cvar{};
 
     struct base_player_t;

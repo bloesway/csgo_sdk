@@ -44,9 +44,9 @@ namespace valve {
 
         OFFSET( bool, jiggle_bones( ), 0x2930 );
 
-        OFFSET( std::uint32_t, occlusion_mask( ), 0xA24 );
+        OFFSET( std::uint32_t, occlusion_mask( ), 0xa24 );
 
-        OFFSET( std::uint32_t, occlusion_frame_count( ), 0xA30 );
+        OFFSET( std::uint32_t, occlusion_frame_count( ), 0xa30 );
 
         VFUNC( sdk::vec3_t& ( __thiscall* )( decltype( this ) ), abs_origin( ), 10u );
 
@@ -128,6 +128,8 @@ namespace valve {
         OFFSET( int, tick_base( ), g_ctx->offsets( ).m_base_player.m_tick_base );
         OFFSET( int, pred_tick( ), g_ctx->offsets( ).m_base_player.m_tick_base + sizeof( int ) );
 
+        OFFSET( int, sim_tick( ), 0x2ac );
+
         OFFSET( e_life_state, life_state( ), g_ctx->offsets( ).m_base_player.m_life_state );
 
         OFFSET( float, duck_amt( ), g_ctx->offsets( ).m_base_player.m_duck_amt );
@@ -135,8 +137,14 @@ namespace valve {
 
         OFFSET( float, spawn_time( ), g_ctx->offsets( ).m_base_player.m_spawn_time );
 
+        OFFSET( sdk::vec3_t, view_offset( ), g_ctx->offsets( ).m_base_player.m_view_offset );
+
         OFFSET( sdk::qang_t, aim_punch( ), g_ctx->offsets( ).m_base_player.m_aim_punch );
         OFFSET( sdk::qang_t, view_punch( ), g_ctx->offsets( ).m_base_player.m_view_punch );
+
+        OFFSET( sdk::vec3_t, aim_punch_vel( ), g_ctx->offsets( ).m_base_player.m_punch_vel );
+        
+        OFFSET( cmd_context_t, context_cmd( ), 0x350cu );
     };
 
     struct cs_player_t : public base_player_t {

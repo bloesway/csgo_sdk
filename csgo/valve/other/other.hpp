@@ -88,6 +88,12 @@ namespace valve {
         user_cmd_t      m_cmd{};
         std::uint32_t   m_checksum{};
     };
+
+    struct cmd_context_t {
+        bool		m_needs_processing{};
+        user_cmd_t	m_user_cmd{};
+        int			m_cmd_number{};
+    };
 #pragma endregion
 
 #pragma region prediction
@@ -975,6 +981,7 @@ namespace valve {
         t,
         ct
     };
+    ENUM_UNDERLYING_OPERATOR( e_team );
 
     enum struct e_ent_flags : std::uint32_t {
         on_ground             = 1u << 0u,

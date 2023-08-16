@@ -394,8 +394,10 @@ void c_ctx::init_offsets( const modules_t& modules ) {
         client.m_start, client.m_end
     ).self_offset( 0x2 ).as< std::uint32_t* >( );
 
+    m_offsets.m_base_player.m_view_offset = offsets.at( HASH( "CBasePlayer->m_vecViewOffset[0]" ) ).m_offset;
     m_offsets.m_base_player.m_aim_punch = offsets.at( HASH( "CBasePlayer->m_aimPunchAngle" ) ).m_offset;
     m_offsets.m_base_player.m_view_punch = offsets.at( HASH( "CBasePlayer->m_viewPunchAngle" ) ).m_offset;
+    m_offsets.m_base_player.m_punch_vel = offsets.at( HASH( "CBasePlayer->m_aimPunchAngleVel" ) ).m_offset;
 
     m_offsets.m_cs_player.m_effects = offsets.at( HASH( "CCSPlayer->m_fEffects" ) ).m_offset;
     m_offsets.m_cs_player.m_lby = offsets.at( HASH( "CCSPlayer->m_flLowerBodyYawTarget" ) ).m_offset;
@@ -470,6 +472,10 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
     HOOK( BYTESEQ( "55 8B EC 83 E4 ? 83 EC ? 53 56 8B F1 57 83 BE ? ? ? ? ? 75 ? 8B 46 ? 8D 4E ? FF 50 ? 85 C0 74 ? 8B CE E8 ? ? ? ? 8B 9E" ).search(
         client.m_start, client.m_end
     ), hooks::interpolate_view_model, hooks::o_interpolate_view_model );
+
+    HOOK( BYTESEQ( "56 8B F1 8B ? ? ? ? ? 83 F9 FF 74 23" ).search(
+        client.m_start, client.m_end
+    ), hooks::physics_simulate, hooks::o_physics_simulate );
 
     HOOK( BYTESEQ( "55 8B EC 81 EC ? ? ? ? 53 56 8A F9" ).search(
         engine.m_start, engine.m_end

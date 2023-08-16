@@ -111,7 +111,8 @@ private:
             std::uint32_t   m_tick_base{}, m_life_state{},
                             m_duck_amt{}, m_duck_speed{},
                             m_spawn_time{}, m_aim_punch{},
-                            m_view_punch{};
+                            m_view_punch{}, m_view_offset{},
+                            m_punch_vel{};
         }               m_base_player{};
 
         struct {

@@ -59,5 +59,8 @@ namespace hooks {
 #pragma region player
     bool __fastcall interpolate_view_model( valve::base_entity_t* ecx, void* edx, float time );
     inline decltype( &interpolate_view_model ) o_interpolate_view_model{};
+
+    void __fastcall physics_simulate( valve::cs_player_t* ecx, void* edx );
+    inline decltype( &physics_simulate ) o_physics_simulate{};
 #pragma endregion
 }

@@ -14,4 +14,8 @@ namespace hacks {
 		cmd.m_cmd_num = cmd_num;
 		cmd.m_prev_cmd_num = prev_cmd_num;
 	}
+
+	ALWAYS_INLINE auto& c_networking::netvars_data( ) {
+		return m_netvars_data;
+	}
 }
