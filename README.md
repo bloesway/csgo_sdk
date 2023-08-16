@@ -9,6 +9,8 @@ already added:
 
 -engine prediction
 
+-netvar compression
+
 -player_list ( based on on_entity_add, on_entity_remove hooks in entity_list )
 
 -correct storing player records ( lag_comp )
