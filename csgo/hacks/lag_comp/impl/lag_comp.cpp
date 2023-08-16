@@ -58,7 +58,7 @@ namespace hacks {
 					continue;
 				}
 
-				if ( ( record->m_origin - prev_record->m_origin ).length_sqr( 2u ) > 4096.f ) {
+				if ( ( record->m_origin - prev_record->m_origin ).length_sqr( 2u ) > valve::k_lc_tp_dist ) {
 					record->m_broke_lc = true;
 					record->m_invalid = true;
 

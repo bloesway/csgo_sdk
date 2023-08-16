@@ -24,7 +24,7 @@ namespace valve {
         no_interp = 1 << 3
     };
     ENUM_BIT_OPERATORS( e_effects, true );
-    ENUM_UNDERLYING_OPERATOR( e_bone_flags );
+    ENUM_UNDERLYING_OPERATOR( e_effects );
 
     enum struct e_eflags {
         dirty_abs_transform = 1 << 11,
