@@ -44,7 +44,7 @@ namespace hooks {
 		const auto data = &hacks::g_networking->netvars_data( ).at( ( cmd_context.m_user_cmd.m_number - 1 ) % valve::k_mp_backup );
 
 		if ( data && data->m_filled && data->m_cmd_number == cmd_context.m_user_cmd.m_number - 1 )
-			data->restore_netvars( cmd_context.m_user_cmd.m_number - 1 );
+			data->restore_netvars( );
 
 		o_physics_simulate( ecx, edx );
 

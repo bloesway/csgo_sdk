@@ -83,11 +83,11 @@ namespace hacks {
 		m_filled = true;
 	}
 
-	void c_networking::netvars_data_t::restore_netvars( int cmd_number ) {
-		if ( !m_filled || m_cmd_number != cmd_number )
+	void c_networking::netvars_data_t::restore_netvars( ) {
+		if ( !m_filled )
 			return;
 
-		auto handle_pred_error_int = [ & ]( int& networked, int predicted, int max_diff, const std::string_view& name ) -> bool {
+		auto handle_pred_error_int = [ & ]( int& networked, const int predicted, const int max_diff, const std::string_view& name ) -> bool {
 			if ( std::abs( networked - predicted ) > max_diff ) {
 #ifdef _DEBUG
 				valve::g_cvar->console_print( { 255, 255, 255, 255 },
@@ -103,7 +103,7 @@ namespace hacks {
 			return false;
 		};
 
-		auto handle_pred_error_float = [ & ]( float& networked, float predicted, float max_diff, const std::string_view& name ) -> bool {
+		auto handle_pred_error_float = [ & ]( float& networked, const float predicted, const float max_diff, const std::string_view& name ) -> bool {
 			if ( std::abs( networked - predicted ) > max_diff ) {
 #ifdef _DEBUG
 				valve::g_cvar->console_print( { 255, 255, 255, 255 },
@@ -119,7 +119,7 @@ namespace hacks {
 			return false;
 		};
 
-		auto handle_pred_error_vec = [ & ]( sdk::vec3_t& networked, sdk::vec3_t predicted, float max_diff, const std::string_view& name ) -> bool {
+		auto handle_pred_error_vec = [ & ]( sdk::vec3_t& networked, const sdk::vec3_t predicted, const float max_diff, const std::string_view& name ) -> bool {
 			for ( auto i = 0; i < 3u; i++ ) {
 				if ( std::abs( networked.at( i ) - predicted.at( i ) ) <= max_diff )
 					continue;
@@ -138,7 +138,7 @@ namespace hacks {
 			return false;
 		};
 
-		auto handle_pred_error_qang = [ & ]( sdk::qang_t& networked, sdk::qang_t predicted, float max_diff, const std::string_view& name ) -> bool {
+		auto handle_pred_error_qang = [ & ]( sdk::qang_t& networked, const sdk::qang_t predicted, const float max_diff, const std::string_view& name ) -> bool {
 			for ( auto i = 0; i < 3u; i++ ) {
 				if ( std::abs( networked.at( i ) - predicted.at( i ) ) <= max_diff )
 					continue;

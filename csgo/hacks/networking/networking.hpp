@@ -22,7 +22,7 @@ namespace hacks {
 			
 			void store_netvars( int cmd_number );
 
-			void restore_netvars( int cmd_number );
+			void restore_netvars( );
 		};
 
 		struct process_cmd_t {
