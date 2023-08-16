@@ -1,7 +1,10 @@
 # csgo_sdk
 modern csgo sdk c++20
 
+/* */
+
 already added:
+
 -imgui renderer
 
 -engine prediction
@@ -13,6 +16,8 @@ already added:
 -simple networking stuff
 
 -simple interpolation stuff ( correct set final_pred_tick, func for set global_vars->interp_amt to 0.f when u need )
+
+/* */
 
 this repository was created cuz author removed original sdk, and maybe will not support it now... :(
 
