@@ -11,6 +11,8 @@ namespace valve {
     inline constexpr auto k_max_layers = 13u;
     inline constexpr auto k_max_poses = 24u;
 
+    inline constexpr auto k_max_player_records = 48u;
+
     enum struct ent_handle_t : sdk::ulong_t {};
 
     enum struct e_bone_flags {

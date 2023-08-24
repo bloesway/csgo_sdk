@@ -24,7 +24,7 @@ namespace valve {
         OFFSET( float, old_sim_time( ), g_ctx->offsets( ).m_base_entity.m_sim_time + sizeof( float ) );
 
         OFFSET( e_ent_flags, flags( ), g_ctx->offsets( ).m_base_entity.m_flags );
-        OFFSET( std::uint32_t, eflags( ), g_ctx->offsets( ).m_base_entity.m_eflags );
+        OFFSET( e_eflags, eflags( ), g_ctx->offsets( ).m_base_entity.m_eflags );
 
         OFFSET( sdk::vec3_t, origin( ), g_ctx->offsets( ).m_base_entity.m_origin );
         OFFSET( sdk::vec3_t, velocity( ), g_ctx->offsets( ).m_base_entity.m_velocity );
@@ -144,7 +144,11 @@ namespace valve {
 
         OFFSET( sdk::vec3_t, aim_punch_vel( ), g_ctx->offsets( ).m_base_player.m_punch_vel );
         
-        OFFSET( cmd_context_t, context_cmd( ), 0x350cu );
+        OFFSET( valve::cmd_context_t, ctx_cmd( ), 0x350cu );
+
+        OFFSET( valve::user_cmd_t*, cur_cmd( ), 0x3348 );
+
+        OFFSET( valve::user_cmd_t*, last_cmd( ), 0x3298 );
     };
 
     struct cs_player_t : public base_player_t {
@@ -157,6 +161,7 @@ namespace valve {
         ALWAYS_INLINE bool setup_bones( sdk::mat3x4_t* matrix, int bones_count, e_bone_flags flags, float time );
 
         OFFSET( float, lby( ), g_ctx->offsets( ).m_cs_player.m_lby );
+
         OFFSET( sdk::qang_t, eye_angles( ), g_ctx->offsets( ).m_cs_player.m_eye_angles );
 
 #ifndef CSGO2018
@@ -173,8 +178,7 @@ namespace valve {
         OFFSET( bool, walking( ), g_ctx->offsets( ).m_cs_player.m_walking );
         OFFSET( bool, scoped( ), g_ctx->offsets( ).m_cs_player.m_scoped );
 
-        OFFSET( valve::user_cmd_t*, cur_cmd( ), 0x3348 );
-        OFFSET( valve::user_cmd_t*, last_cmd( ), 0x3298 );
+        VFUNC( void( __thiscall* )( void* ), update_client_side_anims( ), 224u );
     };
 
     struct player_record_t {

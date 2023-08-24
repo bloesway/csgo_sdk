@@ -25,31 +25,38 @@ namespace hooks {
 			|| ecx != g_local_player->self( ) )
 			return o_physics_simulate( ecx, edx );
 
-		auto& cmd_context = ecx->context_cmd( );
+		auto& ctx_cmd = ecx->ctx_cmd( );
 
 		if ( valve::g_global_vars->m_tick_count == ecx->sim_tick( )
-			|| !cmd_context.m_needs_processing )
+			|| !ctx_cmd.m_needs_processing )
 			return o_physics_simulate( ecx, edx );
 
-		if ( cmd_context.m_user_cmd.m_tick == std::numeric_limits< int >::max( ) ) {
-			cmd_context.m_needs_processing = false;
+		if ( ctx_cmd.m_user_cmd.m_tick == std::numeric_limits< int >::max( ) ) {
+			ctx_cmd.m_needs_processing = false;
 
 			ecx->sim_tick( ) = valve::g_global_vars->m_tick_count;
 
-			const auto data = &hacks::g_networking->netvars_data( ).at( cmd_context.m_user_cmd.m_number % valve::k_mp_backup );
+			const auto data = &hacks::g_networking->netvars_data( ).at( 
+				ctx_cmd.m_user_cmd.m_number % valve::k_mp_backup
+			);
 
-			return data->store_netvars( cmd_context.m_user_cmd.m_number );
+			return data->store_netvars( ctx_cmd.m_user_cmd.m_number );
 		}
 
-		const auto data = &hacks::g_networking->netvars_data( ).at( ( cmd_context.m_user_cmd.m_number - 1 ) % valve::k_mp_backup );
+		const auto data = &hacks::g_networking->netvars_data( ).at( 
+			( ctx_cmd.m_user_cmd.m_number - 1 ) % valve::k_mp_backup
+		);
 
-		if ( data && data->m_filled && data->m_cmd_number == cmd_context.m_user_cmd.m_number - 1 )
+		if ( data && data->m_filled 
+			&& data->m_cmd_number == ctx_cmd.m_user_cmd.m_number - 1 )
 			data->restore_netvars( );
 
 		o_physics_simulate( ecx, edx );
 
-		const auto new_data = &hacks::g_networking->netvars_data( ).at( cmd_context.m_user_cmd.m_number % valve::k_mp_backup );
+		const auto new_data = &hacks::g_networking->netvars_data( ).at( 
+			ctx_cmd.m_user_cmd.m_number % valve::k_mp_backup
+		);
 
-		new_data->store_netvars( cmd_context.m_user_cmd.m_number );
+		new_data->store_netvars( ctx_cmd.m_user_cmd.m_number );
 	}
 }

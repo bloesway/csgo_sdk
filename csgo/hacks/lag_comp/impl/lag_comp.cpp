@@ -48,7 +48,7 @@ namespace hacks {
 				prev_record->m_filled = true;
 			}
 
-			auto record = std::make_shared< valve::player_record_t >( player );
+			const auto record = std::make_shared< valve::player_record_t >( player );
 
 			if ( prev_record->m_filled ) {
 				if ( prev_record->m_layers.at( -valve::e_anim_layer::alive_loop ).m_cycle 
@@ -77,7 +77,7 @@ namespace hacks {
 
 			records.emplace_front( record );
 
-			while ( records.size( ) > 48u )
+			while ( records.size( ) > valve::k_max_player_records )
 				records.pop_back( );
 
 			{
