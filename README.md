@@ -1,4 +1,5 @@
 # csgo_sdk
+
 modern csgo sdk c++20
 
 /* */
@@ -21,7 +22,7 @@ already added:
 
 /* */
 
-this repository was created cuz author removed original sdk, and maybe will not support it now... :(
+this repository was created because author removed original sdk, and maybe will not support it now... :(
 
 i will support sdk and add new innovations.
 
