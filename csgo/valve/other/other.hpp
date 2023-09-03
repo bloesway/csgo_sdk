@@ -241,9 +241,6 @@ namespace valve {
     enum struct e_hitbox : int {
         head,
         neck,
-#ifdef CSGO2018
-        lower_neck,
-#endif
         pelvis,
         stomach,
         lower_chest,
@@ -562,13 +559,11 @@ namespace valve {
         placeholder,
         grenade,
         healthshot = 11,
-#ifndef CSGO2018
         fists,
         breach_charge,
         bump_mine,
         tablet,
         melee
-#endif
     };
 
     enum struct e_item_index : std::uint16_t {
@@ -678,9 +673,7 @@ namespace valve {
         float           m_weight{};
         std::uint8_t    pad5[ 40u ]{};
         e_weapon_type   m_type{};
-#ifndef CSGO2018
         int             m_unk_type{};
-#endif
         int             m_price{},
                         m_kill_award{};
         const char*     m_anim_prefix{};
@@ -691,9 +684,7 @@ namespace valve {
         bool            m_full_auto{};
         std::uint8_t    pad6[ 3u ]{};
         int             m_dmg{};
-#ifndef CSGO2018
         float           m_headshot_multiplier{};
-#endif
         float           m_armor_ratio{};
         int             m_bullets{};
         float           m_penetration{},
@@ -707,9 +698,7 @@ namespace valve {
         std::uint8_t    pad8[ 15u ]{};
         float           m_max_speed{},
                         m_max_speed_alt{};
-#ifndef CSGO2018
         std::uint8_t    pad9[ 4u ]{};
-#endif
         float           m_spread{},
                         m_spread_alt{},
                         m_inaccuracy_crouch{},
@@ -717,9 +706,7 @@ namespace valve {
                         m_inaccuracy_stand{},
                         m_inaccuracy_stand_alt{},
                         m_inaccuracy_jump_initial{};
-#ifndef CSGO2018
         float           m_inaccuracy_jump_apex{};
-#endif
         float           m_inaccuracy_jump{},
                         m_inaccuracy_jump_alt{},
                         m_inaccuracy_land{},

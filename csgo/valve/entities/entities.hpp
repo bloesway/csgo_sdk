@@ -154,8 +154,6 @@ namespace valve {
     struct cs_player_t : public base_player_t {
         ALWAYS_INLINE bool friendly( cs_player_t* const with );
 
-        ALWAYS_INLINE void update_collision_bounds( );
-
         ALWAYS_INLINE void invalidate_bone_cache( );
 
         ALWAYS_INLINE bool setup_bones( sdk::mat3x4_t* matrix, int bones_count, e_bone_flags flags, float time );
@@ -164,9 +162,8 @@ namespace valve {
 
         OFFSET( sdk::qang_t, eye_angles( ), g_ctx->offsets( ).m_cs_player.m_eye_angles );
 
-#ifndef CSGO2018
         OFFSET( int, survival_team( ), g_ctx->offsets( ).m_cs_player.m_survival_team );
-#endif
+
         OFFSET( std::uint32_t, client_effects( ), 0x68 );
 
         OFFSET( e_effects, effects( ), g_ctx->offsets( ).m_cs_player.m_effects );
@@ -179,6 +176,8 @@ namespace valve {
         OFFSET( bool, scoped( ), g_ctx->offsets( ).m_cs_player.m_scoped );
 
         VFUNC( void( __thiscall* )( void* ), update_client_side_anims( ), 224u );
+
+        OFFSET_VFUNC( void( __thiscall* )( void* ), update_collision_bounds( ), g_ctx->offsets( ).m_cs_player.m_update_collision_bounds );
     };
 
     struct player_record_t {

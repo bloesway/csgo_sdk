@@ -31,22 +31,13 @@ namespace valve {
         if ( with == this )
             return true;
 
-#ifndef CSGO2018
         if ( g_game_types->game_type( ) == e_game_type::ffa )
             return survival_team( ) == with->survival_team( );
-#endif
 
         if ( g_ctx->cvars( ).mp_teammates_are_enemies->get_int( ) )
             return false;
 
         return team( ) == with->team( );
-    }
-
-    ALWAYS_INLINE void cs_player_t::update_collision_bounds( ) {
-        using fn_t = void( __thiscall* )( void* );
-
-        return reinterpret_cast< fn_t >(
-            g_ctx->offsets( ).m_cs_player.m_update_collision_bounds )( this );
     }
 
     ALWAYS_INLINE void cs_player_t::invalidate_bone_cache( ) {
@@ -119,7 +110,7 @@ namespace valve {
         std::memcpy( m_layers.data( ), player->anim_layers( ).data( ), sizeof( anim_layer_t ) * valve::k_max_layers );
 
         /*  i think you can do not store pose_params here,
-            because you need to store them in record again when the animations are fully updated  */
+            because you need to store them in record again when the animations are fully updated */
         std::memcpy( m_pose_params.data( ), player->pose_params( ).data( ), sizeof( float ) * valve::k_max_poses );
 
         m_filled = true;

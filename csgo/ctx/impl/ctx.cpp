@@ -207,7 +207,7 @@ void c_ctx::init_interfaces( const modules_t& modules ) const {
     valve::g_engine_trace = interfaces.at( HASH( "EngineTraceClient004" ) ).as< valve::c_engine_trace* >( );
     valve::g_phys_props = interfaces.at( HASH( "VPhysicsSurfaceProps001" ) ).as< valve::c_physics_surface_props* >( );
 
-    valve::g_game_rules = *BYTESEQ( VARVAL( "8B 0D ? ? ? ? E8 ? ? ? ? 84 C0 75 6B", "8B 0D ? ? ? ? 56 83 CE FF" ) ).search(
+    valve::g_game_rules = *BYTESEQ( "8B 0D ? ? ? ? 56 83 CE FF" ).search(
         client.m_start, client.m_end
     ).self_offset( 0x2 ).as< valve::game_rules_t*** >( );
 
@@ -299,7 +299,7 @@ void c_ctx::init_offsets( const modules_t& modules ) {
 
     m_offsets.m_user_cmd_checksum = BYTESEQ( "53 8B D9 83 C8" ).search( client.m_start, client.m_end );
 
-    m_offsets.m_key_values.m_init = BYTESEQ( VARVAL( "E8 ? ? ? ? 5F 89 06", "E8 ? ? ? ? 8B F0 EB 22" ) ).search(
+    m_offsets.m_key_values.m_init = BYTESEQ( "E8 ? ? ? ? 8B F0 EB 22" ).search(
         client.m_start, client.m_end
     ).self_rel( );
 
@@ -402,9 +402,6 @@ void c_ctx::init_offsets( const modules_t& modules ) {
     m_offsets.m_cs_player.m_effects = offsets.at( HASH( "CCSPlayer->m_fEffects" ) ).m_offset;
     m_offsets.m_cs_player.m_lby = offsets.at( HASH( "CCSPlayer->m_flLowerBodyYawTarget" ) ).m_offset;
     m_offsets.m_cs_player.m_eye_angles = offsets.at( HASH( "CCSPlayer->m_angEyeAngles" ) ).m_offset;
-#ifndef CSGO2018
-    m_offsets.m_cs_player.m_survival_team = offsets.at( HASH( "CCSPlayer->m_nSurvivalTeam" ) ).m_offset;
-#endif
     m_offsets.m_cs_player.m_anim_state = *BYTESEQ( "8B 8E ? ? ? ? 85 C9 74 3E" ).search(
         client.m_start, client.m_end
     ).self_offset( 0x2 ).as< std::uint32_t* >( );
@@ -441,26 +438,18 @@ void c_ctx::init_cvars( ) {
 }
 
 void c_ctx::init_hooks( const modules_t& modules ) const {
+    const code_section_t client{ modules.at( HASH( "client.dll" ) ) };
+    const code_section_t engine{ modules.at( HASH( "engine.dll" ) ) };
+
     const code_section_t vguimatsurface{ modules.at( HASH( "vguimatsurface.dll" ) ) };
     const code_section_t studiorender{ modules.at( HASH( "studiorender.dll" ) ) };
-    const code_section_t engine{ modules.at( HASH( "engine.dll" ) ) };
-    const code_section_t client{ modules.at( HASH( "client.dll" ) ) };
 
-    const auto client_state_table = reinterpret_cast< sdk::ulong_t** >( 
-        ( valve::client_state_t* )( std::uintptr_t( valve::g_client_state ) + 0x8 ) );
+    const auto client_state_table = reinterpret_cast< sdk::ulong_t** >(
+        reinterpret_cast< valve::client_state_t* >( reinterpret_cast< std::uintptr_t >( valve::g_client_state ) + 0x8u )
+    );
 
-    HOOK_VFUNC( client_state_table, 5u, hooks::packet_start, hooks::o_packet_start );
-
-    HOOK_VFUNC( valve::g_entity_list, 11u, hooks::on_entity_add, hooks::o_on_entity_add );
-
-    HOOK_VFUNC( valve::g_entity_list, 12u, hooks::on_entity_remove, hooks::o_on_entity_remove );
-
-    HOOK_VFUNC( valve::g_client, VARVAL( 21u, 22u ), hooks::create_move_proxy, hooks::o_create_move );
-
-    HOOK_VFUNC( valve::g_client, VARVAL( 36u, 37u ), hooks::frame_stage, hooks::o_frame_stage );
-
-    HOOK_VFUNC( valve::g_panel, 41u, hooks::paint_traverse, hooks::o_paint_traverse );
-
+    /* */
+    
     HOOK( BYTESEQ( "80 3D ? ? ? ? ? 8B 91 ? ? ? ? 8B 0D ? ? ? ? C6 05 ? ? ? ? 01" ).search(
         vguimatsurface.m_start, vguimatsurface.m_end
     ), hooks::lock_cursor, hooks::o_lock_cursor );
@@ -469,10 +458,6 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
         studiorender.m_start, studiorender.m_end
     ), hooks::draw_model, hooks::o_draw_model );
 
-    HOOK( BYTESEQ( "55 8B EC 83 E4 ? 83 EC ? 53 56 8B F1 57 83 BE ? ? ? ? ? 75 ? 8B 46 ? 8D 4E ? FF 50 ? 85 C0 74 ? 8B CE E8 ? ? ? ? 8B 9E" ).search(
-        client.m_start, client.m_end
-    ), hooks::interpolate_view_model, hooks::o_interpolate_view_model );
-
     HOOK( BYTESEQ( "56 8B F1 8B ? ? ? ? ? 83 F9 FF 74 23" ).search(
         client.m_start, client.m_end
     ), hooks::physics_simulate, hooks::o_physics_simulate );
@@ -480,6 +465,24 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
     HOOK( BYTESEQ( "55 8B EC 81 EC ? ? ? ? 53 56 8A F9" ).search(
         engine.m_start, engine.m_end
     ), hooks::cl_move, hooks::o_cl_move );
+
+    HOOK( BYTESEQ( "55 8B EC 83 E4 ? 83 EC ? 53 56 8B F1 57 83 BE ? ? ? ? ? 75 ? 8B 46 ? 8D 4E ? FF 50 ? 85 C0 74 ? 8B CE E8 ? ? ? ? 8B 9E" ).search(
+        client.m_start, client.m_end
+    ), hooks::interpolate_view_model, hooks::o_interpolate_view_model );
+
+    HOOK_VFUNC( valve::g_client, 37u, hooks::frame_stage, hooks::o_frame_stage );
+
+    HOOK_VFUNC( valve::g_client, 22u, hooks::create_move_proxy, hooks::o_create_move );
+
+    HOOK_VFUNC( valve::g_panel, 41u, hooks::paint_traverse, hooks::o_paint_traverse );
+
+    HOOK_VFUNC( client_state_table, 5u, hooks::packet_start, hooks::o_packet_start );
+
+    HOOK_VFUNC( valve::g_entity_list, 11u, hooks::on_entity_add, hooks::o_on_entity_add );
+
+    HOOK_VFUNC( valve::g_entity_list, 12u, hooks::on_entity_remove, hooks::o_on_entity_remove );
+
+    /* */
 }
 
 void c_ctx::init( ) {

@@ -78,7 +78,7 @@ namespace hooks {
         if ( !in_game && valve::g_engine->in_game( ) ) {
             in_game = true;
 
-
+            /* */
         }
         else if ( in_game && !valve::g_engine->in_game( ) ) {
             in_game = false;

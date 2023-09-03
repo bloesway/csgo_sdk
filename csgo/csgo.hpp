@@ -43,12 +43,6 @@
         return offset.as< type >( )( this, __VA_ARGS__ ); \
     } \
 
-#ifdef CSGO2018
-#define VARVAL( old, latest ) old
-#else
-#define VARVAL( old, latest ) latest
-#endif
-
 #include "ctx/ctx.hpp"
 #include "menu/menu.hpp"
 #include "renderer/renderer.hpp"

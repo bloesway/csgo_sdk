@@ -70,10 +70,6 @@ void c_local_player::simulate_prediction( valve::user_cmd_t& cmd ) {
 
         valve::g_prediction->check_moving_ground( self( ), valve::g_global_vars->m_frame_time );
 
-        /* need some fixes for use
-            valve::g_prediction->set_view_angles( cmd.m_view_angles );
-        */
-
         valve::g_prediction->setup_move( self( ), &cmd, valve::g_move_helper, m_prediction.m_move_data );
 
         valve::g_movement->process_movement( self( ), m_prediction.m_move_data );

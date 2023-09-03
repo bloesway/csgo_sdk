@@ -116,15 +116,14 @@ private:
         }               m_base_player{};
 
         struct {
-            sdk::address_t  m_most_recent_model_cnt{};
+            sdk::address_t  m_most_recent_model_cnt{},
+                            m_update_collision_bounds{};
 
             std::uint32_t   m_lby{}, m_eye_angles{},
-#ifndef CSGO2018
                             m_survival_team{},
-#endif
                             m_anim_state{}, m_defusing{},
                             m_walking, m_scoped{},                            
-                            m_update_collision_bounds{}, m_effects{};
+                            m_effects{};
         }               m_cs_player{};
 
         struct {

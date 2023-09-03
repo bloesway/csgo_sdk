@@ -47,7 +47,7 @@ namespace valve {
         struct net_chan_t {
             VFUNC( float( __thiscall* )( decltype( this ), e_net_flow ), latency( const e_net_flow flow ), 9u, flow );
 
-            VFUNC( int( __thiscall* )( decltype( this ), std::uintptr_t ), send_datagram( ), VARVAL( 48u, 46u ), 0u );
+            VFUNC( int( __thiscall* )( decltype( this ), std::uintptr_t ), send_datagram( ), 46u, 0u );
 
             std::uint8_t    pad0[ 20u ]{};
             bool            m_processing_messages{},
@@ -87,9 +87,9 @@ namespace valve {
         std::uint8_t    pad6[ 3u ]{};
         char            m_level_name[ 260u ]{},
                         m_level_name_short[ 40u ]{};
-        std::uint8_t    pad7[ VARVAL( 92u, 212u ) ]{};
+        std::uint8_t    pad7[ 212u ]{};
         int             m_max_clients{};
-        std::uint8_t    pad8[ VARVAL( 18828u, 18836u ) ]{};
+        std::uint8_t    pad8[ 18836u ]{};
         int             m_old_tick_count{};
         float           m_tick_remainder{},
                         m_frame_time{};
@@ -112,15 +112,15 @@ namespace valve {
     } inline* g_panel{};
 
     struct input_t {
-        std::uint8_t        pad0[ VARVAL( 4u, 12u ) ]{};
+        std::uint8_t        pad0[ 12u ]{};
         bool                m_track_ir_available{},
                             m_mouse_initialized{},
                             m_mouse_active{};
-        std::uint8_t        pad1[ VARVAL( 158u, 154u ) ]{};
+        std::uint8_t        pad1[ 154u ]{};
         bool                m_camera_in_third_person{};
-        std::uint8_t        pad2[ VARVAL( 1u, 2u ) ]{};
+        std::uint8_t        pad2[ 2u ]{};
         sdk::vec3_t         m_camera_offset{};
-        std::uint8_t        pad3[ VARVAL( 54u, 56u ) ]{};
+        std::uint8_t        pad3[ 56u ]{};
         user_cmd_t*         m_cmds{};
         vfyd_user_cmd_t*    m_vfyd_cmds{};
     } inline* g_input{};
