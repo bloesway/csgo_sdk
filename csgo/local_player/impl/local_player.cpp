@@ -128,6 +128,6 @@ void c_local_player::create_move( bool& send_packet,
         if ( !( ( *valve::g_game_rules )->valve_ds( ) ) )
             hacks::g_networking->emplace_cmd( send_packet, cmd.m_number );
 
-        hacks::g_networking->m_simulate_choke = !send_packet;
+        hacks::g_networking->m_simulate_choke = ( !send_packet && !( ( *valve::g_game_rules )->valve_ds( ) ) );
     }
 }
