@@ -444,7 +444,7 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
     const code_section_t vguimatsurface{ modules.at( HASH( "vguimatsurface.dll" ) ) };
     const code_section_t studiorender{ modules.at( HASH( "studiorender.dll" ) ) };
 
-    const auto client_state_table = reinterpret_cast< sdk::ulong_t** >(
+    const auto client_state_vtable = reinterpret_cast< sdk::ulong_t** >(
         reinterpret_cast< valve::client_state_t* >( reinterpret_cast< std::uintptr_t >( valve::g_client_state ) + 0x8u )
     );
 
@@ -476,7 +476,7 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
 
     HOOK_VFUNC( valve::g_panel, 41u, hooks::paint_traverse, hooks::o_paint_traverse );
 
-    HOOK_VFUNC( client_state_table, 5u, hooks::packet_start, hooks::o_packet_start );
+    HOOK_VFUNC( client_state_vtable, 5u, hooks::packet_start, hooks::o_packet_start );
 
     HOOK_VFUNC( valve::g_entity_list, 11u, hooks::on_entity_add, hooks::o_on_entity_add );
 

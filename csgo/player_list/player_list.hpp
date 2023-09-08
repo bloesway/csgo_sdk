@@ -22,7 +22,9 @@ private:
 		std::array< sdk::mat3x4_t, valve::k_max_bones >			m_bones{};
 	};
 
-	std::vector< entry_t > m_entries{};
+	bool					m_updated{};
+
+	std::vector< entry_t >	m_entries{};
 public:
 	ALWAYS_INLINE c_players( );
 
@@ -30,7 +32,11 @@ public:
 
 	void on_entity_remove( valve::base_entity_t* entity );
 
+	void update_in_game( );
+
 	ALWAYS_INLINE auto& get( );
+
+	ALWAYS_INLINE auto& updated( );
 };
 
 #include "impl/player_list.inl"

@@ -8,6 +8,10 @@ ALWAYS_INLINE auto& c_players::get( ) {
 	return m_entries;
 }
 
+ALWAYS_INLINE auto& c_players::updated( ) {
+	return m_updated;
+}
+
 ALWAYS_INLINE c_players::entry_t::entry_t( valve::base_entity_t* entity, int index ) {
 	m_player = reinterpret_cast< valve::cs_player_t* >( entity );
 	m_index = index;

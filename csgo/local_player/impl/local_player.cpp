@@ -18,8 +18,11 @@ void c_local_player::frame_stage( valve::e_frame_stage stage, bool post ) {
     if ( !self( ) || !self( )->alive( ) )
         return;
 
-    if ( stage == valve::e_frame_stage::render_start )
+    if ( stage == valve::e_frame_stage::render_start ) {
         hacks::g_interpolation->handle( false );
+
+        g_players->update_in_game( );
+    }
 
     if ( stage == valve::e_frame_stage::net_update_end )
         hacks::g_lag_comp->handle( );
