@@ -1,15 +1,11 @@
 #pragma once
 
-ALWAYS_INLINE c_players::c_players( ) {
+ALWAYS_INLINE constexpr c_players::c_players( ) {
 	m_entries.reserve( 64u );
 }
 
 ALWAYS_INLINE auto& c_players::get( ) {
 	return m_entries;
-}
-
-ALWAYS_INLINE auto& c_players::updated( ) {
-	return m_updated;
 }
 
 ALWAYS_INLINE c_players::entry_t::entry_t( valve::base_entity_t* entity, int index ) {

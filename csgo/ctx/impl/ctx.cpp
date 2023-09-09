@@ -485,6 +485,29 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
     /* */
 }
 
+/* if u already connected and tryin to inject, this func is needed */
+void c_ctx::init_players( ) const {
+    if ( !valve::g_engine->in_game( )
+        || !g_local_player->self( ) )
+        return;
+
+    auto& players = g_players->get( );
+
+    for ( auto i = 0; i < valve::g_global_vars->m_max_clients; i++ ) {
+        const auto player = reinterpret_cast< valve::cs_player_t* >( valve::g_entity_list->get_entity( i ) );
+        if ( !player
+            || player == g_local_player->self( ) )
+            continue;
+
+        for ( auto it = players.begin( ); it != players.end( ); it = std::next( it ) ) {
+            if ( it->m_player == player )
+                continue;
+        }
+
+        players.emplace_back( c_players::entry_t{ player, i } );
+    }
+}
+
 void c_ctx::init( ) {
     modules_t modules{};
     while ( wait_for_all_modules( modules ) )
@@ -504,6 +527,8 @@ void c_ctx::init( ) {
     init_cvars( );
 
     init_hooks( modules );
+
+    init_players( );
 
     if ( MH_EnableHook( MH_ALL_HOOKS ) != MH_OK )
         THROW_IF_DBG( "can't enable all hooks." );

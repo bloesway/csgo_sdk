@@ -1,7 +1,7 @@
 #pragma once
 
 class c_players {
-private:
+public:
 	struct entry_t {
 	public:
 		ALWAYS_INLINE entry_t( ) = default;
@@ -21,22 +21,16 @@ private:
 
 		std::array< sdk::mat3x4_t, valve::k_max_bones >			m_bones{};
 	};
-
-	bool					m_updated{};
-
+private:
 	std::vector< entry_t >	m_entries{};
 public:
-	ALWAYS_INLINE c_players( );
+	ALWAYS_INLINE constexpr c_players( );
 
 	void on_entity_add( valve::base_entity_t* entity );
 
 	void on_entity_remove( valve::base_entity_t* entity );
 
-	void update_in_game( );
-
 	ALWAYS_INLINE auto& get( );
-
-	ALWAYS_INLINE auto& updated( );
 };
 
 #include "impl/player_list.inl"

@@ -83,8 +83,6 @@ namespace hooks {
         else if ( in_game && !valve::g_engine->in_game( ) ) {
             in_game = false;
 
-            g_players->updated( ) = false;
-
             hacks::g_networking->reset( );
         }
 

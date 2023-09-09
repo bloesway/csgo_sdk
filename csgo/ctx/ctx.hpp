@@ -37,6 +37,8 @@ private:
 
     void init_hooks( const modules_t& modules ) const;
 
+    void init_players( ) const;
+
     struct {
         sdk::address_t  m_local_player{},
                         m_weapon_system{},
