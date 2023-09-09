@@ -4,10 +4,11 @@ namespace hacks {
 	void c_lag_comp::handle( ) {
 		auto& players = g_players->get( );
 
-		for ( auto& entry : players ) {
-			const auto player = entry.m_player;
+		for ( auto& it : players ) {
+			auto& entry = it.second;
 
-			if ( !player->alive( )
+			const auto player = entry.m_player;
+			if ( !player || !player->alive( )
 				|| player->friendly( g_local_player->self( ) ) )
 				continue;
 
@@ -51,7 +52,7 @@ namespace hacks {
 			const auto record = std::make_shared< valve::player_record_t >( player );
 
 			if ( prev_record->m_filled ) {
-				if ( prev_record->m_layers.at( -valve::e_anim_layer::alive_loop ).m_cycle 
+				if ( prev_record->m_layers.at( -valve::e_anim_layer::alive_loop ).m_cycle
 					== record->m_layers.at( -valve::e_anim_layer::alive_loop ).m_cycle ) {
 					player->sim_time( ) = prev_record->m_sim_time;
 
@@ -72,7 +73,7 @@ namespace hacks {
 
 			if ( record->m_fake_player )
 				record->m_sim_ticks = 1;
-		
+
 			record->m_sim_ticks = std::clamp( record->m_sim_ticks, 1, 15 );
 
 			records.emplace_front( record );

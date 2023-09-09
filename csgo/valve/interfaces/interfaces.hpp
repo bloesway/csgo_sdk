@@ -16,6 +16,8 @@ namespace valve {
 
         VFUNC( bool( __thiscall* )( decltype( this ) ), in_game( ), 26u );
 
+        VFUNC( int( __thiscall* )( decltype( this ) ), local_index( ), 12u );
+
         VFUNC( c_net_chan_info* ( __thiscall* )( decltype( this ) ), net_info( ), 78u );
     } inline* g_engine{};
 

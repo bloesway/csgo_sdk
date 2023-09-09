@@ -2,13 +2,15 @@
 
 class c_players {
 public:
+	ALWAYS_INLINE c_players( );
+
 	struct entry_t {
 	public:
 		ALWAYS_INLINE entry_t( ) = default;
 
 		ALWAYS_INLINE entry_t( valve::base_entity_t* entity, int index );
 	public:
-		valve::cs_player_t*										m_player{};
+		valve::cs_player_t* m_player{};
 		int														m_index{};
 
 		std::shared_ptr< valve::player_record_t >				m_prev_record{};
@@ -22,15 +24,15 @@ public:
 		std::array< sdk::mat3x4_t, valve::k_max_bones >			m_bones{};
 	};
 private:
-	std::vector< entry_t >	m_entries{};
+	std::unordered_map< int, entry_t > m_hash_map{};
 public:
-	ALWAYS_INLINE constexpr c_players( );
-
 	void on_entity_add( valve::base_entity_t* entity );
 
 	void on_entity_remove( valve::base_entity_t* entity );
-
+public:
 	ALWAYS_INLINE auto& get( );
+
+	ALWAYS_INLINE auto& get( int hash );
 };
 
 #include "impl/player_list.inl"

@@ -1,33 +1,31 @@
 #include "../../csgo.hpp"
 
 void c_players::on_entity_add( valve::base_entity_t* entity ) {
-    if ( !entity 
-        || entity == g_local_player->self( ) )
+    if ( !entity )
         return;
 
     const auto index = entity->networkable( )->index( );
-    if ( index < 1
-        || index > valve::g_global_vars->m_max_clients )
+    if ( index < 1 || index > valve::g_global_vars->m_max_clients
+        || index == valve::g_engine->local_index( ) )
         return;
 
-    for ( auto it = m_entries.begin( ); it != m_entries.end( ); it = std::next( it ) ) {
-        if ( it->m_player == entity )
+    for ( auto it = m_hash_map.begin( ); it != m_hash_map.end( ); it = std::next( it ) ) {
+        if ( it->second.m_player == entity )
             return;
     }
 
-    m_entries.push_back( entry_t{ entity, index } );
+    m_hash_map.emplace( index, entry_t{ entity, index } );
 }
 
 void c_players::on_entity_remove( valve::base_entity_t* entity ) {
-    if ( !entity
-        || entity == g_local_player->self( ) )
+    if ( !entity )
         return;
 
-    for ( auto it = m_entries.begin( ); it != m_entries.end( ); it = std::next( it ) ) {
-        if ( it->m_player != entity )
+    for ( auto it = m_hash_map.begin( ); it != m_hash_map.end( ); it = std::next( it ) ) {
+        if ( it->second.m_player != entity )
             continue;
 
-        m_entries.erase( it );
+        m_hash_map.erase( it );
 
         return;
     }

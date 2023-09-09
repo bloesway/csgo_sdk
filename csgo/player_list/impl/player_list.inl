@@ -1,11 +1,15 @@
 #pragma once
 
-ALWAYS_INLINE constexpr c_players::c_players( ) {
-	m_entries.reserve( 64u );
+ALWAYS_INLINE c_players::c_players( ) {
+	m_hash_map.reserve( 64u );
 }
 
 ALWAYS_INLINE auto& c_players::get( ) {
-	return m_entries;
+	return m_hash_map;
+}
+
+ALWAYS_INLINE auto& c_players::get( int hash ) {
+	return m_hash_map.at( hash );
 }
 
 ALWAYS_INLINE c_players::entry_t::entry_t( valve::base_entity_t* entity, int index ) {

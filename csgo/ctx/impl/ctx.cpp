@@ -500,11 +500,11 @@ void c_ctx::init_players( ) const {
             continue;
 
         for ( auto it = players.begin( ); it != players.end( ); it = std::next( it ) ) {
-            if ( it->m_player == player )
+            if ( it->second.m_player == player )
                 continue;
         }
 
-        players.emplace_back( c_players::entry_t{ player, i } );
+        players.emplace( i, c_players::entry_t{ player, i } );
     }
 }
 
