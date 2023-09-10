@@ -42,6 +42,12 @@ namespace sdk {
     ALWAYS_INLINE constexpr _value_t lerp( const _value_t& from, const _value_t& to, const float amt );
 
     template < typename _value_t >
+        requires is_addable< _value_t, _value_t >&& is_multipliable< _value_t, float >
+    ALWAYS_INLINE constexpr _value_t lerp( const _value_t& from, const _value_t& to,
+        const int step, const int max
+    );
+
+    template < typename _value_t >
         requires std::is_floating_point_v< _value_t >
     ALWAYS_INLINE constexpr _value_t normalize_angle( const _value_t angle );
 }

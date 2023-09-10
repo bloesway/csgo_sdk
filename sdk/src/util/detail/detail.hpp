@@ -127,7 +127,7 @@ namespace sdk::detail {
             if constexpr ( std::is_same_v< const char*, std::decay_t< std::invoke_result_t< _lambda_t > > > ) {
                 constexpr auto seq = parse( lambda( ) );
 
-                m_bytes = { /*load_from_reg*/( seq[ _indices ] )... };
+                m_bytes = { load_from_reg( seq[ _indices ] )... };
 
                 return;
             }

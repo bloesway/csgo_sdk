@@ -99,6 +99,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ctx\impl\ctx.cpp" />
+    <ClCompile Include="hacks\anim_system\impl\anim_system.cpp" />
     <ClCompile Include="hacks\interpolation\impl\interpolation.cpp" />
     <ClCompile Include="hacks\lag_comp\impl\lag_comp.cpp" />
     <ClCompile Include="hacks\models\impl\models.cpp" />
@@ -125,6 +126,7 @@
   <ItemGroup>
     <ClInclude Include="csgo.hpp" />
     <ClInclude Include="ctx\ctx.hpp" />
+    <ClInclude Include="hacks\anim_system\anim_system.hpp" />
     <ClInclude Include="hacks\hacks.hpp" />
     <ClInclude Include="hacks\interpolation\interpolation.hpp" />
     <ClInclude Include="hacks\lag_comp\lag_comp.hpp" />

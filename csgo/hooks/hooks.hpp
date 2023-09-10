@@ -62,5 +62,11 @@ namespace hooks {
 
     void __fastcall physics_simulate( valve::cs_player_t* ecx, void* edx );
     inline decltype( &physics_simulate ) o_physics_simulate{};
+
+    bool __fastcall setup_bones( void* ecx, void* edx, sdk::mat3x4_t* bones, int max_bones, int mask, float time );
+    inline decltype( &setup_bones ) o_setup_bones{};
+
+    void __fastcall update_client_animations( valve::cs_player_t* ecx, void* edx );
+    inline decltype( &update_client_animations ) o_update_client_side_animations{};
 #pragma endregion
 }

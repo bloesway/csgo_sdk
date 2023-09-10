@@ -19,6 +19,9 @@ public:
 		bool													m_in_dormancy{};
 		bool													m_first_after_dormant{};
 
+		bool													m_setup_bones{};
+		bool													m_update_anims{};
+
 		float													m_spawn_time{};
 
 		std::array< sdk::mat3x4_t, valve::k_max_bones >			m_bones{};
@@ -33,6 +36,8 @@ public:
 	ALWAYS_INLINE auto& get( );
 
 	ALWAYS_INLINE auto& get( int hash );
+
+	ALWAYS_INLINE const auto contains( int hash );
 };
 
 #include "impl/player_list.inl"

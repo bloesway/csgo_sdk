@@ -446,10 +446,14 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
 
     const auto client_state_vtable = reinterpret_cast< sdk::ulong_t** >(
         reinterpret_cast< valve::client_state_t* >( reinterpret_cast< std::uintptr_t >( valve::g_client_state ) + 0x8u )
-    );
+        );
+
+    const auto renderable_vtable = BYTESEQ( "55 8B EC 83 E4 F8 83 EC 18 56 57 8B F9 89 7C 24 0C" ).search(
+        client.m_start, client.m_end
+    ).self_offset( 0x4E ).as< uintptr_t* >( );
 
     /* */
-    
+
     HOOK( BYTESEQ( "80 3D ? ? ? ? ? 8B 91 ? ? ? ? 8B 0D ? ? ? ? C6 05 ? ? ? ? 01" ).search(
         vguimatsurface.m_start, vguimatsurface.m_end
     ), hooks::lock_cursor, hooks::o_lock_cursor );
@@ -470,6 +474,10 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
         client.m_start, client.m_end
     ), hooks::interpolate_view_model, hooks::o_interpolate_view_model );
 
+    HOOK( BYTESEQ( "55 8B EC 51 56 8B F1 80 ? ? ? ? ? ? 74 36" ).search(
+        client.m_start, client.m_end
+    ), hooks::update_client_animations, hooks::o_update_client_side_animations );
+
     HOOK_VFUNC( valve::g_client, 37u, hooks::frame_stage, hooks::o_frame_stage );
 
     HOOK_VFUNC( valve::g_client, 22u, hooks::create_move_proxy, hooks::o_create_move );
@@ -481,6 +489,8 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
     HOOK_VFUNC( valve::g_entity_list, 11u, hooks::on_entity_add, hooks::o_on_entity_add );
 
     HOOK_VFUNC( valve::g_entity_list, 12u, hooks::on_entity_remove, hooks::o_on_entity_remove );
+
+    HOOK_VFUNC( renderable_vtable, 13u, hooks::setup_bones, hooks::o_setup_bones );
 
     /* */
 }

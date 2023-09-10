@@ -81,9 +81,7 @@ namespace hacks {
 			while ( records.size( ) > valve::k_max_player_records )
 				records.pop_back( );
 
-			{
-				/* here animations stuff, setup bones and etc. */
-			}
+			g_anim_system->handle( player, entry );
 
 			entry.m_in_dormancy = true;
 		}

@@ -12,6 +12,10 @@ ALWAYS_INLINE auto& c_players::get( int hash ) {
 	return m_hash_map.at( hash );
 }
 
+ALWAYS_INLINE const auto c_players::contains( int hash ) {
+	return m_hash_map.contains( hash );
+}
+
 ALWAYS_INLINE c_players::entry_t::entry_t( valve::base_entity_t* entity, int index ) {
 	m_player = reinterpret_cast< valve::cs_player_t* >( entity );
 	m_index = index;

@@ -52,12 +52,12 @@ namespace valve {
 
         VFUNC( sdk::qang_t& ( __thiscall* )( decltype( this ) ), abs_angles( ), 11u );
 
-        OFFSET_VFUNC( bool( __thiscall* )( decltype( this ), sdk::vec3_t& ),
-            set_abs_origin( sdk::vec3_t& new_origin ), g_ctx->offsets( ).m_base_entity.m_set_abs_origin, new_origin
+        OFFSET_VFUNC( bool( __thiscall* )( decltype( this ), const sdk::vec3_t& ),
+            set_abs_origin( const sdk::vec3_t& new_origin ), g_ctx->offsets( ).m_base_entity.m_set_abs_origin, new_origin
         );
 
-        OFFSET_VFUNC( bool( __thiscall* )( decltype( this ), sdk::qang_t& ),
-            set_abs_angles( sdk::qang_t& new_angles ), g_ctx->offsets( ).m_base_entity.m_set_abs_angles, new_angles
+        OFFSET_VFUNC( bool( __thiscall* )( decltype( this ), const sdk::qang_t& ),
+            set_abs_angles( const sdk::qang_t& new_angles ), g_ctx->offsets( ).m_base_entity.m_set_abs_angles, new_angles
         );
 
         /* it can be in new struct base_view_model_t ig */
