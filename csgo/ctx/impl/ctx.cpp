@@ -453,7 +453,7 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
 
     const auto renderable_vtable = BYTESEQ( "55 8B EC 83 E4 F8 83 EC 18 56 57 8B F9 89 7C 24 0C" ).search(
         client.m_start, client.m_end
-    ).self_offset( 0x4E ).as< uintptr_t* >( );
+    ).self_offset( 0x4e ).as< uintptr_t* >( );
 
     /* */
 
