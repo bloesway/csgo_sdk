@@ -78,7 +78,7 @@ namespace hacks {
 
 			records.emplace_front( record );
 
-			while ( records.size( ) > valve::k_max_player_records )
+			if ( records.size( ) > valve::k_max_player_records )
 				records.pop_back( );
 
 			g_anim_system->handle( player, entry );

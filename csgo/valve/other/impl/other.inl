@@ -36,12 +36,12 @@ namespace valve {
             : sdk::address_t{ this }.self_offset( m_hitbox_index ).as< studio_bbox_t* >( ) + i;
     }
 
-    ALWAYS_INLINE studio_bone_t* studio_hdr_t::studio_t::get_bone( const int i ) const {
+    ALWAYS_INLINE studio_bone_t* studio_hdr_t::get_bone( const int i ) const {
         return i > m_bones_count ? nullptr
             : sdk::address_t{ this }.self_offset( m_bone_index ).as< studio_bone_t* >( ) + i;
     }
 
-    ALWAYS_INLINE studio_hitbox_set_t* studio_hdr_t::studio_t::get_hitbox_set( const int i ) const {
+    ALWAYS_INLINE studio_hitbox_set_t* studio_hdr_t::get_hitbox_set( const int i ) const {
         return i > m_hitbox_sets_count ? nullptr
             : sdk::address_t{ this }.self_offset( m_hitbox_set_index ).as< studio_hitbox_set_t* >( ) + i;
     }

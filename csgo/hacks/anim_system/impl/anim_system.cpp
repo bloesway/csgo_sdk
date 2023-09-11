@@ -147,13 +147,12 @@ namespace hacks {
 
 		{
 			const auto anim_state = player->anim_state( );
-			if ( anim_state ) {
-				if ( valve::g_global_vars->m_frame_count == anim_state->m_last_update_frame )
-					anim_state->m_last_update_frame -= 1;
 
-				if ( valve::g_global_vars->m_cur_time == anim_state->m_last_update_time )
-					anim_state->m_last_update_time += valve::g_global_vars->m_interval_per_tick;
-			}
+			if ( valve::g_global_vars->m_frame_count == anim_state->m_last_update_frame )
+				anim_state->m_last_update_frame -= 1;
+
+			if ( valve::g_global_vars->m_cur_time == anim_state->m_last_update_time )
+				anim_state->m_last_update_time += valve::g_global_vars->m_interval_per_tick;
 
 			auto& anim_layers = player->anim_layers( );
 			for ( auto& layer : anim_layers )
@@ -168,7 +167,8 @@ namespace hacks {
 	}
 
 	void c_anim_system::setup_bones( valve::cs_player_t* player, c_players::entry_t& entry,
-		sdk::mat3x4_t* bones, const int bones_count, const valve::e_bone_flags flags ) {
+		sdk::mat3x4_t* bones, const int bones_count, const valve::e_bone_flags flags 
+	) {
 		entry.m_setup_bones = true;
 
 		const auto cur_time = valve::g_global_vars->m_cur_time;

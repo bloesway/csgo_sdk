@@ -212,6 +212,9 @@ void c_ctx::init_interfaces( const modules_t& modules ) const {
     ).self_offset( 0x2 ).as< valve::game_rules_t*** >( );
 
     valve::g_game_types = interfaces.at( HASH( "VENGINE_GAMETYPES_VERSION002" ) ).as< valve::c_game_types* >( );
+
+    valve::g_model_info = interfaces.at( HASH( "VModelInfoClient004" ) ).as< valve::c_model_info* >( );
+    valve::g_debug_overlay = interfaces.at( HASH( "VDebugOverlay004" ) ).as< valve::c_debug_overlay* >( );
 }
 
 bool c_ctx::parse_ent_offsets( ent_offsets_t& offsets, const modules_t& modules ) const {

@@ -2,6 +2,8 @@
 
 modern csgo sdk c++20
 
+! open source project with good implemented code !
+
 /* */
 
 already added:
@@ -15,6 +17,8 @@ already added:
 -player_list ( based on on_entity_add, on_entity_remove hooks in entity_list )
 
 -correct storing player records ( lag_comp )
+
+-correct ( not the best ) way to update player animations
 
 -simple networking stuff
 

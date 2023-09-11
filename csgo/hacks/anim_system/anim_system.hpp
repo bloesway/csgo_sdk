@@ -30,12 +30,14 @@ namespace hacks {
 		void handle( valve::cs_player_t* player, c_players::entry_t& entry );
 
 		void update( valve::cs_player_t* player, c_players::entry_t& entry,
-			valve::player_record_t* record, valve::player_record_t* prev_record, bool has_prev_record );
+			valve::player_record_t* record, valve::player_record_t* prev_record, bool has_prev_record 
+		);
 
 		void update_client_side_anims( valve::cs_player_t* player, c_players::entry_t& entry );
 
 		void setup_bones( valve::cs_player_t* player, c_players::entry_t& entry,
-			sdk::mat3x4_t* bones, const int bones_count, const valve::e_bone_flags flags );
+			sdk::mat3x4_t* bones, const int bones_count, const valve::e_bone_flags flags 
+		);
 
 		bool on_setup_bones( c_players::entry_t& entry, sdk::mat3x4_t* bones, int bones_count );
 	};

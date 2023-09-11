@@ -263,6 +263,19 @@ namespace valve {
         VFUNC( e_game_type( __thiscall* )( decltype( this ) ), game_type( ), 8u );
     } inline* g_game_types{};
 
+    class c_model_info {
+    public:
+        VFUNC( studio_hdr_t* ( __thiscall* )( decltype( this ), const model_t* ), studio_model( const model_t* model ), 32u, model );
+    } inline* g_model_info{};
+
+    class c_debug_overlay {
+    public:
+        VFUNC( void( __thiscall* )( decltype( this ), const sdk::vec3_t&, const sdk::vec3_t&, float&, int, int, int, int, float, bool, bool ),
+            add_capsule_overlay( const sdk::vec3_t& mins, const sdk::vec3_t& maxs, float& radius, const sdk::argb_t& clr, float duration, bool ignorez ), 23u,
+            mins, maxs, radius, clr.r( ), clr.g( ), clr.b( ), clr.a( ), duration, false, ignorez
+        );
+    } inline* g_debug_overlay{};
+
     /* it can be anywhere else */
     ALWAYS_INLINE int to_ticks( const float time );
 

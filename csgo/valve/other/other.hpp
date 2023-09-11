@@ -776,33 +776,30 @@ namespace valve {
     struct studio_hdr_t {
         using bone_flags_t = utl_vec_t< std::uint32_t >;
 
-        struct studio_t {
-            ALWAYS_INLINE studio_bone_t* get_bone( const int i ) const;
-
-            ALWAYS_INLINE studio_hitbox_set_t* get_hitbox_set( const int i ) const;
-
-            int             m_id{},
-                            m_ver{};
-            long            m_checksum{};
-            char            m_name[ 64u ]{};
-            int             m_length{};
-            sdk::vec3_t     m_eye_pos{},
-                            m_illum_pos{},
-                            m_hull_min{},
-                            m_hull_max{},
-                            m_obb_min{},
-                            m_obb_max{};
-            std::uint32_t   m_flags{};
-            int             m_bones_count{},
-                            m_bone_index{},
-                            m_bone_controllers_count{},
-                            m_bone_controller_index{},
-                            m_hitbox_sets_count{},
-                            m_hitbox_set_index{};
-        }               *m_studio{};
-
+        int             m_id{},
+                        m_ver{};
+        long            m_checksum{};
+        char            m_name[ 64u ]{};
+        int             m_length{};
+        sdk::vec3_t     m_eye_pos{},
+                        m_illum_pos{},
+                        m_hull_min{},
+                        m_hull_max{},
+                        m_obb_min{},
+                        m_obb_max{};
+        std::uint32_t   m_flags{};
+        int             m_bones_count{},
+                        m_bone_index{},
+                        m_bone_controllers_count{},
+                        m_bone_controller_index{},
+                        m_hitbox_sets_count{},
+                        m_hitbox_set_index{};
         std::uint8_t    pad0[ 44u ]{};
         bone_flags_t    m_bone_flags{};
+
+        ALWAYS_INLINE studio_bone_t* get_bone( const int i ) const;
+
+        ALWAYS_INLINE studio_hitbox_set_t* get_hitbox_set( const int i ) const;
     };
 #pragma endregion
 
@@ -823,7 +820,7 @@ namespace valve {
     };
 
     struct draw_model_info_t {
-        studio_hdr_t::studio_t* m_studio{};
+        studio_hdr_t*           m_studio{};
         sdk::address_t          m_studio_hw_data{};
         std::uint16_t           m_decals{};
         int                     m_skin{}, m_body{},
