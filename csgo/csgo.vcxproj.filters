@@ -97,5 +97,6 @@
     <None Include="hacks\models\impl\models.inl" />
     <None Include="player_list\impl\player_list.inl" />
     <None Include="hacks\networking\impl\networking.inl" />
+    <None Include="hacks\anim_system\impl\anim_system.inl" />
   </ItemGroup>
 </Project>

@@ -181,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ctx\impl\ctx.inl" />
+    <None Include="hacks\anim_system\impl\anim_system.inl" />
     <None Include="hacks\models\impl\models.inl" />
     <None Include="hacks\networking\impl\networking.inl" />
     <None Include="local_player\impl\local_player.inl" />

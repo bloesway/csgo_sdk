@@ -26,6 +26,8 @@ namespace hacks {
 					std::memcpy( player->anim_state( ), &m_anim_state, sizeof( valve::anim_state_t ) );
 			}
 		} m_anim_backup{};
+
+		int m_last_anim_player{ -1 };
 	public:
 		void handle( valve::cs_player_t* player, c_players::entry_t& entry );
 
@@ -40,7 +42,11 @@ namespace hacks {
 		);
 
 		bool on_setup_bones( c_players::entry_t& entry, sdk::mat3x4_t* bones, int bones_count );
+	public:
+		ALWAYS_INLINE const auto last_anim_player( ) const;
 	};
 
 	inline const auto g_anim_system = std::make_unique< c_anim_system >( );
 }
+
+#include "impl/anim_system.inl"

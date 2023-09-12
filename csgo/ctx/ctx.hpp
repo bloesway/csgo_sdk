@@ -44,7 +44,10 @@ private:
                         m_weapon_system{},
                         m_user_cmd_checksum{},
                         m_pred_player{},
-                        m_random_seed{};
+                        m_random_seed{},
+                        m_setup_velocity{},
+                        m_accumulate_layers{},
+                        m_is_extrapolated{};
 
         struct {
             sdk::address_t m_init{}, m_load_from_buffer{};

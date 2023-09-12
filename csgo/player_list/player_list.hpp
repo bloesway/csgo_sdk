@@ -10,7 +10,7 @@ public:
 
 		ALWAYS_INLINE entry_t( valve::base_entity_t* entity, int index );
 	public:
-		valve::cs_player_t* m_player{};
+		valve::cs_player_t*										m_player{};
 		int														m_index{};
 
 		std::shared_ptr< valve::player_record_t >				m_prev_record{};

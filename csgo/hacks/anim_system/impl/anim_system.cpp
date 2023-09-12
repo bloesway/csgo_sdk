@@ -1,7 +1,7 @@
 #include "../../../csgo.hpp"
 
 namespace hacks {
-	void c_anim_system::handle( valve::cs_player_t* player, c_players::entry_t& entry ) {
+	void c_anim_system::handle( valve::cs_player_t* player, c_players::entry_t& entry ) {	
 		auto& records = entry.m_records;
 		if ( records.empty( ) )
 			return;
@@ -9,6 +9,8 @@ namespace hacks {
 		const auto anim_state = player->anim_state( );
 		if ( !anim_state )
 			return;
+
+		m_last_anim_player = entry.m_index;
 
 		const auto record = entry.m_records.front( );
 		const auto prev_record = entry.m_prev_record;
@@ -55,6 +57,8 @@ namespace hacks {
 
 			const auto velocity = player->velocity( );
 			const auto abs_velocity = player->abs_velocity( );
+
+			const auto duck_amt = player->duck_amt( );
 
 			const auto ent_flags = player->eflags( );
 
@@ -176,6 +180,8 @@ namespace hacks {
 
 			player->velocity( ) = velocity;
 			player->abs_velocity( ) = abs_velocity;
+
+			player->duck_amt( ) = duck_amt;
 
 			player->eflags( ) = ent_flags;
 		}

@@ -49,6 +49,12 @@ namespace hooks {
 #pragma region engine
     void __cdecl cl_move( float frame_time, bool is_final_tick );
     inline decltype( &cl_move ) o_cl_move{};
+
+    bool __fastcall is_paused( void* ecx, void* edx );
+    inline decltype( &is_paused ) o_is_paused{};
+
+    bool __fastcall is_hltv( void* ecx, void* edx );
+    inline decltype( &is_hltv ) o_is_hltv{};
 #pragma endregion
 
 #pragma region client_state
@@ -68,5 +74,10 @@ namespace hooks {
 
     void __fastcall update_client_animations( valve::cs_player_t* ecx, void* edx );
     inline decltype( &update_client_animations ) o_update_client_side_animations{};
+
+    void __fastcall do_extra_bone_processing( valve::cs_player_t* ecx, void* edx,
+        valve::studio_hdr_t* hdr, sdk::vec3_t* pos, void* quat, sdk::mat3x4_t* bone_to_world, void* bone_computed, void* ik_ctx
+    );
+    inline decltype( &do_extra_bone_processing ) o_do_extra_bone_processing{};
 #pragma endregion
 }

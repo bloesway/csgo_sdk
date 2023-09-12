@@ -302,6 +302,14 @@ void c_ctx::init_offsets( const modules_t& modules ) {
 
     m_offsets.m_user_cmd_checksum = BYTESEQ( "53 8B D9 83 C8" ).search( client.m_start, client.m_end );
 
+    m_offsets.m_setup_velocity = BYTESEQ( "84 C0 75 38 8B 0D ? ? ? ? 8B 01 8B 80" ).search( client.m_start, client.m_end );
+
+    m_offsets.m_accumulate_layers = BYTESEQ( "84 C0 75 0D F6 87" ).search( client.m_start, client.m_end );
+
+    m_offsets.m_is_extrapolated = BYTESEQ( "FF D0 A1 ?? ?? ?? ?? B9 ?? ?? ?? ?? D9 1D ?? ?? ?? ?? FF 50 34 85 C0 74 22 8B 0D ?? ?? ?? ??" ).search(
+        client.m_start, client.m_end
+    ).self_offset( 0x29u );
+
     m_offsets.m_key_values.m_init = BYTESEQ( "E8 ? ? ? ? 8B F0 EB 22" ).search(
         client.m_start, client.m_end
     ).self_rel( );
@@ -481,6 +489,10 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
         client.m_start, client.m_end
     ), hooks::update_client_animations, hooks::o_update_client_side_animations );
 
+    HOOK( BYTESEQ( "55 8B EC 83 E4 F8 81 ? ? ? ? ? 53 56 8B F1 57 89 74 24 1C" ).search(
+        client.m_start, client.m_end
+    ), hooks::do_extra_bone_processing, hooks::o_do_extra_bone_processing );
+
     HOOK_VFUNC( valve::g_client, 37u, hooks::frame_stage, hooks::o_frame_stage );
 
     HOOK_VFUNC( valve::g_client, 22u, hooks::create_move_proxy, hooks::o_create_move );
@@ -494,6 +506,10 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
     HOOK_VFUNC( valve::g_entity_list, 12u, hooks::on_entity_remove, hooks::o_on_entity_remove );
 
     HOOK_VFUNC( renderable_vtable, 13u, hooks::setup_bones, hooks::o_setup_bones );
+
+    HOOK_VFUNC( valve::g_engine, 90u, hooks::is_paused, hooks::o_is_paused );
+
+    HOOK_VFUNC( valve::g_engine, 93u, hooks::is_hltv, hooks::o_is_hltv );
 
     /* */
 }

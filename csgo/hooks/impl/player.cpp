@@ -115,4 +115,10 @@ namespace hooks {
 
 		return result;
 	}
+
+	void __fastcall do_extra_bone_processing( valve::cs_player_t* ecx, void* edx,
+		valve::studio_hdr_t* hdr, sdk::vec3_t* pos, void* quat, sdk::mat3x4_t* bone_to_world, void* bone_computed, void* ik_ctx
+	) {
+		return;
+	}
 }
