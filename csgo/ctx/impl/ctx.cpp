@@ -465,7 +465,7 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
 
     const auto renderable_vtable = BYTESEQ( "55 8B EC 83 E4 F8 83 EC 18 56 57 8B F9 89 7C 24 0C" ).search(
         client.m_start, client.m_end
-    ).self_offset( 0x4e ).as< uintptr_t* >( );
+    ).self_offset( 0x4e ).as< std::uintptr_t* >( );
 
     /* */
 
@@ -520,8 +520,7 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
 
 /* if u already connected and tryin to inject, this func is needed */
 void c_ctx::init_players( ) const {
-    if ( !valve::g_engine->in_game( )
-        || !g_local_player->self( ) )
+    if ( !valve::g_engine->in_game( ) )
         return;
 
     auto& players = g_players->get( );
@@ -529,7 +528,7 @@ void c_ctx::init_players( ) const {
     for ( auto i = 0; i < valve::g_global_vars->m_max_clients; i++ ) {
         const auto player = reinterpret_cast< valve::cs_player_t* >( valve::g_entity_list->get_entity( i ) );
         if ( !player
-            || player == g_local_player->self( ) )
+            || i == valve::g_engine->local_index( ) )
             continue;
 
         for ( auto it = players.begin( ); it != players.end( ); it = std::next( it ) ) {
