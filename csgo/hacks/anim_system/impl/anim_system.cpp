@@ -22,7 +22,7 @@ namespace hacks {
 		m_anim_backup.store( player );
 
 		{
-			update( player, entry, record.get( ), prev_record.get( ), has_prev_record );
+			update( player, entry, record, prev_record, has_prev_record );
 		}
 
 		m_anim_backup.restore( player, false, false );
@@ -39,7 +39,7 @@ namespace hacks {
 	}
 
 	void c_anim_system::update( valve::cs_player_t* player, c_players::entry_t& entry,
-		valve::player_record_t* record, valve::player_record_t* prev_record, bool has_prev_record
+		valve::lag_record_t record, valve::lag_record_t prev_record, bool has_prev_record
 	) {
 		const auto cur_time = valve::g_global_vars->m_cur_time;
 		const auto real_time = valve::g_global_vars->m_real_time;
@@ -133,7 +133,7 @@ namespace hacks {
 							i, record->m_sim_ticks
 						);
 
-						player->abs_origin( ) = lerp_origin;
+						player->set_abs_origin( lerp_origin );
 
 						player->velocity( ) = lerp_velocity;
 						player->abs_velocity( ) = lerp_velocity;

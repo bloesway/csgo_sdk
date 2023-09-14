@@ -226,6 +226,8 @@ namespace valve {
 
         bool                                            m_filled{};
     };
+
+    using lag_record_t = std::shared_ptr< player_record_t >;
 }
 
 #include "impl/entities.inl"

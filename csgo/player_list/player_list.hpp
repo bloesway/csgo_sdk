@@ -13,8 +13,8 @@ public:
 		valve::cs_player_t*										m_player{};
 		int														m_index{};
 
-		std::shared_ptr< valve::player_record_t >				m_prev_record{};
-		std::deque< std::shared_ptr< valve::player_record_t > > m_records{};
+		valve::lag_record_t										m_prev_record{};
+		std::deque< valve::lag_record_t >						m_records{};
 
 		bool													m_in_dormancy{};
 		bool													m_first_after_dormant{};

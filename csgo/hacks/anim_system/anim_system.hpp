@@ -32,7 +32,7 @@ namespace hacks {
 		void handle( valve::cs_player_t* player, c_players::entry_t& entry );
 
 		void update( valve::cs_player_t* player, c_players::entry_t& entry,
-			valve::player_record_t* record, valve::player_record_t* prev_record, bool has_prev_record 
+			valve::lag_record_t record, valve::lag_record_t prev_record, bool has_prev_record
 		);
 
 		void update_client_side_anims( valve::cs_player_t* player, c_players::entry_t& entry );
