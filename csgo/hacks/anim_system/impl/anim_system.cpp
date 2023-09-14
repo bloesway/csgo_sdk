@@ -79,10 +79,60 @@ namespace hacks {
 
 			const auto anim_state = player->anim_state( );
 
-			if ( entry.m_first_after_dormant ) {
-				/* handle first after dormant */
-
+			if ( entry.m_first_after_dormant ) {	
 				entry.m_first_after_dormant = false;
+
+				const auto land_layer = record->m_layers.at( -valve::e_anim_layer::land_or_climb );
+				const auto jump_layer = record->m_layers.at( -valve::e_anim_layer::jump_or_fall );
+
+				auto update_time = record->m_sim_time - valve::g_global_vars->m_interval_per_tick;
+
+				if ( record->m_flags & valve::e_ent_flags::on_ground ) {
+					const auto land_seq = player->seq_activity( land_layer.m_seq );
+					if ( land_seq == 988
+						|| land_seq == 989 ) {
+						auto dur = land_layer.m_cycle / land_layer.m_playback_rate;
+
+						auto land_time = record->m_sim_time - dur;
+						if ( land_time == update_time ) {
+							anim_state->m_on_ground = true;
+							anim_state->m_landing = true;
+						}
+						else if ( land_time - valve::g_global_vars->m_interval_per_tick == update_time ) {
+							anim_state->m_on_ground = false;
+							anim_state->m_landing = false;
+						}
+
+						auto time_in_air = jump_layer.m_cycle - land_layer.m_cycle;
+						if ( time_in_air < 0.f )
+							time_in_air += 1.f;
+
+						anim_state->m_time_since_in_air = time_in_air;
+
+						if ( land_time < update_time && land_time > anim_state->m_last_update_time )
+							update_time = land_time;
+					}
+				}
+				else {
+					const auto jump_seq = player->seq_activity( jump_layer.m_seq );
+					if ( jump_seq == 985 ) {
+						auto time_in_air = jump_layer.m_cycle / jump_layer.m_playback_rate;
+
+						auto jump_time = record->m_sim_time - time_in_air;
+						if ( jump_time <= update_time )
+							anim_state->m_on_ground = false;
+						else
+							anim_state->m_on_ground = true;
+
+						if ( jump_time < update_time && jump_time > anim_state->m_last_update_time )
+							update_time = jump_time;
+
+						anim_state->m_time_since_in_air = time_in_air - valve::g_global_vars->m_interval_per_tick;
+						anim_state->m_landing = false;
+					}
+				}
+
+				anim_state->m_last_update_time = update_time;
 			}
 
 			player->eflags( ) &= ~valve::e_eflags::dirty_abs_velocity;
@@ -123,7 +173,7 @@ namespace hacks {
 
 								auto dur_in_air = jump_layer.m_cycle - land_layer.m_cycle;
 								if ( dur_in_air < 0.f )
-									dur_in_air = 1.f;
+									dur_in_air += 1.f;
 
 								record->m_time_in_air = dur_in_air / jump_layer.m_playback_rate;
 							}
@@ -346,8 +396,6 @@ namespace hacks {
 					player->occlusion_mask( ) &= ~2;
 				}
 			}
-
-			player->invalidate_bone_cache( );
 
 			player->setup_bones( bones, bones_count, flags, valve::g_global_vars->m_cur_time );
 

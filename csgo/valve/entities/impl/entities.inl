@@ -63,6 +63,8 @@ namespace valve {
     }
 
     ALWAYS_INLINE bool cs_player_t::setup_bones( sdk::mat3x4_t* matrix, int bones_count, e_bone_flags flags, float time ) {
+        invalidate_bone_cache( );
+
         return renderable( )->setup_bones( matrix, bones_count, -flags, time );
     }
 
@@ -126,11 +128,11 @@ namespace valve {
         if ( auto info = player->info( ); info.has_value( ) )
             m_fake_player = info->m_fake_player;
 
-        std::memcpy( m_layers.data( ), player->anim_layers( ).data( ), sizeof( anim_layer_t ) * valve::k_max_layers );
+        m_layers = player->anim_layers( );
 
         /*  i think you can do not store pose_params here,
             because you need to store them in record again when the animations are fully updated */
-        std::memcpy( m_pose_params.data( ), player->pose_params( ).data( ), sizeof( float ) * valve::k_max_poses );
+        m_pose_params = player->pose_params( );
 
         m_filled = true;
     }
