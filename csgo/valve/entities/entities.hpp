@@ -160,6 +160,8 @@ namespace valve {
 
         ALWAYS_INLINE bool setup_bones( sdk::mat3x4_t* matrix, int bones_count, e_bone_flags flags, float time );
 
+        ALWAYS_INLINE int seq_activity( int seq );
+
         OFFSET( float, lby( ), g_ctx->offsets( ).m_cs_player.m_lby );
 
         OFFSET( sdk::qang_t, eye_angles( ), g_ctx->offsets( ).m_cs_player.m_eye_angles );
@@ -179,8 +181,19 @@ namespace valve {
 
         VFUNC( void( __thiscall* )( void* ), update_client_side_anims( ), 224u );
 
+        VFUNC( float( __thiscall* )( void*, anim_layer_t*, int ), 
+            layer_seq_cycle_rate( anim_layer_t* layer, int seq ), 223u, layer, seq
+        );
+
         OFFSET_VFUNC( void( __thiscall* )( void* ), update_collision_bounds( ), g_ctx->offsets( ).m_cs_player.m_update_collision_bounds );
     };
+
+    enum struct e_seq_type {
+        none,
+        on_land,
+        on_jump
+    };
+    ENUM_UNDERLYING_OPERATOR( e_seq_type )
 
     struct player_record_t {
         ALWAYS_INLINE player_record_t( );
@@ -218,6 +231,11 @@ namespace valve {
 
         bool                                            m_walking{},
                                                         m_broke_lc{};
+
+        e_seq_type                                      m_seq_type{};
+        int                                             m_seq_tick{};
+
+        float                                           m_time_in_air{};
 
         valve::anim_layers_t		                    m_layers{};
         valve::pose_params_t			                m_pose_params{};

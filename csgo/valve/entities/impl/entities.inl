@@ -40,6 +40,20 @@ namespace valve {
         return team( ) == with->team( );
     }
 
+    ALWAYS_INLINE int cs_player_t::seq_activity( int seq ) {
+        const auto model = renderable( )->model( );
+        if ( !model )
+            return -1;
+
+        const auto studio_model = g_model_info->studio_model( model );
+        if ( !studio_model )
+            return -1;
+
+        return g_ctx->offsets( ).m_cs_player.m_seq_activity.as< int( __fastcall* )( decltype( this ), studio_hdr_t*, int ) >( )(
+            this, studio_model, seq
+        );
+    }
+
     ALWAYS_INLINE void cs_player_t::invalidate_bone_cache( ) {
         auto        most_recent_model_cnt_addr = g_ctx->offsets( ).m_cs_player.m_most_recent_model_cnt;
         const auto  most_recent_model_cnt = **most_recent_model_cnt_addr.self_offset( 0xA ).as< unsigned long** >( );
@@ -83,6 +97,11 @@ namespace valve {
 
         m_walking = player->walking( );
         m_broke_lc = false;
+
+        m_seq_tick = -1;
+        m_seq_type = e_seq_type::none;
+
+        m_time_in_air = 0.f;
 
         const auto anim_state = player->anim_state( );
         if ( anim_state ) {

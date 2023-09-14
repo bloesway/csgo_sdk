@@ -425,6 +425,10 @@ void c_ctx::init_offsets( const modules_t& modules ) {
         client.m_start, client.m_end
     );
 
+    m_offsets.m_cs_player.m_seq_activity = BYTESEQ( "55 8B EC 53 8B 5D 08 56 8B F1 83" ).search(
+        client.m_start, client.m_end
+    );
+
     m_offsets.m_cs_player.m_defusing = offsets.at( HASH( "CCSPlayer->m_bIsDefusing" ) ).m_offset;
     m_offsets.m_cs_player.m_walking = offsets.at( HASH( "CCSPlayer->m_bIsWalking" ) ).m_offset;
     m_offsets.m_cs_player.m_scoped = offsets.at( HASH( "CCSPlayer->m_bIsScoped" ) ).m_offset;

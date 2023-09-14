@@ -58,6 +58,7 @@ namespace hacks {
 			const auto velocity = player->velocity( );
 			const auto abs_velocity = player->abs_velocity( );
 
+			const auto lby = player->lby( );
 			const auto duck_amt = player->duck_amt( );
 
 			const auto ent_flags = player->eflags( );
@@ -102,6 +103,48 @@ namespace hacks {
 					player->anim_layers( ) = prev_record->m_layers;
 				}
 
+				{
+					const auto land_layer = record->m_layers.at( -valve::e_anim_layer::land_or_climb );
+					const auto jump_layer = record->m_layers.at( -valve::e_anim_layer::jump_or_fall );
+
+					const auto prev_land_layer = prev_record->m_layers.at( -valve::e_anim_layer::land_or_climb );
+					const auto prev_jump_layer = prev_record->m_layers.at( -valve::e_anim_layer::jump_or_fall );
+
+					const auto land_seq = player->seq_activity( land_layer.m_seq );
+					const auto jump_seq = player->seq_activity( jump_layer.m_seq );
+
+					if ( land_seq == 988
+						|| land_seq == 989 ) {
+						if ( land_layer.m_cycle > prev_land_layer.m_cycle ) {
+							auto dur = land_layer.m_cycle / land_layer.m_playback_rate;
+							if ( dur ) {
+								record->m_seq_type = valve::e_seq_type::on_land;
+								record->m_seq_tick = valve::to_ticks( record->m_sim_time - dur ) + 1;
+
+								auto dur_in_air = jump_layer.m_cycle - land_layer.m_cycle;
+								if ( dur_in_air < 0.f )
+									dur_in_air = 1.f;
+
+								record->m_time_in_air = dur_in_air / jump_layer.m_playback_rate;
+							}
+						}
+					}
+
+					if ( jump_seq == 985 ) {
+						if ( jump_layer.m_weight > 0.f
+							&& prev_jump_layer.m_weight > 0.f ) {
+							if ( jump_layer.m_cycle != prev_jump_layer.m_cycle ) {
+								record->m_time_in_air = jump_layer.m_cycle / jump_layer.m_playback_rate;
+
+								if ( record->m_time_in_air ) {
+									record->m_seq_type = valve::e_seq_type::on_jump;
+									record->m_seq_tick = valve::to_ticks( record->m_sim_time - record->m_time_in_air ) + 1;
+								}
+							}
+						}
+					}
+				}
+
 				for ( auto i = 1; i <= record->m_sim_ticks; i++ ) {
 					const auto sim_time = prev_record->m_sim_time + valve::to_time( i );
 					const auto sim_tick = valve::to_ticks( sim_time );
@@ -114,6 +157,8 @@ namespace hacks {
 						valve::g_global_vars->m_tick_count = sim_tick;
 					}
 
+					player->lby( ) = prev_record->m_lby;
+
 					if ( record->m_sim_time == sim_time ) {
 						player->set_abs_origin( record->m_origin );
 
@@ -121,6 +166,29 @@ namespace hacks {
 						player->abs_velocity( ) = record->m_velocity;
 					}
 					else {
+						if ( record->m_seq_type != valve::e_seq_type::none ) {
+							if ( record->m_seq_tick == sim_tick ) {
+								auto seq_layer = valve::e_anim_layer::land_or_climb;
+								if ( record->m_seq_type == valve::e_seq_type::on_jump )
+									seq_layer = valve::e_anim_layer::jump_or_fall;
+
+								auto& layer = player->anim_layers( ).at( -seq_layer );
+
+								layer.m_cycle = 0.f;
+								layer.m_weight = 0.f;
+
+								layer.m_playback_rate = player->layer_seq_cycle_rate( &record->m_layers.at( -seq_layer ),
+									record->m_layers.at( -seq_layer ).m_seq
+								);
+							}
+							else if ( record->m_seq_tick > sim_tick ) {
+								if ( record->m_seq_type == valve::e_seq_type::on_jump )
+									player->flags( ) &= ~valve::e_ent_flags::on_ground;
+								else if ( record->m_seq_type == valve::e_seq_type::on_land )
+									player->flags( ) |= valve::e_ent_flags::on_ground;
+							}
+						}
+
 						const auto lerp_origin = sdk::lerp( prev_record->m_origin, record->m_origin,
 							i, record->m_sim_ticks
 						);
@@ -181,6 +249,7 @@ namespace hacks {
 			player->velocity( ) = velocity;
 			player->abs_velocity( ) = abs_velocity;
 
+			player->lby( ) = lby;
 			player->duck_amt( ) = duck_amt;
 
 			player->eflags( ) = ent_flags;

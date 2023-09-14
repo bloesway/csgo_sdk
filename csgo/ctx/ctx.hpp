@@ -122,7 +122,8 @@ private:
 
         struct {
             sdk::address_t  m_most_recent_model_cnt{},
-                            m_update_collision_bounds{};
+                            m_update_collision_bounds{},
+                            m_seq_activity{};
 
             std::uint32_t   m_lby{}, m_eye_angles{},
                             m_survival_team{},
