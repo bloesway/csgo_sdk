@@ -22,6 +22,10 @@ namespace hacks {
 		m_anim_backup.store( player );
 
 		{
+			{
+				handle_velocity( player, record, prev_record, has_prev_record );
+			}
+
 			update( player, entry, record, prev_record, has_prev_record );
 		}
 
@@ -53,6 +57,7 @@ namespace hacks {
 		const auto interp_amt = valve::g_global_vars->m_interp_amt;
 
 		{
+			const auto origin = player->origin( );
 			const auto abs_origin = player->abs_origin( );
 
 			const auto velocity = player->velocity( );
@@ -210,10 +215,11 @@ namespace hacks {
 					player->lby( ) = prev_record->m_lby;
 
 					if ( record->m_sim_time == sim_time ) {
+						player->origin( ) = record->m_origin;
 						player->set_abs_origin( record->m_origin );
 
-						player->velocity( ) = record->m_velocity;
-						player->abs_velocity( ) = record->m_velocity;
+						player->velocity( ) = record->m_anim_velocity;
+						player->abs_velocity( ) = record->m_anim_velocity;
 					}
 					else {
 						if ( record->m_seq_type != valve::e_seq_type::none ) {
@@ -251,6 +257,7 @@ namespace hacks {
 							i, record->m_sim_ticks
 						);
 
+						player->origin( ) = lerp_origin;
 						player->set_abs_origin( lerp_origin );
 
 						player->velocity( ) = lerp_velocity;
@@ -294,6 +301,7 @@ namespace hacks {
 				update_client_side_anims( player, entry );
 			}
 
+			player->origin( ) = origin;
 			player->set_abs_origin( abs_origin );
 
 			player->velocity( ) = velocity;
@@ -315,6 +323,53 @@ namespace hacks {
 		valve::g_global_vars->m_tick_count = tick_count;
 
 		valve::g_global_vars->m_interp_amt = interp_amt;
+	}
+
+	void c_anim_system::handle_velocity( valve::cs_player_t* player,
+		valve::lag_record_t record, valve::lag_record_t prev_record, bool has_prev_record
+	) {
+		if ( !prev_record 
+			|| !has_prev_record )
+			return;
+
+		auto anim_speed = 0.f;
+
+		const auto time_diff = std::max( valve::g_global_vars->m_interval_per_tick, valve::to_time( record->m_sim_ticks ) );
+		if ( time_diff > 0.f ) {
+			const auto origin_diff = ( record->m_origin - prev_record->m_origin ) * ( 1.f / time_diff );
+			if ( origin_diff > 0.f )
+				anim_speed = origin_diff.length( 2u );
+
+			const auto alive_loop_layer = record->m_layers.at( -valve::e_anim_layer::alive_loop );
+			const auto prev_alive_loop_layer = prev_record->m_layers.at( -valve::e_anim_layer::alive_loop );
+
+			if ( record->m_flags & valve::e_ent_flags::on_ground
+				&& prev_record->m_flags & valve::e_ent_flags::on_ground ) {
+				if ( alive_loop_layer.m_cycle > prev_alive_loop_layer.m_cycle ) {
+					const auto alive_loop_weight = alive_loop_layer.m_weight;
+					if ( alive_loop_weight > 0.f && alive_loop_weight < 0.95f ) {
+						const auto vel_modifier = 0.35f * ( 1.f - alive_loop_weight );
+						if ( vel_modifier > 0.f && vel_modifier < 1.f )
+							anim_speed = record->m_max_speed * ( vel_modifier + 0.55f );
+					}
+				}
+
+				record->m_anim_velocity.z( ) = 0.f;
+			}
+			else {
+				const auto sv_gravity = g_ctx->cvars( ).sv_gravity;
+				const auto air_time = std::clamp( time_diff, valve::g_global_vars->m_interval_per_tick, 1.f );
+
+				record->m_anim_velocity.z( ) -= sv_gravity->get_float( ) * air_time * 0.5f;
+			}
+		}
+
+		if ( anim_speed > 0.f ) {
+			anim_speed /= record->m_anim_velocity.length( 2u );
+
+			record->m_anim_velocity.x( ) *= anim_speed;
+			record->m_anim_velocity.y( ) *= anim_speed;
+		}
 	}
 
 	void c_anim_system::update_client_side_anims( valve::cs_player_t* player,

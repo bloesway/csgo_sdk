@@ -142,7 +142,7 @@ private:
         valve::cvar_t*  cl_forwardspeed{}, *cl_backspeed{},
                         *cl_sidespeed{}, *cl_upspeed{},
                         *cl_pitchdown{}, *cl_pitchup{},
-                        *mp_teammates_are_enemies{};
+                        *mp_teammates_are_enemies{}, *sv_gravity{};
     } m_cvars{};
 public:
     void init( );

@@ -450,6 +450,7 @@ void c_ctx::init_cvars( ) {
     m_cvars.cl_pitchup = valve::g_cvar->find_var( "cl_pitchup" );
 
     m_cvars.mp_teammates_are_enemies = valve::g_cvar->find_var( "mp_teammates_are_enemies" );
+    m_cvars.sv_gravity = valve::g_cvar->find_var( "sv_gravity" );
 }
 
 void c_ctx::init_hooks( const modules_t& modules ) const {

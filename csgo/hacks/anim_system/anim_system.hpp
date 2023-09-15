@@ -3,6 +3,10 @@
 namespace hacks {
 	class c_anim_system {
 	private:
+		void handle_velocity( valve::cs_player_t* player, 
+			valve::lag_record_t record, valve::lag_record_t prev_record, bool has_prev_record 
+		);
+
 		struct anim_backup_t {
 		private:
 			valve::anim_layers_t m_layers{};

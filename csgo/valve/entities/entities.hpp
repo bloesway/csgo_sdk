@@ -214,7 +214,7 @@ namespace valve {
         sdk::qang_t                                     m_eye_angles{},
                                                         m_abs_angles{};
 
-        sdk::vec3_t                                     m_velocity{},
+        sdk::vec3_t                                     m_velocity{}, m_anim_velocity{},
                                                         m_origin{}, m_abs_origin{};
 
         sdk::vec3_t                                     m_mins{},

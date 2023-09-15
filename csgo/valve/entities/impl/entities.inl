@@ -88,6 +88,7 @@ namespace valve {
         m_abs_angles = player->abs_angles( );
 
         m_velocity = player->velocity( );
+        m_anim_velocity = player->velocity( );
         m_origin = player->origin( );
         m_abs_origin = player->abs_origin( );
 
