@@ -2,10 +2,6 @@
 
 namespace hacks {
 	void c_networking::start( ) {
-		if ( !g_local_player->self( ) 
-			|| !g_local_player->self( )->alive( ) )
-			return;
-
 		m_tick_rate = static_cast< int >( 1.f / valve::g_global_vars->m_interval_per_tick );
 		m_simulate_choke = false;
 
@@ -21,11 +17,6 @@ namespace hacks {
 	}
 
 	void c_networking::end( ) {
-		if ( !g_local_player->self( ) 
-			|| !g_local_player->self( )->alive( )
-			|| g_local_player->self( )->flags( ) & valve::e_ent_flags::frozen )
-			return;
-
 		if ( m_process_cmds.size( ) > m_tick_rate )
 			m_process_cmds.pop_front( );
 

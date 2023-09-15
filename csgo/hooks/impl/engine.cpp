@@ -2,8 +2,15 @@
 
 namespace hooks {
 	void __cdecl cl_move( float frame_time, bool is_final_tick ) {
-		if ( !valve::g_engine->in_game( ) )
+#ifdef _DEBUG
+		if ( !g_local_player->self( ) 
+			|| !g_local_player->self( )->alive( ) )
 			return o_cl_move( frame_time, is_final_tick );
+#else
+		if ( !valve::g_engine->in_game( ) 
+			|| !g_local_player->self( ) || !g_local_player->self( )->alive( ) )
+			return o_cl_move( frame_time, is_final_tick );
+#endif
 
 		hacks::g_networking->start( );
 
