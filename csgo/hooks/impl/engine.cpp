@@ -2,6 +2,9 @@
 
 namespace hooks {
 	void __cdecl cl_move( float frame_time, bool is_final_tick ) {
+		if ( !valve::g_engine->in_game( ) )
+			return o_cl_move( frame_time, is_final_tick );
+
 		hacks::g_networking->start( );
 
 		o_cl_move( frame_time, is_final_tick );
