@@ -349,8 +349,16 @@ namespace hacks {
 					const auto alive_loop_weight = alive_loop_layer.m_weight;
 					if ( alive_loop_weight > 0.f && alive_loop_weight < 0.95f ) {
 						const auto vel_modifier = 0.35f * ( 1.f - alive_loop_weight );
-						if ( vel_modifier > 0.f && vel_modifier < 1.f )
-							anim_speed = record->m_max_speed * ( vel_modifier + 0.55f );
+						if ( vel_modifier > 0.f && vel_modifier < 1.f ) {
+							auto vel_bound = 1.f;
+
+							if ( record->m_walking )
+								vel_bound = 0.52f;
+							else if ( record->m_flags & valve::e_ent_flags::ducking )
+								vel_bound = 0.34f;
+
+							anim_speed = ( record->m_max_speed * vel_bound ) * ( vel_modifier + 0.55f );
+						}
 					}
 				}
 
