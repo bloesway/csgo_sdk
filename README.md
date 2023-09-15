@@ -1,6 +1,6 @@
-# csgo_sdk
+# csgo cheat
 
-modern csgo sdk c++20
+modern csgo cheat c++20 with a lot of well-realised things
 
 ! open source project with good implemented code !
 
@@ -30,4 +30,4 @@ this repository was created because author removed original sdk, and maybe will 
 
 i will support sdk and add new innovations.
 
-author of sdk - https://github.com/lagcomp/
+author of original sdk - https://github.com/lagcomp/
