@@ -49,6 +49,16 @@ namespace sdk::detail {
             return len;
         }
 
+        ALWAYS_INLINE _value_t normalize_in_place( ) {
+            const auto len = length( );
+
+            const auto radius = 1.f / ( len + std::numeric_limits<float>::epsilon( ) );
+            if ( radius )
+                *this /= radius;
+
+            return len;
+        }
+
         ALWAYS_INLINE _derived_t normalized( ) const {
             auto ret = *static_cast< const _derived_t* >( this );
 

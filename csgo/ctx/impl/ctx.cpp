@@ -357,6 +357,10 @@ void c_ctx::init_offsets( const modules_t& modules ) {
     m_offsets.m_base_entity.m_maxs = offsets.at( HASH( "CBaseEntity->m_vecMaxs" ) ).m_offset;
     m_offsets.m_base_entity.m_eflags = offsets.at( HASH( "C_BaseEntity->m_iEFlags" ) ).m_offset;
 
+    m_offsets.m_base_entity.m_breakable_game = BYTESEQ( "55 8B EC 51 56 8B F1 85 F6 74 ? 83" ).search(
+        client.m_start, client.m_end
+    );
+
     m_offsets.m_base_entity.m_set_abs_origin = BYTESEQ( "55 8B EC 83 E4 F8 51 53 56 57 8B F1 E8 ? ? ? ? 8B 7D" ).search(
         client.m_start, client.m_end
     );

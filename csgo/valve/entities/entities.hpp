@@ -10,12 +10,16 @@ namespace valve {
     };
 
     struct networkable_t {
+        VFUNC( valve::client_class_t* ( __thiscall* )( decltype( this ) ), client_class( ), 2u );
+
         VFUNC( bool( __thiscall* )( decltype( this ) ), dormant( ), 9u );
 
         VFUNC( int( __thiscall* )( decltype( this ) ), index( ), 10u );
     };
 
     struct base_entity_t {
+        ALWAYS_INLINE bool breakable( );
+
         POFFSET( renderable_t, renderable( ), sizeof( sdk::address_t ) );
         POFFSET( networkable_t, networkable( ), sizeof( sdk::address_t ) * 2u );
 
@@ -53,6 +57,14 @@ namespace valve {
         VFUNC( sdk::vec3_t& ( __thiscall* )( decltype( this ) ), abs_origin( ), 10u );
 
         VFUNC( sdk::qang_t& ( __thiscall* )( decltype( this ) ), abs_angles( ), 11u );
+
+        VFUNC( sdk::vec3_t& ( __thiscall* )( decltype( this ) ), world_space_center( ), 79u );
+
+        VFUNC( bool( __thiscall* )( decltype( this ) ), is_player( ), 158u );
+
+        OFFSET_VFUNC( bool( __thiscall* )( decltype( this ) ), 
+            breakable_game( ), g_ctx->offsets( ).m_base_entity.m_breakable_game 
+        );
 
         OFFSET_VFUNC( bool( __thiscall* )( decltype( this ), const sdk::vec3_t& ),
             set_abs_origin( const sdk::vec3_t& new_origin ), g_ctx->offsets( ).m_base_entity.m_set_abs_origin, new_origin
@@ -126,6 +138,8 @@ namespace valve {
         ALWAYS_INLINE bool alive( );
 
         ALWAYS_INLINE std::optional< player_info_t > info( );
+
+        ALWAYS_INLINE sdk::vec3_t eye_pos( );
 
         OFFSET( int, tick_base( ), g_ctx->offsets( ).m_base_player.m_tick_base );
         OFFSET( int, pred_tick( ), g_ctx->offsets( ).m_base_player.m_tick_base + sizeof( int ) );

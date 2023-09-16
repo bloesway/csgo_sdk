@@ -64,7 +64,8 @@ private:
         }               m_renderable{};
 
         struct {
-            sdk::address_t  m_set_abs_origin{}, m_set_abs_angles{};
+            sdk::address_t  m_set_abs_origin{}, m_set_abs_angles{},
+                            m_breakable_game{};
 
             std::uint32_t   m_health{}, m_team_num{},
                             m_sim_time{}, m_flags{},

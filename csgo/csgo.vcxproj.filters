@@ -25,6 +25,7 @@
     <ClCompile Include="hooks\impl\player.cpp" />
     <ClCompile Include="hacks\lag_comp\impl\lag_comp.cpp" />
     <ClCompile Include="hacks\anim_system\impl\anim_system.cpp" />
+    <ClCompile Include="hacks\auto_wall\impl\auto_wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ctx\ctx.hpp" />
@@ -81,6 +82,7 @@
     <ClInclude Include="hacks\interpolation\interpolation.hpp" />
     <ClInclude Include="hacks\lag_comp\lag_comp.hpp" />
     <ClInclude Include="hacks\anim_system\anim_system.hpp" />
+    <ClInclude Include="hacks\auto_wall\auto_wall.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sdk\src\cfg\impl\cfg.inl" />

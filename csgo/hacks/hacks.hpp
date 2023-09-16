@@ -11,3 +11,5 @@
 #include "lag_comp/lag_comp.hpp"
 
 #include "anim_system/anim_system.hpp"
+
+#include "auto_wall/auto_wall.hpp"

@@ -461,6 +461,10 @@ namespace valve {
             >( )( this, entity, mask );
         }
 
+        int type( ) const override {
+            return 0;
+        }
+
         ALWAYS_INLINE const base_entity_t* get_skip_entity( ) const {
             return m_entity;
         }

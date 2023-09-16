@@ -15,6 +15,24 @@ namespace valve {
         return static_cast< weapon_cs_base_gun_t* >( g_entity_list->get_entity( weapon_handle( ) ) );
     }
 
+    ALWAYS_INLINE bool base_entity_t::breakable( ) {
+        if ( health( ) <= 0
+            || networkable( )->index( ) <= 0 )
+            return true;
+
+        if ( breakable_game( ) )
+            return true;
+
+        const auto client_class = networkable( )->client_class( );
+        if ( !client_class )
+            return false;
+
+        return ( *reinterpret_cast< const std::uint32_t* >( client_class->m_network_name ) == 'erBC'
+            && *reinterpret_cast< const std::uint32_t* >( client_class->m_network_name + 7 ) == 'Selb' )
+            || ( *reinterpret_cast< const std::uint32_t* >( client_class->m_network_name ) == 'saBC'
+            && *reinterpret_cast< const std::uint32_t* >( client_class->m_network_name + 7 ) == 'ytit' );
+    }
+
     ALWAYS_INLINE bool base_player_t::alive( ) {
         return life_state( ) == e_life_state::alive && health( ) > 0;
     }
@@ -25,6 +43,10 @@ namespace valve {
             return std::nullopt;
 
         return info;
+    }
+
+    ALWAYS_INLINE sdk::vec3_t base_player_t::eye_pos( ) {
+        return origin( ) + view_offset( );
     }
 
     ALWAYS_INLINE bool cs_player_t::friendly( cs_player_t* const with ) {
