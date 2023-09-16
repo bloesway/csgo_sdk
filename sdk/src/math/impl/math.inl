@@ -20,9 +20,9 @@ namespace sdk {
     }
 
     template < typename _value_t >
-        requires is_addable< _value_t, _value_t > && is_multipliable< _value_t, float >
+        requires is_addable< _value_t, _value_t >&& is_multipliable< _value_t, float >
     ALWAYS_INLINE constexpr _value_t lerp( const _value_t& from, const _value_t& to, const float amt ) {
-        return from * ( 1.f - amt ) + to * amt;
+        return from + ( to - from ) * amt;
     }
 
     template < typename _value_t >

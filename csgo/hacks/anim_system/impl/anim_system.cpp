@@ -24,9 +24,37 @@ namespace hacks {
 		{
 			{
 				handle_velocity( player, record, prev_record, has_prev_record );
+
+				for ( auto i = -valve::e_rotation_side::left; i <= -valve::e_rotation_side::right; i++ ) {
+					update( player, entry, record, prev_record, has_prev_record, 
+						static_cast< valve::e_rotation_side >( i ) 
+					);
+
+					record->m_fake_layers[ i ] = player->anim_layers( );
+
+					setup_bones( player, entry, record->m_fake_bones[ i ].data( ),
+						valve::k_max_bones, valve::e_bone_flags::used_by_hitbox
+					);
+
+					m_anim_backup.restore( player, true, true );
+				}
 			}
 
-			update( player, entry, record, prev_record, has_prev_record );
+			if ( !record->m_did_shot ) {
+				if ( !record->m_fake_player ) {
+					if ( record->m_sim_ticks > 1 ) {
+						/* resolver logic */
+
+						update( player, entry, record, prev_record, has_prev_record, record->m_side );
+					}
+					else
+						update( player, entry, record, prev_record, has_prev_record );
+				}
+				else
+					update( player, entry, record, prev_record, has_prev_record );
+			}
+			else
+				update( player, entry, record, prev_record, has_prev_record );
 		}
 
 		m_anim_backup.restore( player, false, false );
@@ -43,7 +71,7 @@ namespace hacks {
 	}
 
 	void c_anim_system::update( valve::cs_player_t* player, c_players::entry_t& entry,
-		valve::lag_record_t record, valve::lag_record_t prev_record, bool has_prev_record
+		valve::lag_record_t record, valve::lag_record_t prev_record, bool has_prev_record, valve::e_rotation_side side
 	) {
 		const auto cur_time = valve::g_global_vars->m_cur_time;
 		const auto real_time = valve::g_global_vars->m_real_time;
@@ -266,6 +294,21 @@ namespace hacks {
 						player->duck_amt( ) = lerp_duck_amt;
 					}
 
+					switch ( side ) {
+						case valve::e_rotation_side::left:
+							{
+								anim_state->m_foot_yaw = record->m_eye_angles.y( ) - record->m_desync_delta;
+							} break;
+
+						case valve::e_rotation_side::right:
+							{
+								anim_state->m_foot_yaw = record->m_eye_angles.y( ) + record->m_desync_delta;
+							} break;
+
+						default:
+							break;
+					}
+
 					update_client_side_anims( player, entry );
 				}
 			}
@@ -297,6 +340,21 @@ namespace hacks {
 
 				player->velocity( ) = record->m_velocity;
 				player->abs_velocity( ) = record->m_velocity;
+
+				switch ( side ) {
+					case valve::e_rotation_side::left:
+						{
+							anim_state->m_foot_yaw = record->m_eye_angles.y( ) - record->m_desync_delta;
+						} break;
+
+					case valve::e_rotation_side::right:
+						{
+							anim_state->m_foot_yaw = record->m_eye_angles.y( ) + record->m_desync_delta;
+						} break;
+
+					default:
+						break;
+				}
 
 				update_client_side_anims( player, entry );
 			}

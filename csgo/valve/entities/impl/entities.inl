@@ -78,6 +78,8 @@ namespace valve {
     ALWAYS_INLINE player_record_t::player_record_t( valve::cs_player_t* player ) {
         m_player = player;
 
+        m_side = valve::e_rotation_side::none;
+
         m_sim_time = player->sim_time( );
         m_old_sim_time = player->old_sim_time( );
 
@@ -109,7 +111,23 @@ namespace valve {
         const auto anim_state = player->anim_state( );
         if ( anim_state ) {
             m_eye_yaw = anim_state->m_eye_yaw;
+
+            {
+                auto aim_matrix_width_range = sdk::lerp( 1.f, 
+                    sdk::lerp( 0.8f, 0.5f, anim_state->m_walk_to_run_transition ),
+                    std::clamp( anim_state->m_speed_as_portion_of_walk_speed, 0.f, 1.f )
+                );
+
+                if ( anim_state->m_duck_amount > 0.f )
+                    aim_matrix_width_range = sdk::lerp( aim_matrix_width_range, 0.5f, anim_state->m_duck_amount *
+                        std::clamp( anim_state->m_speed_as_portion_of_crouch_speed, 0.f, 1.f )
+                    );
+
+                m_desync_delta = anim_state->m_aim_yaw_max * aim_matrix_width_range;
+            }
         }
+        else
+            m_desync_delta = 58.f;
 
         const auto weapon = player->weapon( );
         if ( weapon ) {

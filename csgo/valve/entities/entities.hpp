@@ -195,6 +195,14 @@ namespace valve {
     };
     ENUM_UNDERLYING_OPERATOR( e_seq_type )
 
+    enum struct e_rotation_side {
+        none = -1,
+        left,
+        right,
+        count
+    };
+    ENUM_UNDERLYING_OPERATOR( e_rotation_side )
+
     struct player_record_t {
         ALWAYS_INLINE player_record_t( );
 
@@ -202,10 +210,13 @@ namespace valve {
 
         valve::cs_player_t*                             m_player{};
 
+        e_rotation_side                                 m_side{};
+
         float                                           m_sim_time{},
                                                         m_old_sim_time{};
 
-        float                                           m_duck_amt{},
+        float                                           m_desync_delta{},
+                                                        m_duck_amt{},
                                                         m_lby{};
 
         float                                           m_eye_yaw{},
@@ -240,7 +251,10 @@ namespace valve {
         valve::anim_layers_t		                    m_layers{};
         valve::pose_params_t			                m_pose_params{};
 
+        valve::anim_layers_t                            m_fake_layers[ -valve::e_rotation_side::count ]{};
+
         std::array< sdk::mat3x4_t, valve::k_max_bones > m_bones{};
+        std::array< sdk::mat3x4_t, valve::k_max_bones > m_fake_bones[ -valve::e_rotation_side::count ]{};
 
         bool                                            m_filled{};
     };
