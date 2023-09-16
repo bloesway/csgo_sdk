@@ -160,7 +160,9 @@ namespace valve {
 
         ALWAYS_INLINE bool setup_bones( sdk::mat3x4_t* matrix, int bones_count, e_bone_flags flags, float time );
 
-        ALWAYS_INLINE int seq_activity( int seq );
+        ALWAYS_INLINE int seq_activity( const int seq );
+
+        ALWAYS_INLINE bool armored( const e_hitgroup hit_group );
 
         OFFSET( float, lby( ), g_ctx->offsets( ).m_cs_player.m_lby );
 
@@ -178,6 +180,11 @@ namespace valve {
 
         OFFSET( bool, walking( ), g_ctx->offsets( ).m_cs_player.m_walking );
         OFFSET( bool, scoped( ), g_ctx->offsets( ).m_cs_player.m_scoped );
+
+        OFFSET( bool, helmet( ), g_ctx->offsets( ).m_cs_player.m_has_helmet );
+        OFFSET( bool, heavy_armor( ), g_ctx->offsets( ).m_cs_player.m_has_heavy_armor );
+
+        OFFSET( int, armor_value( ), g_ctx->offsets( ).m_cs_player.m_armor_value );
 
         VFUNC( void( __thiscall* )( void* ), update_client_side_anims( ), 224u );
 

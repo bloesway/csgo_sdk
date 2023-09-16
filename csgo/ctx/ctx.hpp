@@ -47,7 +47,9 @@ private:
                         m_random_seed{},
                         m_setup_velocity{},
                         m_accumulate_layers{},
-                        m_is_extrapolated{};
+                        m_is_extrapolated{},
+                        m_should_hit_entity{},
+                        m_should_hit_entity_two_entities{};
 
         struct {
             sdk::address_t m_init{}, m_load_from_buffer{};
@@ -129,7 +131,8 @@ private:
                             m_survival_team{},
                             m_anim_state{}, m_defusing{},
                             m_walking, m_scoped{},                            
-                            m_effects{};
+                            m_effects{}, m_has_helmet{},
+                            m_has_heavy_armor{}, m_armor_value{};
         }               m_cs_player{};
 
         struct {
@@ -142,7 +145,11 @@ private:
         valve::cvar_t*  cl_forwardspeed{}, *cl_backspeed{},
                         *cl_sidespeed{}, *cl_upspeed{},
                         *cl_pitchdown{}, *cl_pitchup{},
-                        *mp_teammates_are_enemies{}, *sv_gravity{};
+                        *mp_teammates_are_enemies{}, *sv_gravity{},
+                        *mp_damage_headshot_only{}, *ff_damage_bullet_penetration{},
+                        *mp_damage_scale_ct_head{}, *mp_damage_scale_ct_body{},
+                        *mp_damage_scale_t_head{}, *mp_damage_scale_t_body{},
+                        *sv_clip_penetration_traces_to_players{}, *ff_damage_reduction_bullets{};
     } m_cvars{};
 public:
     void init( );

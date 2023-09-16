@@ -310,6 +310,14 @@ void c_ctx::init_offsets( const modules_t& modules ) {
         client.m_start, client.m_end
     ).self_offset( 0x29u );
 
+    m_offsets.m_should_hit_entity = BYTESEQ( "55 8B EC 8B 55 0C 56 8B 75 08 57" ).search(
+        client.m_start, client.m_end
+    );
+
+    m_offsets.m_should_hit_entity_two_entities = BYTESEQ( "55 8B EC 53 8B D9 56 57 8B 7D 08 8B 73 10" ).search(
+        client.m_start, client.m_end
+    );
+
     m_offsets.m_key_values.m_init = BYTESEQ( "E8 ? ? ? ? 8B F0 EB 22" ).search(
         client.m_start, client.m_end
     ).self_rel( );
@@ -413,6 +421,10 @@ void c_ctx::init_offsets( const modules_t& modules ) {
     m_offsets.m_cs_player.m_effects = offsets.at( HASH( "CCSPlayer->m_fEffects" ) ).m_offset;
     m_offsets.m_cs_player.m_lby = offsets.at( HASH( "CCSPlayer->m_flLowerBodyYawTarget" ) ).m_offset;
     m_offsets.m_cs_player.m_eye_angles = offsets.at( HASH( "CCSPlayer->m_angEyeAngles" ) ).m_offset;
+    m_offsets.m_cs_player.m_has_helmet = offsets.at( HASH( "CCSPlayer->m_bHasHelmet" ) ).m_offset;
+    m_offsets.m_cs_player.m_has_heavy_armor = offsets.at( HASH( "CCSPlayer->m_bHasHeavyArmor" ) ).m_offset;
+    m_offsets.m_cs_player.m_armor_value = offsets.at( HASH( "CCSPlayer->m_ArmorValue" ) ).m_offset;
+
     m_offsets.m_cs_player.m_anim_state = *BYTESEQ( "8B 8E ? ? ? ? 85 C9 74 3E" ).search(
         client.m_start, client.m_end
     ).self_offset( 0x2 ).as< std::uint32_t* >( );
@@ -451,6 +463,19 @@ void c_ctx::init_cvars( ) {
 
     m_cvars.mp_teammates_are_enemies = valve::g_cvar->find_var( "mp_teammates_are_enemies" );
     m_cvars.sv_gravity = valve::g_cvar->find_var( "sv_gravity" );
+
+    m_cvars.mp_damage_headshot_only = valve::g_cvar->find_var( "mp_damage_headshot_only" );
+
+    m_cvars.mp_damage_scale_ct_head = valve::g_cvar->find_var( "mp_damage_scale_ct_head" );
+    m_cvars.mp_damage_scale_ct_body = valve::g_cvar->find_var( "mp_damage_scale_ct_body" );
+
+    m_cvars.mp_damage_scale_t_head = valve::g_cvar->find_var( "mp_damage_scale_t_head" );
+    m_cvars.mp_damage_scale_t_body = valve::g_cvar->find_var( "mp_damage_scale_t_body" );
+
+    m_cvars.sv_clip_penetration_traces_to_players = valve::g_cvar->find_var( "sv_clip_penetration_traces_to_players" );
+
+    m_cvars.ff_damage_reduction_bullets = valve::g_cvar->find_var( "ff_damage_reduction_bullets" );
+    m_cvars.ff_damage_bullet_penetration = valve::g_cvar->find_var( "ff_damage_bullet_penetration" );
 }
 
 void c_ctx::init_hooks( const modules_t& modules ) const {

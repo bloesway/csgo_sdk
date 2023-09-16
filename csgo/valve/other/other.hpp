@@ -270,6 +270,7 @@ namespace valve {
         right_arm,
         left_leg,
         right_leg,
+        neck,
         gear = 10
     };
 
@@ -441,6 +442,54 @@ namespace valve {
         virtual bool should_hit_entity( base_entity_t* entity, e_mask mask ) const = 0;
 
         virtual int type( ) const = 0;
+    };
+
+    using should_hit_fn_t = bool( __cdecl* )( base_entity_t* entity, int mask );
+
+    struct trace_filter_simple_t : base_trace_filter_t {
+        ALWAYS_INLINE trace_filter_simple_t( const base_entity_t* entity = nullptr, 
+            int collision_group = 0, should_hit_fn_t callback = nullptr 
+        ) {
+            m_entity = entity;
+            m_collision_group = collision_group;
+            m_callback = callback;
+        }
+
+        bool should_hit_entity( base_entity_t* entity, e_mask mask ) const override {
+            return g_ctx->offsets( ).m_should_hit_entity.as<
+                bool( __thiscall* )( decltype( this ), const base_entity_t*, e_mask )
+            >( )( this, entity, mask );
+        }
+
+        ALWAYS_INLINE const base_entity_t* get_skip_entity( ) const {
+            return m_entity;
+        }
+
+        ALWAYS_INLINE int get_collision_group( ) const {
+            return m_collision_group;
+        }
+    private:
+        const base_entity_t* m_entity{};
+        int                  m_collision_group{};
+        should_hit_fn_t      m_callback{};
+    };
+
+    struct trace_filter_skip_two_entities_t : trace_filter_simple_t {
+        trace_filter_skip_two_entities_t( const base_entity_t* entity1 = nullptr, const base_entity_t* entity2 = nullptr, int collision_group = 0 ) :
+            trace_filter_simple_t( entity1, collision_group ), m_entity2( entity2 ) {
+        }
+
+        bool should_hit_entity( base_entity_t* entity, e_mask mask ) const override {
+            return g_ctx->offsets( ).m_should_hit_entity_two_entities.as<
+                bool( __thiscall* )( decltype( this ), const base_entity_t*, e_mask )
+            >( )( this, entity, mask );
+        }
+
+        ALWAYS_INLINE const base_entity_t* get_skip_entity2( ) const {
+            return m_entity2;
+        }
+    private:
+        const base_entity_t* m_entity2{};
     };
 
     struct trace_t {

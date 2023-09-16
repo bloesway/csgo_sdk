@@ -40,7 +40,7 @@ namespace valve {
         return team( ) == with->team( );
     }
 
-    ALWAYS_INLINE int cs_player_t::seq_activity( int seq ) {
+    ALWAYS_INLINE int cs_player_t::seq_activity( const int seq ) {
         const auto model = renderable( )->model( );
         if ( !model )
             return -1;
@@ -66,6 +66,37 @@ namespace valve {
         invalidate_bone_cache( );
 
         return renderable( )->setup_bones( matrix, bones_count, -flags, time );
+    }
+
+    ALWAYS_INLINE bool cs_player_t::armored( const e_hitgroup hit_group ) {
+        auto ret = false;
+
+        if ( armor_value( ) > 0 ) {
+            switch ( hit_group ) {
+                case e_hitgroup::generic:
+                case e_hitgroup::chest:
+                case e_hitgroup::stomach:
+                case e_hitgroup::left_arm:
+                case e_hitgroup::right_arm:
+                case e_hitgroup::neck:
+                    ret = true;
+                    break;
+                case e_hitgroup::head:
+                    if ( helmet( ) )
+                        ret = true;
+                    break;
+                case e_hitgroup::left_leg:
+                case e_hitgroup::right_leg:
+                    if ( heavy_armor( ) )
+                        ret = true;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        return ret;
     }
 
     ALWAYS_INLINE player_record_t::player_record_t( ) {
