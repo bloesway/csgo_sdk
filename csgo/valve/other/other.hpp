@@ -17,8 +17,8 @@ namespace valve {
 
     enum struct e_bone_flags {
         used_by_hitbox = 1 << 8,
-        used_by_anything = ( 1 << 19 ) - used_by_hitbox,
-        used_mask = ( 1 << 19 ) - used_by_hitbox
+        used_by_anything = ( 1 << 20 ) - used_by_hitbox,
+        used_mask = ( 1 << 20 ) - used_by_hitbox
     };
     ENUM_UNDERLYING_OPERATOR( e_bone_flags );
 
