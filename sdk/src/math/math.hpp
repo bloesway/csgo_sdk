@@ -38,6 +38,10 @@ namespace sdk {
     ALWAYS_INLINE constexpr auto to_rad( const _value_t deg );
 
     template < typename _value_t >
+        requires std::is_arithmetic_v< _value_t >
+    ALWAYS_INLINE constexpr auto normalize_yaw( const _value_t value );
+
+    template < typename _value_t >
         requires is_addable< _value_t, _value_t > && is_multipliable< _value_t, float >
     ALWAYS_INLINE constexpr _value_t lerp( const _value_t& from, const _value_t& to, const float amt );
 

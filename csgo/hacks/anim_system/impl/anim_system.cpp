@@ -26,17 +26,19 @@ namespace hacks {
 				handle_velocity( player, record, prev_record, has_prev_record );
 
 				for ( auto i = -valve::e_rotation_side::left; i <= -valve::e_rotation_side::right; i++ ) {
-					update( player, entry, record, prev_record, has_prev_record, 
-						static_cast< valve::e_rotation_side >( i ) 
+					update( player, entry, record, prev_record, has_prev_record,
+						static_cast< valve::e_rotation_side >( i )
 					);
 
 					record->m_fake_layers[ i ] = player->anim_layers( );
+
+					m_anim_backup.restore( player, true, false, false );
 
 					setup_bones( player, entry, record->m_fake_bones[ i ].data( ),
 						valve::k_max_bones, valve::e_bone_flags::used_by_hitbox
 					);
 
-					m_anim_backup.restore( player, true, true );
+					m_anim_backup.restore( player, false, true, true );
 				}
 			}
 
@@ -57,7 +59,7 @@ namespace hacks {
 				update( player, entry, record, prev_record, has_prev_record );
 		}
 
-		m_anim_backup.restore( player, false, false );
+		m_anim_backup.restore( player, true, false, false );
 
 		{
 			record->m_pose_params = player->pose_params( );
@@ -297,12 +299,12 @@ namespace hacks {
 					switch ( side ) {
 						case valve::e_rotation_side::left:
 							{
-								anim_state->m_foot_yaw = record->m_eye_angles.y( ) - record->m_desync_delta;
+								anim_state->m_foot_yaw = sdk::normalize_yaw( record->m_eye_angles.y( ) - record->m_desync_delta );
 							} break;
 
 						case valve::e_rotation_side::right:
 							{
-								anim_state->m_foot_yaw = record->m_eye_angles.y( ) + record->m_desync_delta;
+								anim_state->m_foot_yaw = sdk::normalize_yaw( record->m_eye_angles.y( ) + record->m_desync_delta );
 							} break;
 
 						default:
@@ -344,12 +346,12 @@ namespace hacks {
 				switch ( side ) {
 					case valve::e_rotation_side::left:
 						{
-							anim_state->m_foot_yaw = record->m_eye_angles.y( ) - record->m_desync_delta;
+							anim_state->m_foot_yaw = sdk::normalize_yaw( record->m_eye_angles.y( ) - record->m_desync_delta );
 						} break;
 
 					case valve::e_rotation_side::right:
 						{
-							anim_state->m_foot_yaw = record->m_eye_angles.y( ) + record->m_desync_delta;
+							anim_state->m_foot_yaw = sdk::normalize_yaw( record->m_eye_angles.y( ) + record->m_desync_delta );
 						} break;
 
 					default:

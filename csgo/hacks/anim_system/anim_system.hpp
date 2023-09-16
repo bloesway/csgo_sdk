@@ -20,8 +20,9 @@ namespace hacks {
 				std::memcpy( &m_anim_state, player->anim_state( ), sizeof( valve::anim_state_t ) );
 			}
 
-			ALWAYS_INLINE void restore( valve::cs_player_t* player, bool poses, bool anim_state ) {
-				player->anim_layers( ) = m_layers;
+			ALWAYS_INLINE void restore( valve::cs_player_t* player, bool layers, bool poses, bool anim_state ) {
+				if ( layers )
+					player->anim_layers( ) = m_layers;
 
 				if ( poses )
 					player->pose_params( ) = m_poses;

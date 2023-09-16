@@ -8,21 +8,23 @@ modern csgo cheat c++20 with a lot of well-realised things
 
 already added:
 
--imgui renderer
-
--engine prediction
-
--netvar compression
+-auto wall
 
 -player_list ( based on on_entity_add, on_entity_remove hooks in entity_list )
 
 -correct storing player records ( lag_comp )
 
--correct ( not the best ) way to update player animations
+-correct way to update player animations
+
+-engine prediction
+
+-netvars compression fix
 
 -simple networking stuff
 
 -simple interpolation stuff ( correct set final_pred_tick, func for set global_vars->interp_amt to 0.f when u need )
+
+-imgui renderer
 
 /* */
 
