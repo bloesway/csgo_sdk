@@ -33,6 +33,12 @@ namespace valve {
             && *reinterpret_cast< const std::uint32_t* >( client_class->m_network_name + 7 ) == 'ytit' );
     }
 
+    ALWAYS_INLINE void cs_player_t::set_collision_bounds( sdk::vec3_t& mins, sdk::vec3_t& maxs ) {
+        return g_ctx->offsets( ).m_cs_player.m_set_collision_bounds.as<
+            void( __thiscall* )( void*, sdk::vec3_t*, sdk::vec3_t* )
+        >( )( reinterpret_cast< void* >( reinterpret_cast< sdk::ulong_t >( this ) + 0x320u ), &mins, &maxs );
+    }
+
     ALWAYS_INLINE bool base_player_t::alive( ) {
         return life_state( ) == e_life_state::alive && health( ) > 0;
     }

@@ -38,8 +38,12 @@ namespace hooks {
 
         const auto slot = seq_number % valve::k_mp_backup;
 
+        /* hacks::g_lag_comp->store_players( ); */
+
         g_local_player->create_move( send_packet,
             valve::g_input->m_cmds[ slot ], valve::g_input->m_vfyd_cmds[ slot ]
         );
+
+        /* hacks::g_lag_comp->restore_players( ); */
     }
 }

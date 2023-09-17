@@ -37,4 +37,6 @@ namespace hacks {
 			projectile_t* projectile_data = nullptr
 		);
 	};
+
+	inline const auto g_auto_wall = std::make_unique< c_auto_wall >( );
 }

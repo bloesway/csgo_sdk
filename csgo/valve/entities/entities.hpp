@@ -165,6 +165,10 @@ namespace valve {
         OFFSET( valve::user_cmd_t*, cur_cmd( ), 0x3348 );
 
         OFFSET( valve::user_cmd_t*, last_cmd( ), 0x3298 );
+
+        OFFSET( float, collision_change_time( ), 0x9924 );
+
+        OFFSET( float, collision_change_origin_z( ), 0x9920 );
     };
 
     struct cs_player_t : public base_player_t {
@@ -177,6 +181,8 @@ namespace valve {
         ALWAYS_INLINE int seq_activity( const int seq );
 
         ALWAYS_INLINE bool armored( const e_hitgroup hit_group );
+
+        ALWAYS_INLINE void set_collision_bounds( sdk::vec3_t& mins, sdk::vec3_t& maxs );
 
         OFFSET( float, lby( ), g_ctx->offsets( ).m_cs_player.m_lby );
 
@@ -234,7 +240,9 @@ namespace valve {
         e_rotation_side                                 m_side{};
 
         float                                           m_sim_time{},
-                                                        m_old_sim_time{};
+                                                        m_old_sim_time{},
+                                                        m_collision_change_time{},
+                                                        m_collision_change_origin_z{};
 
         float                                           m_desync_delta{},
                                                         m_duck_amt{},

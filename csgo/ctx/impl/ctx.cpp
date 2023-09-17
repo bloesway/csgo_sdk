@@ -445,6 +445,10 @@ void c_ctx::init_offsets( const modules_t& modules ) {
         client.m_start, client.m_end
     );
 
+    m_offsets.m_cs_player.m_set_collision_bounds = BYTESEQ( "53 8B DC 83 EC 08 83 E4 F8 83 C4 04 55 8B 6B 04 89 6C 24 04 8B EC 83 EC 18 56 57 8B 7B" ).search(
+        client.m_start, client.m_end
+    );
+
     m_offsets.m_cs_player.m_defusing = offsets.at( HASH( "CCSPlayer->m_bIsDefusing" ) ).m_offset;
     m_offsets.m_cs_player.m_walking = offsets.at( HASH( "CCSPlayer->m_bIsWalking" ) ).m_offset;
     m_offsets.m_cs_player.m_scoped = offsets.at( HASH( "CCSPlayer->m_bIsScoped" ) ).m_offset;

@@ -86,4 +86,144 @@ namespace hacks {
 			entry.m_in_dormancy = true;
 		}
 	}
+	
+	void c_lag_comp::update_player( valve::cs_player_t* player, valve::lag_record_t record ) {
+		player->sim_time( ) = record->m_sim_time;
+
+		player->origin( ) = record->m_origin;
+		player->eye_angles( ) = record->m_eye_angles;
+
+		player->set_abs_origin( record->m_origin );
+		player->set_abs_angles( record->m_abs_angles );
+
+		player->flags( ) = record->m_flags;
+
+		player->anim_layers( ) = record->m_layers;
+		player->pose_params( ) = record->m_pose_params;
+
+		{
+			const auto cur_time = valve::g_global_vars->m_cur_time;
+			const auto real_time = valve::g_global_vars->m_real_time;
+
+			{
+				valve::g_global_vars->m_cur_time = record->m_sim_time;
+				valve::g_global_vars->m_real_time = record->m_sim_time;
+
+				player->set_collision_bounds( record->m_mins, record->m_maxs );
+			}
+
+			valve::g_global_vars->m_cur_time = cur_time;
+			valve::g_global_vars->m_real_time = real_time;
+		}
+
+		auto& bones = player->bones( );
+		for ( auto i = 0; i < bones.size( ); i++ )
+			bones.at( i ) = record->m_bones.at( i );
+
+		player->invalidate_bone_cache( );
+	}
+
+	void c_lag_comp::store_players( ) {
+		auto& players = g_players->get( );
+
+		for ( auto& it : players ) {
+			auto& entry = it.second;
+
+			const auto player = entry.m_player;
+			if ( !player || !player->alive( )
+				|| player->friendly( g_local_player->self( ) ) )
+				continue;
+
+			if ( player->networkable( )->dormant( ) )
+				continue;
+
+			auto& backup_data = m_backup_players[ entry.m_index ];
+			if ( !backup_data )
+				backup_data = std::make_shared< valve::player_record_t >( );
+
+			{
+				backup_data->m_player = player;
+
+				backup_data->m_sim_time = player->sim_time( );
+
+				backup_data->m_origin = player->origin( );
+				backup_data->m_eye_angles = player->eye_angles( );
+
+				backup_data->m_abs_origin = player->abs_origin( );
+				backup_data->m_abs_angles = player->abs_angles( );
+
+				backup_data->m_flags = player->flags( );
+
+				backup_data->m_layers = player->anim_layers( );
+				backup_data->m_pose_params = player->pose_params( );
+
+				backup_data->m_mins = player->obb_min( );
+				backup_data->m_maxs = player->obb_max( );
+
+				backup_data->m_collision_change_time = player->collision_change_time( );
+				backup_data->m_collision_change_origin_z = player->collision_change_origin_z( );
+
+				const auto bones = player->bones( );
+				for ( auto i = 0; i < bones.size( ); i++ )
+					backup_data->m_bones.at( i ) = bones.at( i );
+			}
+
+			backup_data->m_filled = true;
+		}
+	}
+
+	void c_lag_comp::restore_players( ) {
+		auto& players = g_players->get( );
+
+		for ( auto& it : players ) {
+			auto& entry = it.second;
+
+			const auto player = entry.m_player;
+			if ( !player || !player->alive( )
+				|| player->friendly( g_local_player->self( ) ) )
+				continue;
+
+			if ( player->networkable( )->dormant( ) )
+				continue;
+
+			auto& backup_data = m_backup_players[ entry.m_index ];
+			if ( !backup_data
+				|| !backup_data->m_filled )
+				continue;
+
+			if ( backup_data->m_player != player )
+				continue;
+
+			{
+				player->sim_time( ) = backup_data->m_sim_time;
+
+				player->origin( ) = backup_data->m_origin;
+				player->eye_angles( ) = backup_data->m_eye_angles;
+
+				player->set_abs_origin( backup_data->m_abs_origin );
+				player->set_abs_angles( backup_data->m_abs_angles );
+
+				player->flags( ) = backup_data->m_flags;
+
+				player->anim_layers( ) = backup_data->m_layers;
+				player->pose_params( ) = backup_data->m_pose_params;
+
+				{
+					player->obb_min( ) = backup_data->m_mins;
+					player->obb_max( ) = backup_data->m_maxs;
+
+					player->collision_change_time( ) = backup_data->m_collision_change_time;
+					player->collision_change_origin_z( ) = backup_data->m_collision_change_origin_z;
+				}
+
+				auto& bones = player->bones( );
+				for ( auto i = 0; i < bones.size( ); i++ )
+					bones.at( i ) = backup_data->m_bones.at( i );
+
+				player->invalidate_bone_cache( );
+			}
+
+			backup_data->m_filled = false;
+		}
+	}
 }

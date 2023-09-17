@@ -62,7 +62,11 @@ namespace hacks {
 		m_anim_backup.restore( player, true, false, false );
 
 		{
-			record->m_pose_params = player->pose_params( );
+			{
+				record->m_pose_params = player->pose_params( );
+
+				record->m_abs_angles = { 0.f, anim_state->m_foot_yaw, 0.f };
+			}
 
 			setup_bones( player, entry, record->m_bones.data( ),
 				valve::k_max_bones, valve::e_bone_flags::used_by_anything
