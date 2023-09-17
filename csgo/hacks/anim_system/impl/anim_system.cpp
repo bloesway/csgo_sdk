@@ -344,8 +344,8 @@ namespace hacks {
 					valve::g_global_vars->m_tick_count = valve::to_ticks( record->m_sim_time );
 				}
 
-				player->velocity( ) = record->m_velocity;
-				player->abs_velocity( ) = record->m_velocity;
+				player->velocity( ) = record->m_anim_velocity;
+				player->abs_velocity( ) = record->m_anim_velocity;
 
 				switch ( side ) {
 					case valve::e_rotation_side::left:
@@ -392,10 +392,18 @@ namespace hacks {
 	void c_anim_system::handle_velocity( valve::cs_player_t* player,
 		valve::lag_record_t record, valve::lag_record_t prev_record, bool has_prev_record
 	) {
+		const auto move_layer = record->m_layers.at( -valve::e_anim_layer::movement_move );
+		if ( move_layer.m_weight <= 0.f
+			|| move_layer.m_playback_rate < 0.00001f ) {
+			record->m_anim_velocity = {};
+
+			return;
+		}
+
 		if ( !prev_record 
 			|| !has_prev_record )
 			return;
-
+	
 		auto anim_speed = 0.f;
 
 		const auto time_diff = std::max( valve::g_global_vars->m_interval_per_tick, valve::to_time( record->m_sim_ticks ) );
