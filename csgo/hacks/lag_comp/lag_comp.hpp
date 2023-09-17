@@ -7,6 +7,8 @@ namespace hacks {
 	public:
 		void handle( );
 
+		bool is_valid( valve::lag_record_t record );
+
 		void update_player( valve::cs_player_t* player, valve::lag_record_t record );
 
 		void store_players( );

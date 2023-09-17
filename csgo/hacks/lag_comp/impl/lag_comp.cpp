@@ -226,4 +226,20 @@ namespace hacks {
 			backup_data->m_filled = false;
 		}
 	}
+
+	bool c_lag_comp::is_valid( valve::lag_record_t record ) {
+		if ( !record
+			|| !record->m_filled )
+			return false;
+
+		if ( record->m_broke_lc 
+			|| record->m_invalid )
+			return false;
+
+		auto delta_time = std::min( g_networking->m_latency + g_networking->m_lerp_amt, 0.2f );
+
+		return std::abs( delta_time - (
+			valve::g_global_vars->m_cur_time - record->m_sim_time ) 
+		) < 0.2f;
+	}
 }

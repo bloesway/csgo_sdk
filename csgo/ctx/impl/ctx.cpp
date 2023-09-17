@@ -484,6 +484,11 @@ void c_ctx::init_cvars( ) {
 
     m_cvars.ff_damage_reduction_bullets = valve::g_cvar->find_var( "ff_damage_reduction_bullets" );
     m_cvars.ff_damage_bullet_penetration = valve::g_cvar->find_var( "ff_damage_bullet_penetration" );
+
+    m_cvars.cl_interp = valve::g_cvar->find_var( "cl_interp" );
+    m_cvars.cl_interp_ratio = valve::g_cvar->find_var( "cl_interp_ratio" );
+
+    m_cvars.cl_updaterate = valve::g_cvar->find_var( "cl_updaterate" );
 }
 
 void c_ctx::init_hooks( const modules_t& modules ) const {

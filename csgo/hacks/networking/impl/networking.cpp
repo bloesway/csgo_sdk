@@ -5,6 +5,10 @@ namespace hacks {
 		m_tick_rate = static_cast< int >( 1.f / valve::g_global_vars->m_interval_per_tick );
 		m_simulate_choke = false;
 
+		m_lerp_amt = std::max( g_ctx->cvars().cl_interp->get_float( ),
+			g_ctx->cvars( ).cl_interp_ratio->get_float( ) / g_ctx->cvars( ).cl_updaterate->get_float( )
+		);
+
 		if ( auto net_channel_info = valve::g_engine->net_info( ); net_channel_info ) {
 			m_latency = net_channel_info->latency( valve::e_net_flow::in )
 				+ net_channel_info->latency( valve::e_net_flow::out );

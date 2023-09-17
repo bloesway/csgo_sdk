@@ -28,3 +28,7 @@ ALWAYS_INLINE c_players::entry_t::entry_t( valve::base_entity_t* entity, int ind
 
 	m_bones.fill( sdk::mat3x4_t{} );
 }
+
+ALWAYS_INLINE c_players::target_t::target_t( valve::cs_player_t* player ) {
+	m_player = player;
+}

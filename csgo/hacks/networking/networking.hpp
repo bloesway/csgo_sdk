@@ -19,7 +19,7 @@ namespace hacks {
 							m_cmd_number{};
 
 			bool			m_filled{};
-			
+
 			void store_netvars( int cmd_number );
 
 			void restore_netvars( );
@@ -32,7 +32,7 @@ namespace hacks {
 			int		m_cmd_num{};
 		};
 	public:
-		float												m_latency{};
+		float												m_latency{}, m_lerp_amt{};
 		bool												m_simulate_choke{};
 
 		int													m_tick_rate{};
@@ -51,6 +51,7 @@ namespace hacks {
 		ALWAYS_INLINE auto& netvars_data( );
 	public:
 		void start( );
+
 		void end( );
 
 		void reset( );

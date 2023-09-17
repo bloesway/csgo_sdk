@@ -26,12 +26,25 @@ public:
 
 		std::array< sdk::mat3x4_t, valve::k_max_bones >			m_bones{};
 	};
+
+	struct target_t {
+		ALWAYS_INLINE constexpr target_t( ) = default;
+
+		ALWAYS_INLINE target_t( valve::cs_player_t* player );
+
+		valve::cs_player_t* m_player{};
+
+		/*	your other data, 
+			as example: last_record, oldest_record */
+	};
 private:
 	std::unordered_map< int, entry_t > m_hash_map{};
 public:
 	void on_entity_add( valve::base_entity_t* entity );
 
 	void on_entity_remove( valve::base_entity_t* entity );
+
+	std::vector< target_t > find_targets( );
 public:
 	ALWAYS_INLINE auto& get( );
 

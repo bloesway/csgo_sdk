@@ -24,3 +24,26 @@ void c_players::on_entity_remove( valve::base_entity_t* entity ) {
         return;
     }
 }
+
+std::vector< c_players::target_t > c_players::find_targets( ) {
+    auto ret = std::vector< c_players::target_t >{};
+
+    for ( const auto& it : m_hash_map ) {
+        const auto entry = it.second;
+
+        const auto player = entry.m_player;
+        if ( !player || !player->alive( )
+            || player->friendly( g_local_player->self( ) ) )
+            continue;
+
+        const auto records = entry.m_records;
+        if ( records.empty( ) )
+            continue;
+
+        /* your logic */
+
+        ret.emplace_back( target_t{ player /* your args( as example record or smth ) */ } );
+    }
+
+    return ret;
+}
