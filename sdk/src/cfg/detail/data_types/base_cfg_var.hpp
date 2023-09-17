@@ -8,7 +8,8 @@ namespace sdk::detail {
         ALWAYS_INLINE constexpr base_cfg_var_t( ) = default;
 
         ALWAYS_INLINE constexpr base_cfg_var_t( const hash_t hash )
-            : m_hash{ hash } {}
+            : m_hash{ hash } {
+        }
 
         virtual void save( nlohmann::json& object ) const = 0;
 

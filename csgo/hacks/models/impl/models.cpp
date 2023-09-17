@@ -4,8 +4,6 @@ namespace hacks {
     bool c_models::on_draw_model( valve::studio_render_t* ecx, std::uintptr_t edx, std::uintptr_t results, const valve::draw_model_info_t& info,
         sdk::mat3x4_t* bones, float* flex_weights, float* flex_delayed_weights, const sdk::vec3_t& origin, int flags
     ) {
-        const auto& cfg = g_menu->main( ).m_models;
-
         const auto type = get_model_type( info );
         if ( type == e_model_type::invalid )
             return false;
@@ -16,32 +14,99 @@ namespace hacks {
         bool blocked{};
 
         switch ( type ) {
-        case e_model_type::player:
-            if ( cfg.m_player_occluded.get( ) ) {
-                valve::g_studio_render->forced_material_override( m_flat_ignorez );
+            case e_model_type::player:
+                {
+                    const auto player = reinterpret_cast< valve::cs_player_t* >(
+                        reinterpret_cast< std::uintptr_t >( info.m_renderable ) - 0x4u
+                    );
 
-                set_clr( cfg.m_player_occluded_clr.get( ) );
+                    if ( player && player->alive( ) ) {
+                        auto player_type = 0u;
 
-                hooks::o_draw_model( ecx, edx, results, info, bones, flex_weights, flex_delayed_weights, origin, flags );
+                        if ( player->friendly( g_local_player->self( ) ) ) {
+                            player_type = 1u;
 
-                if ( !cfg.m_player.get( ) )
-                    valve::g_studio_render->forced_material_override( nullptr );
-            }
+                            if ( player->networkable( )->index( ) == g_local_player->self( )->networkable( )->index( ) )
+                                player_type = 2u;
+                        }
 
-            if ( cfg.m_player.get( ) ) {
-                valve::g_studio_render->forced_material_override( m_flat );
+                        if ( player_type == 0u ) {
+                            if ( g_menu->main( ).m_models.get( ).m_player_occluded[ player_type ] ) {
+                                valve::g_studio_render->forced_material_override( m_flat_ignorez );
 
-                set_clr( cfg.m_player_clr.get( ) );
+                                set_clr( g_menu->main( ).m_models.get( ).m_player_occluded_clr[ player_type ] );
 
-                hooks::o_draw_model( ecx, edx, results, info, bones, flex_weights, flex_delayed_weights, origin, flags );
+                                hooks::o_draw_model( ecx, edx, results, info, bones, flex_weights, flex_delayed_weights, origin, flags );
 
-                valve::g_studio_render->forced_material_override( nullptr );
+                                if ( !g_menu->main( ).m_models.get( ).m_player[ player_type ] )
+                                    valve::g_studio_render->forced_material_override( nullptr );
+                            }
 
-                blocked = true;
-            }
+                            if ( g_menu->main( ).m_models.get( ).m_player[ player_type ] ) {
+                                valve::g_studio_render->forced_material_override( m_flat );
 
-            break;
-        default: break;
+                                set_clr( g_menu->main( ).m_models.get( ).m_player_clr[ player_type ] );
+
+                                hooks::o_draw_model( ecx, edx, results, info, bones, flex_weights, flex_delayed_weights, origin, flags );
+
+                                valve::g_studio_render->forced_material_override( nullptr );
+
+                                blocked = true;
+                            }
+                        }
+                        else if ( player_type == 1u ) {
+                            if ( g_menu->main( ).m_models.get( ).m_player_occluded[ player_type ] ) {
+                                valve::g_studio_render->forced_material_override( m_flat_ignorez );
+
+                                set_clr( g_menu->main( ).m_models.get( ).m_player_occluded_clr[ player_type ] );
+
+                                hooks::o_draw_model( ecx, edx, results, info, bones, flex_weights, flex_delayed_weights, origin, flags );
+
+                                if ( !g_menu->main( ).m_models.get( ).m_player[ player_type ] )
+                                    valve::g_studio_render->forced_material_override( nullptr );
+                            }
+
+                            if ( g_menu->main( ).m_models.get( ).m_player[ player_type ] ) {
+                                valve::g_studio_render->forced_material_override( m_flat );
+
+                                set_clr( g_menu->main( ).m_models.get( ).m_player_clr[ player_type ] );
+
+                                hooks::o_draw_model( ecx, edx, results, info, bones, flex_weights, flex_delayed_weights, origin, flags );
+
+                                valve::g_studio_render->forced_material_override( nullptr );
+
+                                blocked = true;
+                            }
+                        }
+                        else if ( player_type == 2u ) {
+                            if ( g_menu->main( ).m_models.get( ).m_player_occluded[ player_type ] ) {
+                                valve::g_studio_render->forced_material_override( m_flat_ignorez );
+
+                                set_clr( g_menu->main( ).m_models.get( ).m_player_occluded_clr[ player_type ] );
+
+                                hooks::o_draw_model( ecx, edx, results, info, bones, flex_weights, flex_delayed_weights, origin, flags );
+
+                                if ( !g_menu->main( ).m_models.get( ).m_player[ player_type ] )
+                                    valve::g_studio_render->forced_material_override( nullptr );
+                            }
+
+                            if ( g_menu->main( ).m_models.get( ).m_player[ player_type ] ) {
+                                valve::g_studio_render->forced_material_override( m_flat );
+
+                                set_clr( g_menu->main( ).m_models.get( ).m_player_clr[ player_type ] );
+
+                                hooks::o_draw_model( ecx, edx, results, info, bones, flex_weights, flex_delayed_weights, origin, flags );
+
+                                valve::g_studio_render->forced_material_override( nullptr );
+
+                                blocked = true;
+                            }
+                        }
+                    }
+                } break;
+
+            default:
+                break;
         }
 
         set_clr( { 1.f, 1.f, 1.f, 1.f } );

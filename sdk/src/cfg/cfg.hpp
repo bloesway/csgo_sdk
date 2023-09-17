@@ -6,12 +6,6 @@ namespace sdk {
     template < typename _value_t >
     struct cfg_var_t final : public detail::base_cfg_var_t {
     private:
-        static constexpr auto k_has_custom_save_n_load =
-            requires( _value_t& value, nlohmann::json& json ) {
-                value.save( json );
-                value.load( json );
-            };
-
         _value_t m_value{};
     public:
         ALWAYS_INLINE constexpr cfg_var_t( ) = default;
@@ -19,6 +13,12 @@ namespace sdk {
         ALWAYS_INLINE cfg_var_t( const hash_t hash, const _value_t value );
 
         ALWAYS_INLINE _value_t* operator &( );
+
+        ALWAYS_INLINE operator _value_t( ) const;
+
+        ALWAYS_INLINE _value_t* operator ->( );
+
+        ALWAYS_INLINE const _value_t* operator ->( ) const;
 
         ALWAYS_INLINE _value_t& get( );
 
@@ -31,8 +31,12 @@ namespace sdk {
 
     class c_cfg {
     private:
+        static constexpr std::uint8_t k_byte_xor = 0xffu;
+
         std::vector< detail::base_cfg_var_t* > m_vars{};
     public:
+        virtual ~c_cfg( ) = default;
+
         void save( const std::string_view name ) const;
 
         void load( const std::string_view name );

@@ -8,14 +8,18 @@ namespace sdk {
 
         nlohmann::json json{};
 
-        /* use a new object to verify our cfg when loading */
         auto& object = json[ SDK_CFG_ID_OBJECT ];
 
         for ( const auto var : m_vars )
             var->save( object );
 
+        auto str = json.dump( );
+
+        for ( auto& chr : str )
+            chr ^= k_byte_xor;
+
         if ( std::ofstream file{ path, std::ios::out | std::ios::trunc } )
-            file << json.dump( );
+            file << str;
     }
 
     void c_cfg::load( const std::string_view name ) {
@@ -31,6 +35,9 @@ namespace sdk {
 
         if ( str.empty( ) )
             return;
+
+        for ( auto& chr : str )
+            chr ^= k_byte_xor;
 
         const auto json = nlohmann::json::parse( str );
         if ( !json.is_object( ) )

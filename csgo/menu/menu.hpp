@@ -6,18 +6,21 @@ class c_menu {
 private:
     using cfg_ui_clr_t = sdk::cfg_var_t< ui_clr_t >;
 
-    struct {
-        struct {
-            sdk::cfg_var_t< bool > m_bhop{ HASH( "move.bhop" ), false };
-        } m_move{};
+    struct main_t {
+        struct move_t {
+            bool        m_bhop{};
+        };
 
-        struct {
-            sdk::cfg_var_t< bool >  m_player{ HASH( "models.player" ), false },
-                                    m_player_occluded{ HASH( "models.player_occluded" ), false };
+        struct models_t {
+            bool        m_player[ 3u ]{};
+            ui_clr_t    m_player_clr[ 3u ]{};
 
-            cfg_ui_clr_t            m_player_clr{ HASH( "models.player.clr" ), { 1.f, 1.f, 1.f, 1.f } },
-                                    m_player_occluded_clr{ HASH( "models.player_occluded.clr" ), { 1.f, 1.f, 1.f, 1.f } };
-        } m_models{};
+            bool        m_player_occluded[ 3u ]{};
+            ui_clr_t    m_player_occluded_clr[ 3u ]{};
+        };
+
+        sdk::cfg_var_t< move_t >	m_move{ HASH( "move" ), {} };
+        sdk::cfg_var_t< models_t >	m_models{ HASH( "models" ), {} };
 
         bool m_hidden{};
     } m_main{};
