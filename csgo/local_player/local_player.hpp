@@ -18,11 +18,9 @@ private:
 
         int                  m_tick_count{};
 
-        bool                 m_in_prediction{}, 
-                             m_first_time_predicted{};
+        bool                 m_in_prediction{}, m_first_time_predicted{};
 
-        float                m_cur_time{}, 
-                             m_frame_time{};
+        float                m_cur_time{}, m_frame_time{};
 
         int*                 m_random_seed{};
         valve::cs_player_t*  m_pred_player{};

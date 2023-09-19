@@ -489,6 +489,8 @@ void c_ctx::init_cvars( ) {
     m_cvars.cl_interp_ratio = valve::g_cvar->find_var( "cl_interp_ratio" );
 
     m_cvars.cl_updaterate = valve::g_cvar->find_var( "cl_updaterate" );
+
+    m_cvars.sv_maxunlag = valve::g_cvar->find_var( "sv_maxunlag" );
 }
 
 void c_ctx::init_hooks( const modules_t& modules ) const {

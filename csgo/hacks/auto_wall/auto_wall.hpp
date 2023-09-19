@@ -4,8 +4,7 @@ namespace hacks {
 	class c_auto_wall {
 	private:
 		struct projectile_t {
-			sdk::vec3_t		m_pos{};
-			sdk::vec3_t		m_dir{};
+			sdk::vec3_t		m_pos{}, m_dir{};
 
 			valve::trace_t	m_trace{};
 

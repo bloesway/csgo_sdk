@@ -239,26 +239,20 @@ namespace valve {
 
         e_rotation_side                                 m_side{};
 
-        float                                           m_sim_time{},
-                                                        m_old_sim_time{},
-                                                        m_collision_change_time{},
-                                                        m_collision_change_origin_z{};
+        float                                           m_sim_time{}, m_old_sim_time{},
+                                                        m_collision_change_time{}, m_collision_change_origin_z{};
 
-        float                                           m_desync_delta{},
-                                                        m_duck_amt{},
+        float                                           m_desync_delta{}, m_duck_amt{}, 
                                                         m_lby{};
 
-        float                                           m_eye_yaw{},
-                                                        m_max_speed{};
+        float                                           m_eye_yaw{}, m_max_speed{};
 
-        sdk::qang_t                                     m_eye_angles{},
-                                                        m_abs_angles{};
+        sdk::qang_t                                     m_eye_angles{}, m_abs_angles{};
 
         sdk::vec3_t                                     m_velocity{}, m_anim_velocity{},
                                                         m_origin{}, m_abs_origin{};
 
-        sdk::vec3_t                                     m_mins{},
-                                                        m_maxs{};
+        sdk::vec3_t                                     m_mins{}, m_maxs{};
 
         valve::e_ent_flags			                    m_flags{};
         int								                m_sim_ticks{};
@@ -266,11 +260,8 @@ namespace valve {
         bool							                m_did_shot{};
         int								                m_shot_tick{};
 
-        bool                                            m_fake_player{},
-                                                        m_invalid{};
-
-        bool                                            m_walking{},
-                                                        m_broke_lc{};
+        bool                                            m_fake_player{}, m_invalid{},
+                                                        m_walking{}, m_broke_lc{};
 
         e_seq_type                                      m_seq_type{};
         int                                             m_seq_tick{};

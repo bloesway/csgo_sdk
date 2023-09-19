@@ -152,7 +152,7 @@ private:
                         *mp_damage_scale_t_head{}, *mp_damage_scale_t_body{},
                         *sv_clip_penetration_traces_to_players{}, *ff_damage_reduction_bullets{},
                         *cl_interp{}, *cl_interp_ratio{},
-                        *cl_updaterate{};
+                        *cl_updaterate{}, *sv_maxunlag{};
     } m_cvars{};
 public:
     void init( );

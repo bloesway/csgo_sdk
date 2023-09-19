@@ -10,21 +10,18 @@ public:
 
 		ALWAYS_INLINE entry_t( valve::base_entity_t* entity, int index );
 	public:
-		valve::cs_player_t*										m_player{};
-		int														m_index{};
+		valve::cs_player_t*								m_player{};
+		int												m_index{};
 
-		valve::lag_record_t										m_prev_record{};
-		std::deque< valve::lag_record_t >						m_records{};
+		valve::lag_record_t								m_prev_record{};
+		std::deque< valve::lag_record_t >				m_records{};
 
-		bool													m_in_dormancy{};
-		bool													m_first_after_dormant{};
+		bool											m_in_dormancy{}, m_first_after_dormant{},
+														m_setup_bones{}, m_update_anims{};
 
-		bool													m_setup_bones{};
-		bool													m_update_anims{};
+		float											m_spawn_time{};
 
-		float													m_spawn_time{};
-
-		std::array< sdk::mat3x4_t, valve::k_max_bones >			m_bones{};
+		std::array< sdk::mat3x4_t, valve::k_max_bones >	m_bones{};
 	};
 
 	struct target_t {

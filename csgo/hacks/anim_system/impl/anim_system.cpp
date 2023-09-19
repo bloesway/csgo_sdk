@@ -25,20 +25,24 @@ namespace hacks {
 			{
 				handle_velocity( player, record, prev_record, has_prev_record );
 
-				for ( auto i = -valve::e_rotation_side::left; i <= -valve::e_rotation_side::right; i++ ) {
-					update( player, entry, record, prev_record, has_prev_record,
-						static_cast< valve::e_rotation_side >( i )
-					);
+				/*	dont forget to add this check wherever you use fake matrices, 
+					as bots just wont have them  */
+				if ( !record->m_fake_player ) {
+					for ( auto i = -valve::e_rotation_side::left; i <= -valve::e_rotation_side::right; i++ ) {
+						update( player, entry, record, prev_record, has_prev_record,
+							static_cast< valve::e_rotation_side >( i )
+						);
 
-					record->m_fake_layers[ i ] = player->anim_layers( );
+						record->m_fake_layers[ i ] = player->anim_layers( );
 
-					m_anim_backup.restore( player, true, false, false );
+						m_anim_backup.restore( player, true, false, false );
 
-					setup_bones( player, entry, record->m_fake_bones[ i ].data( ),
-						valve::k_max_bones, valve::e_bone_flags::used_by_hitbox
-					);
+						setup_bones( player, entry, record->m_fake_bones[ i ].data( ),
+							valve::k_max_bones, valve::e_bone_flags::used_by_hitbox
+						);
 
-					m_anim_backup.restore( player, false, true, true );
+						m_anim_backup.restore( player, false, true, true );
+					}
 				}
 			}
 

@@ -232,14 +232,34 @@ namespace hacks {
 			|| !record->m_filled )
 			return false;
 
-		if ( record->m_broke_lc 
+		if ( record->m_broke_lc
 			|| record->m_invalid )
 			return false;
 
-		auto delta_time = std::min( g_networking->m_latency + g_networking->m_lerp_amt, 0.2f );
+		const auto tick_base = g_local_player->self( )->tick_base( );
+		if ( tick_base <= 0 )
+			return false;
 
-		return std::abs( delta_time - (
-			valve::g_global_vars->m_cur_time - record->m_sim_time ) 
-		) < 0.2f;
+		const auto target_time = record->m_sim_time;
+		const auto target_tick = valve::to_ticks( target_time );
+		if ( target_tick <= 0 )
+			return false;
+
+		const auto max_unlag = g_ctx->cvars( ).sv_maxunlag->get_float( );
+		const auto delta_time = std::min(
+			g_networking->m_latency + g_networking->m_lerp_amt, max_unlag
+		);
+
+		if ( ( delta_time - valve::to_time( tick_base - target_tick ) ) > max_unlag )
+			return false;
+
+		auto dead_tick = static_cast< int >(
+			valve::to_time( g_networking->m_server_tick ) - max_unlag
+		);
+
+		if ( valve::to_ticks( target_time - g_networking->m_lerp_amt ) < dead_tick )
+			return false;
+
+		return true;
 	}
 }

@@ -8,8 +8,8 @@ namespace hacks {
 		void skip( );
 		void process( );
 
-		bool	m_skip = false;
-		float	m_amount = 0.f;
+		bool	m_skip{};
+		float	m_amount{};
 	};
 
 	inline const auto g_interpolation = std::make_unique< c_interpolation >( );

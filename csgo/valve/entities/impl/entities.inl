@@ -131,9 +131,6 @@ namespace valve {
         m_filled = false;
     }
 
-    /*  !!! if you want to get bones from record store them here,
-        !!! because we need setup bones when the animations are fully updated,
-        !!! but i havent added the animation system yet, so the bones will be empty */
     ALWAYS_INLINE player_record_t::player_record_t( valve::cs_player_t* player ) {
         m_player = player;
 
