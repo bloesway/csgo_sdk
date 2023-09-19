@@ -59,9 +59,6 @@ namespace valve {
         if ( with == this )
             return true;
 
-        if ( g_game_types->game_type( ) == e_game_type::ffa )
-            return survival_team( ) == with->survival_team( );
-
         if ( g_ctx->cvars( ).mp_teammates_are_enemies->get_int( ) )
             return false;
 

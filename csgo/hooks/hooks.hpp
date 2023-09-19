@@ -76,8 +76,17 @@ namespace hooks {
     inline decltype( &update_client_animations ) o_update_client_side_animations{};
 
     void __fastcall do_extra_bone_processing( valve::cs_player_t* ecx, void* edx,
-        valve::studio_hdr_t* hdr, sdk::vec3_t* pos, void* quat, sdk::mat3x4_t* bone_to_world, void* bone_computed, void* ik_ctx
+        valve::studio_hdr_t* hdr, sdk::vec3_t* pos, void* quat, sdk::mat3x4_t* bone_to_world, 
+        void* bone_computed, void* ik_ctx
     );
     inline decltype( &do_extra_bone_processing ) o_do_extra_bone_processing{};
+
+    void __fastcall standard_blending_rules( valve::cs_player_t* ecx, void* edx, valve::studio_hdr_t* hdr,
+        sdk::vec3_t* pos, void* quat, float time, int mask
+    );
+    inline decltype( &standard_blending_rules ) o_standard_blending_rules{};
+
+    sdk::qang_t* __fastcall get_eye_angles( valve::cs_player_t* ecx, void* edx );
+    inline decltype( &get_eye_angles ) o_get_eye_angles{};
 #pragma endregion
 }

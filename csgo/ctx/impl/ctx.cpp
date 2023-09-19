@@ -318,6 +318,18 @@ void c_ctx::init_offsets( const modules_t& modules ) {
         client.m_start, client.m_end
     );
 
+    m_offsets.m_ret_anim_state_yaw = BYTESEQ( "F3 0F 10 55 ? 51 8B 8E ? ? ? ?" ).search(
+        client.m_start, client.m_end
+    );
+
+    m_offsets.m_ret_anim_state_pitch = BYTESEQ( "8B CE F3 0F 10 00 8B 06 F3 0F 11 45 ? FF 90 ? ? ? ? F3 0F 10 55 ?" ).search(
+        client.m_start, client.m_end
+    );
+
+    m_offsets.m_ret_players_and_vecs = BYTESEQ( "8B 55 0C 8B C8 E8 ? ? ? ? 83 C4 08 5E 8B E5" ).search(
+        client.m_start, client.m_end
+    );
+
     m_offsets.m_key_values.m_init = BYTESEQ( "E8 ? ? ? ? 8B F0 EB 22" ).search(
         client.m_start, client.m_end
     ).self_rel( );
@@ -508,6 +520,10 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
         client.m_start, client.m_end
     ).self_offset( 0x4e ).as< std::uintptr_t* >( );
 
+    const auto player_vtable = BYTESEQ( "55 8B EC 83 E4 F8 83 EC 18 56 57 8B F9 89 7C 24 0C" ).search(
+        client.m_start, client.m_end
+    ).self_offset( 0x47u ).as< std::uintptr_t* >( );
+
     /* */
 
     HOOK( BYTESEQ( "80 3D ? ? ? ? ? 8B 91 ? ? ? ? 8B 0D ? ? ? ? C6 05 ? ? ? ? 01" ).search(
@@ -538,6 +554,10 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
         client.m_start, client.m_end
     ), hooks::do_extra_bone_processing, hooks::o_do_extra_bone_processing );
 
+    HOOK( BYTESEQ( "55 8B EC 83 E4 F0 B8 ? ? ? ? E8 ? ? ? ? 56 8B 75 08 57 8B F9 85" ).search(
+        client.m_start, client.m_end
+    ), hooks::standard_blending_rules, hooks::o_standard_blending_rules );
+
     HOOK_VFUNC( valve::g_client, 37u, hooks::frame_stage, hooks::o_frame_stage );
 
     HOOK_VFUNC( valve::g_client, 22u, hooks::create_move_proxy, hooks::o_create_move );
@@ -555,6 +575,8 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
     HOOK_VFUNC( valve::g_engine, 90u, hooks::is_paused, hooks::o_is_paused );
 
     HOOK_VFUNC( valve::g_engine, 93u, hooks::is_hltv, hooks::o_is_hltv );
+
+    HOOK_VFUNC( player_vtable, 170u, hooks::get_eye_angles, hooks::o_get_eye_angles );
 
     /* */
 }

@@ -49,7 +49,10 @@ private:
                         m_accumulate_layers{},
                         m_is_extrapolated{},
                         m_should_hit_entity{},
-                        m_should_hit_entity_two_entities{};
+                        m_should_hit_entity_two_entities{},
+                        m_ret_anim_state_yaw{},
+                        m_ret_anim_state_pitch{},
+                        m_ret_players_and_vecs{};
 
         struct {
             sdk::address_t m_init{}, m_load_from_buffer{};

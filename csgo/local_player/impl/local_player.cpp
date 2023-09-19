@@ -121,6 +121,11 @@ void c_local_player::create_move( bool& send_packet,
 
     hacks::g_move->rotate( cmd, old_angles );
 
+    if ( m_packet )
+        m_sent_angles = cmd.m_view_angles;
+
+    send_packet = m_packet;
+
     vfyd_cmd.m_cmd = cmd;
     vfyd_cmd.m_checksum = cmd.checksum( );
 

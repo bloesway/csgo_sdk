@@ -29,3 +29,11 @@ ALWAYS_INLINE void c_local_player::prediction_t::restore( ) {
     valve::g_global_vars->m_cur_time = m_cur_time;
     valve::g_global_vars->m_frame_time = m_frame_time;
 }
+
+ALWAYS_INLINE auto& c_local_player::packet( ) {
+    return m_packet;
+}
+
+ALWAYS_INLINE auto& c_local_player::sent_angles( ) {
+    return m_sent_angles;
+}

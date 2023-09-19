@@ -117,8 +117,40 @@ namespace hooks {
 	}
 
 	void __fastcall do_extra_bone_processing( valve::cs_player_t* ecx, void* edx,
-		valve::studio_hdr_t* hdr, sdk::vec3_t* pos, void* quat, sdk::mat3x4_t* bone_to_world, void* bone_computed, void* ik_ctx
+		valve::studio_hdr_t* hdr, sdk::vec3_t* pos, void* quat, sdk::mat3x4_t* bone_to_world,
+		void* bone_computed, void* ik_ctx
 	) {
 		return;
+	}
+
+	void __fastcall standard_blending_rules( valve::cs_player_t* ecx, void* edx, valve::studio_hdr_t* hdr,
+		sdk::vec3_t* pos, void* quat, float time, int mask
+	) {
+		if ( !g_local_player->self( )
+			|| ecx != g_local_player->self( ) )
+			return o_standard_blending_rules( ecx, edx, hdr, pos, quat, time, mask );
+
+		ecx->effects( ) |= valve::e_effects::no_interp;
+
+		o_standard_blending_rules( ecx, edx, hdr, pos, quat, time, mask );
+
+		ecx->effects( ) &= ~valve::e_effects::no_interp;
+	}
+
+	sdk::qang_t* __fastcall get_eye_angles( valve::cs_player_t* ecx, void* edx ) {
+		if ( !ecx
+			|| !ecx->alive( ) )
+			return o_get_eye_angles( ecx, edx );
+
+		if ( ecx != g_local_player->self( ) )
+			return o_get_eye_angles( ecx, edx );
+
+		const auto ret = sdk::stack_frame_t( ).ret_addr( );
+		if ( ret == g_ctx->offsets( ).m_ret_anim_state_yaw
+			|| ret == g_ctx->offsets( ).m_ret_anim_state_pitch
+			|| ret == g_ctx->offsets( ).m_ret_players_and_vecs )
+			return &g_local_player->sent_angles( );
+
+		return o_get_eye_angles( ecx, edx );
 	}
 }

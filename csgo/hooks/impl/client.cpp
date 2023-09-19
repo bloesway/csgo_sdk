@@ -40,6 +40,8 @@ namespace hooks {
 
         /* hacks::g_lag_comp->store_players( ); */
 
+        g_local_player->packet( ) = true;
+
         g_local_player->create_move( send_packet,
             valve::g_input->m_cmds[ slot ], valve::g_input->m_vfyd_cmds[ slot ]
         );
