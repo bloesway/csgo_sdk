@@ -40,18 +40,12 @@ private:
     void init_players( ) const;
 
     struct {
-        sdk::address_t  m_local_player{},
-                        m_weapon_system{},
-                        m_user_cmd_checksum{},
-                        m_pred_player{},
-                        m_random_seed{},
-                        m_setup_velocity{},
-                        m_accumulate_layers{},
-                        m_is_extrapolated{},
-                        m_should_hit_entity{},
-                        m_should_hit_entity_two_entities{},
-                        m_ret_anim_state_yaw{},
-                        m_ret_anim_state_pitch{},
+        sdk::address_t  m_local_player{}, m_weapon_system{},
+                        m_user_cmd_checksum{}, m_pred_player{},
+                        m_random_seed{}, m_setup_velocity{},
+                        m_accumulate_layers{}, m_is_extrapolated{},
+                        m_should_hit_entity{}, m_should_hit_entity_two_entities{},
+                        m_ret_anim_state_yaw{}, m_ret_anim_state_pitch{},
                         m_ret_players_and_vecs{};
 
         struct {

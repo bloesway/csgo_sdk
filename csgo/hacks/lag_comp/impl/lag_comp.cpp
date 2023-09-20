@@ -253,7 +253,7 @@ namespace hacks {
 		if ( ( delta_time - valve::to_time( tick_base - target_tick ) ) > max_unlag )
 			return false;
 
-		auto dead_tick = static_cast< int >(
+		const auto dead_tick = static_cast< int >(
 			valve::to_time( g_networking->m_server_tick ) - max_unlag
 		);
 

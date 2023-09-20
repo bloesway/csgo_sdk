@@ -40,7 +40,7 @@ namespace hooks {
 				ctx_cmd.m_user_cmd.m_number % valve::k_mp_backup
 			);
 
-			return data->store_netvars( ctx_cmd.m_user_cmd.m_number );
+			return data->store_netvars( ecx, ctx_cmd.m_user_cmd.m_number );
 		}
 
 		const auto data = &hacks::g_networking->netvars_data( ).at( 
@@ -49,7 +49,7 @@ namespace hooks {
 
 		if ( data && data->m_filled 
 			&& data->m_cmd_number == ctx_cmd.m_user_cmd.m_number - 1 )
-			data->restore_netvars( );
+			data->restore_netvars( ecx );
 
 		o_physics_simulate( ecx, edx );
 
@@ -57,7 +57,7 @@ namespace hooks {
 			ctx_cmd.m_user_cmd.m_number % valve::k_mp_backup
 		);
 
-		new_data->store_netvars( ctx_cmd.m_user_cmd.m_number );
+		new_data->store_netvars( ecx, ctx_cmd.m_user_cmd.m_number );
 	}
 
 	void __fastcall update_client_animations( valve::cs_player_t* ecx, void* edx ) {

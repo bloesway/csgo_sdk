@@ -15,9 +15,9 @@ namespace hacks {
 
 			bool			m_filled{};
 
-			void store_netvars( int cmd_number );
+			void store_netvars( valve::cs_player_t* player, int cmd_number );
 
-			void restore_netvars( );
+			void restore_netvars( valve::cs_player_t* player );
 		};
 
 		struct process_cmd_t {

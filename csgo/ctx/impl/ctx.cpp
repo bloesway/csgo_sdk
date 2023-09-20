@@ -302,7 +302,9 @@ void c_ctx::init_offsets( const modules_t& modules ) {
 
     m_offsets.m_user_cmd_checksum = BYTESEQ( "53 8B D9 83 C8" ).search( client.m_start, client.m_end );
 
-    m_offsets.m_setup_velocity = BYTESEQ( "84 C0 75 38 8B 0D ? ? ? ? 8B 01 8B 80" ).search( client.m_start, client.m_end );
+    m_offsets.m_setup_velocity = BYTESEQ( "84 C0 75 38 8B 0D ? ? ? ? 8B 01 8B 80" ).search( 
+        client.m_start, client.m_end 
+    );
 
     m_offsets.m_accumulate_layers = BYTESEQ( "84 C0 75 0D F6 87" ).search( client.m_start, client.m_end );
 
@@ -514,7 +516,7 @@ void c_ctx::init_hooks( const modules_t& modules ) const {
 
     const auto client_state_vtable = reinterpret_cast< sdk::ulong_t** >(
         reinterpret_cast< valve::client_state_t* >( reinterpret_cast< std::uintptr_t >( valve::g_client_state ) + 0x8u )
-        );
+    );
 
     const auto renderable_vtable = BYTESEQ( "55 8B EC 83 E4 F8 83 EC 18 56 57 8B F9 89 7C 24 0C" ).search(
         client.m_start, client.m_end

@@ -307,12 +307,16 @@ namespace hacks {
 					switch ( side ) {
 						case valve::e_rotation_side::left:
 							{
-								anim_state->m_foot_yaw = sdk::normalize_yaw( record->m_eye_angles.y( ) - record->m_desync_delta );
+								anim_state->m_foot_yaw = sdk::normalize_yaw( 
+									record->m_eye_angles.y( ) - record->m_desync_delta 
+								);
 							} break;
 
 						case valve::e_rotation_side::right:
 							{
-								anim_state->m_foot_yaw = sdk::normalize_yaw( record->m_eye_angles.y( ) + record->m_desync_delta );
+								anim_state->m_foot_yaw = sdk::normalize_yaw( 
+									record->m_eye_angles.y( ) + record->m_desync_delta 
+								);
 							} break;
 
 						default:
@@ -354,12 +358,16 @@ namespace hacks {
 				switch ( side ) {
 					case valve::e_rotation_side::left:
 						{
-							anim_state->m_foot_yaw = sdk::normalize_yaw( record->m_eye_angles.y( ) - record->m_desync_delta );
+							anim_state->m_foot_yaw = sdk::normalize_yaw( 
+								record->m_eye_angles.y( ) - record->m_desync_delta 
+							);
 						} break;
 
 					case valve::e_rotation_side::right:
 						{
-							anim_state->m_foot_yaw = sdk::normalize_yaw( record->m_eye_angles.y( ) + record->m_desync_delta );
+							anim_state->m_foot_yaw = sdk::normalize_yaw(
+								record->m_eye_angles.y( ) + record->m_desync_delta 
+							);
 						} break;
 
 					default:
