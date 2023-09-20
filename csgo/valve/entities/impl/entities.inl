@@ -36,7 +36,8 @@ namespace valve {
     ALWAYS_INLINE void cs_player_t::set_collision_bounds( sdk::vec3_t& mins, sdk::vec3_t& maxs ) {
         return g_ctx->offsets( ).m_cs_player.m_set_collision_bounds.as<
             void( __thiscall* )( void*, sdk::vec3_t*, sdk::vec3_t* )
-        >( )( reinterpret_cast< void* >( reinterpret_cast< sdk::ulong_t >( this ) + 0x320u ), &mins, &maxs );
+        >( )( reinterpret_cast< void* >( reinterpret_cast< sdk::ulong_t >( this ) + 0x320u ), 
+            &mins, &maxs );
     }
 
     ALWAYS_INLINE bool base_player_t::alive( ) {
@@ -74,20 +75,25 @@ namespace valve {
         if ( !studio_model )
             return -1;
 
-        return g_ctx->offsets( ).m_cs_player.m_seq_activity.as< int( __fastcall* )( decltype( this ), studio_hdr_t*, int ) >( )(
-            this, studio_model, seq
-        );
+        return g_ctx->offsets( ).m_cs_player.m_seq_activity.as< 
+            int( __fastcall* )( decltype( this ), studio_hdr_t*, int ) 
+        >( )( this, studio_model, seq );
     }
 
     ALWAYS_INLINE void cs_player_t::invalidate_bone_cache( ) {
         auto        most_recent_model_cnt_addr = g_ctx->offsets( ).m_cs_player.m_most_recent_model_cnt;
-        const auto  most_recent_model_cnt = **most_recent_model_cnt_addr.self_offset( 0xA ).as< unsigned long** >( );
+
+        const auto  most_recent_model_cnt = **most_recent_model_cnt_addr.self_offset( 
+            0xA 
+        ).as< unsigned long** >( );
 
         last_bones_time( ) = std::numeric_limits< float >::lowest( );
         mdl_bone_cnt( ) = most_recent_model_cnt - 1ul;
     }
 
-    ALWAYS_INLINE bool cs_player_t::setup_bones( sdk::mat3x4_t* matrix, int bones_count, e_bone_flags flags, float time ) {
+    ALWAYS_INLINE bool cs_player_t::setup_bones( sdk::mat3x4_t* matrix, int bones_count, 
+        e_bone_flags flags, float time 
+    ) {
         invalidate_bone_cache( );
 
         return renderable( )->setup_bones( matrix, bones_count, -flags, time );
@@ -172,7 +178,8 @@ namespace valve {
                 );
 
                 if ( anim_state->m_duck_amount > 0.f )
-                    aim_matrix_width_range = sdk::lerp( aim_matrix_width_range, 0.5f, anim_state->m_duck_amount *
+                    aim_matrix_width_range = sdk::lerp( aim_matrix_width_range, 0.5f, 
+                        anim_state->m_duck_amount * 
                         std::clamp( anim_state->m_speed_as_portion_of_crouch_speed, 0.f, 1.f )
                     );
 
@@ -186,12 +193,14 @@ namespace valve {
         if ( weapon ) {
             auto weapon_info = weapon->info( );
             if ( weapon_info ) {
-                m_max_speed = player->scoped( ) ? weapon_info->m_max_speed_alt : weapon_info->m_max_speed;
+                m_max_speed = player->scoped( ) ? weapon_info->m_max_speed_alt 
+                    : weapon_info->m_max_speed;
             }
             else
                 m_max_speed = 260.f;
 
-            if ( weapon->last_shot_time( ) <= player->sim_time( ) && weapon->last_shot_time( ) > player->old_sim_time( ) ) {
+            if ( weapon->last_shot_time( ) <= player->sim_time( ) 
+                && weapon->last_shot_time( ) > player->old_sim_time( ) ) {
                 m_did_shot = true;
                 m_shot_tick = valve::to_ticks( weapon->last_shot_time( ) );
             }
@@ -203,7 +212,8 @@ namespace valve {
         m_layers = player->anim_layers( );
 
         /*  i think you can do not store pose_params here,
-            because you need to store them in record again when the animations are fully updated */
+            because you need to store them in record again 
+            when the animations are fully updated */
         m_pose_params = player->pose_params( );
 
         m_filled = true;

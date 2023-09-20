@@ -276,11 +276,21 @@ namespace valve {
         );
     } inline* g_debug_overlay{};
 
+    class c_engine_sound {
+    public:
+        VFUNC( void( __thiscall* )( void*, utl_vec_t< sound_info_t >& ),
+            active_sounds( utl_vec_t< sound_info_t >& sound_list ), 19u, sound_list
+        );
+    } inline* g_engine_sound{};
+
     /* it can be anywhere else */
     ALWAYS_INLINE int to_ticks( const float time );
 
     /* it can be anywhere else */
     ALWAYS_INLINE float to_time( const int ticks );
+
+    /* it can be anywhere else */
+    ALWAYS_INLINE bool to_screen( const sdk::vec3_t& world, sdk::vec2_t& screen );
 }
 
 #include "impl/interfaces.inl"

@@ -215,6 +215,8 @@ void c_ctx::init_interfaces( const modules_t& modules ) const {
 
     valve::g_model_info = interfaces.at( HASH( "VModelInfoClient004" ) ).as< valve::c_model_info* >( );
     valve::g_debug_overlay = interfaces.at( HASH( "VDebugOverlay004" ) ).as< valve::c_debug_overlay* >( );
+
+    valve::g_engine_sound = interfaces.at( HASH( "IEngineSoundClient003" ) ).as< valve::c_engine_sound* >( );
 }
 
 bool c_ctx::parse_ent_offsets( ent_offsets_t& offsets, const modules_t& modules ) const {
@@ -286,19 +288,19 @@ void c_ctx::init_offsets( const modules_t& modules ) {
 
     m_offsets.m_local_player = BYTESEQ( "8B 0D ? ? ? ? 83 FF FF 74 07" ).search(
         client.m_start, client.m_end
-    ).self_offset( 0x2 ).self_deref( );
+    ).self_offset( 0x2u ).self_deref( );
 
     m_offsets.m_pred_player = BYTESEQ( "89 35 ? ? ? ? F3 0F 10 48" ).search(
         client.m_start, client.m_end
-    ).self_offset( 0x2 );
+    ).self_offset( 0x2u );
 
     m_offsets.m_random_seed = BYTESEQ( "A3 ? ? ? ? 66 0F 6E 86" ).search(
         client.m_start, client.m_end
-    ).self_offset( 0x1 );
+    ).self_offset( 0x1u );
 
     m_offsets.m_weapon_system = BYTESEQ( "8B 35 ? ? ? ? FF 10 0F B7 C0" ).search(
         client.m_start, client.m_end
-    ).self_offset( 0x2 ).self_deref( );
+    ).self_offset( 0x2u ).self_deref( );
 
     m_offsets.m_user_cmd_checksum = BYTESEQ( "53 8B D9 83 C8" ).search( client.m_start, client.m_end );
 
@@ -331,6 +333,10 @@ void c_ctx::init_offsets( const modules_t& modules ) {
     m_offsets.m_ret_players_and_vecs = BYTESEQ( "8B 55 0C 8B C8 E8 ? ? ? ? 83 C4 08 5E 8B E5" ).search(
         client.m_start, client.m_end
     );
+    
+    m_offsets.m_view_matrix = BYTESEQ( "0F 10 05 ? ? ? ? 8D 85 ? ? ? ? B9" ).search(
+        client.m_start, client.m_end
+    ).self_offset( 0x3u );
 
     m_offsets.m_key_values.m_init = BYTESEQ( "E8 ? ? ? ? 8B F0 EB 22" ).search(
         client.m_start, client.m_end
@@ -370,6 +376,7 @@ void c_ctx::init_offsets( const modules_t& modules ) {
     m_offsets.m_base_entity.m_mins = offsets.at( HASH( "CBaseEntity->m_vecMins" ) ).m_offset;
     m_offsets.m_base_entity.m_maxs = offsets.at( HASH( "CBaseEntity->m_vecMaxs" ) ).m_offset;
     m_offsets.m_base_entity.m_eflags = offsets.at( HASH( "C_BaseEntity->m_iEFlags" ) ).m_offset;
+    m_offsets.m_base_entity.m_collision_group = offsets.at( HASH( "CBaseEntity->m_CollisionGroup" ) ).m_offset;
 
     m_offsets.m_base_entity.m_breakable_game = BYTESEQ( "55 8B EC 51 56 8B F1 85 F6 74 ? 83" ).search(
         client.m_start, client.m_end

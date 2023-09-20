@@ -154,6 +154,28 @@ namespace valve {
         int          m_packed_size{};
     };
 #pragma endregion
+    
+    typedef void* file_name_handle_t;
+
+    struct sound_info_t {
+        int                 m_guid{};
+
+        file_name_handle_t  m_file_name_handle{};
+
+        int                 m_sound_source{},
+                            m_channel{}, m_speaker_entity{};
+
+        float               m_volume{},
+                            m_last_spatialized_volume{}, m_radius{};
+
+        int                 m_pitch{};
+
+        sdk::vec3_t*        m_origin{}, *m_dir{};
+
+        bool                m_update_pos{},
+                            m_is_sentense{}, m_dry_mix{},
+                            m_speaker{}, m_from_server{};
+    };
 
 #pragma region recv
     struct recv_prop_t;

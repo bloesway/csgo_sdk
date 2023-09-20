@@ -27,7 +27,14 @@ namespace valve {
         OFFSET( e_team, team( ), g_ctx->offsets( ).m_base_entity.m_team_num );
 
         OFFSET( float, sim_time( ), g_ctx->offsets( ).m_base_entity.m_sim_time );
-        OFFSET( float, old_sim_time( ), g_ctx->offsets( ).m_base_entity.m_sim_time + sizeof( float ) );
+
+        OFFSET( float, old_sim_time( ), 
+            g_ctx->offsets( ).m_base_entity.m_sim_time + sizeof( float ) 
+        );
+
+        OFFSET( sdk::mat3x4_t, rgfl_coordinate_frame( ), 
+            g_ctx->offsets( ).m_base_entity.m_collision_group - 0x30u 
+        );
 
         OFFSET( e_ent_flags, flags( ), g_ctx->offsets( ).m_base_entity.m_flags );
         OFFSET( e_eflags, eflags( ), g_ctx->offsets( ).m_base_entity.m_eflags );
@@ -43,8 +50,13 @@ namespace valve {
         OFFSET( sdk::vec3_t, obb_min( ), g_ctx->offsets( ).m_base_entity.m_mins );
         OFFSET( sdk::vec3_t, obb_max( ), g_ctx->offsets( ).m_base_entity.m_maxs );
 
-        OFFSET( bones_t, bones( ), g_ctx->offsets( ).m_renderable.m_bone_cache + sizeof( std::uintptr_t ) );
-        OFFSET( sdk::ulong_t, mdl_bone_cnt( ), g_ctx->offsets( ).m_renderable.m_mdl_bone_cnt + sizeof( std::uintptr_t ) );
+        OFFSET( bones_t, bones( ), 
+            g_ctx->offsets( ).m_renderable.m_bone_cache + sizeof( std::uintptr_t ) 
+        );
+
+        OFFSET( sdk::ulong_t, mdl_bone_cnt( ), 
+            g_ctx->offsets( ).m_renderable.m_mdl_bone_cnt + sizeof( std::uintptr_t ) 
+        );
 
         OFFSET( float, last_bones_time( ), 0x2928 );
 
@@ -67,11 +79,13 @@ namespace valve {
         );
 
         OFFSET_VFUNC( bool( __thiscall* )( decltype( this ), const sdk::vec3_t& ),
-            set_abs_origin( const sdk::vec3_t& new_origin ), g_ctx->offsets( ).m_base_entity.m_set_abs_origin, new_origin
+            set_abs_origin( const sdk::vec3_t& new_origin ), 
+            g_ctx->offsets( ).m_base_entity.m_set_abs_origin, new_origin
         );
 
         OFFSET_VFUNC( bool( __thiscall* )( decltype( this ), const sdk::qang_t& ),
-            set_abs_angles( const sdk::qang_t& new_angles ), g_ctx->offsets( ).m_base_entity.m_set_abs_angles, new_angles
+            set_abs_angles( const sdk::qang_t& new_angles ), 
+            g_ctx->offsets( ).m_base_entity.m_set_abs_angles, new_angles
         );
 
         /* it can be in new struct base_view_model_t ig */
@@ -105,10 +119,16 @@ namespace valve {
         ALWAYS_INLINE weapon_info_t* info( );
 
         OFFSET( int, clip1( ), g_ctx->offsets( ).m_base_weapon.m_clip1 );
-        OFFSET( int, primary_reserve_ammo_count( ), g_ctx->offsets( ).m_base_weapon.m_primary_reserve_ammo_count );
+        
+        OFFSET( int, primary_reserve_ammo_count( ), 
+            g_ctx->offsets( ).m_base_weapon.m_primary_reserve_ammo_count 
+        );
 
         OFFSET( float, next_primary_attack( ), g_ctx->offsets( ).m_base_weapon.m_next_primary_attack );
-        OFFSET( float, next_secondary_attack( ), g_ctx->offsets( ).m_base_weapon.m_next_secondary_attack );
+       
+        OFFSET( float, next_secondary_attack( ), 
+            g_ctx->offsets( ).m_base_weapon.m_next_secondary_attack 
+        );
     };
 
     struct weapon_cs_base_t : public base_weapon_t {
@@ -117,20 +137,30 @@ namespace valve {
 
         OFFSET( float, recoil_index( ), g_ctx->offsets( ).m_weapon_cs_base.m_recoil_index );
 
-        OFFSET( float, postpone_fire_ready_time( ), g_ctx->offsets( ).m_weapon_cs_base.m_postpone_fire_ready_time );
+        OFFSET( float, postpone_fire_ready_time( ), 
+            g_ctx->offsets( ).m_weapon_cs_base.m_postpone_fire_ready_time 
+        );
     };
 
     struct weapon_cs_base_gun_t : public weapon_cs_base_t {
         OFFSET( int, zoom_lvl( ), g_ctx->offsets( ).m_weapon_cs_base_gun.m_zoom_lvl );
 
-        OFFSET( int, burst_shots_remaining( ), g_ctx->offsets( ).m_weapon_cs_base_gun.m_burst_shots_remaining );
-        OFFSET( float, next_burst_shot( ), g_ctx->offsets( ).m_weapon_cs_base_gun.m_next_burst_shot );
+        OFFSET( int, burst_shots_remaining( ), 
+            g_ctx->offsets( ).m_weapon_cs_base_gun.m_burst_shots_remaining 
+        );
+
+        OFFSET( float, next_burst_shot( ), 
+            g_ctx->offsets( ).m_weapon_cs_base_gun.m_next_burst_shot 
+        );
     };
 
     struct base_combat_character_t : public base_animating_t {
         ALWAYS_INLINE weapon_cs_base_gun_t* weapon( );
 
-        OFFSET( ent_handle_t, weapon_handle( ), g_ctx->offsets( ).m_base_combat_character.m_weapon_handle );
+        OFFSET( ent_handle_t, weapon_handle( ), 
+            g_ctx->offsets( ).m_base_combat_character.m_weapon_handle
+        );
+
         OFFSET( float, next_attack( ), g_ctx->offsets( ).m_base_combat_character.m_next_attack );
     };
 
@@ -176,7 +206,9 @@ namespace valve {
 
         ALWAYS_INLINE void invalidate_bone_cache( );
 
-        ALWAYS_INLINE bool setup_bones( sdk::mat3x4_t* matrix, int bones_count, e_bone_flags flags, float time );
+        ALWAYS_INLINE bool setup_bones( sdk::mat3x4_t* matrix, int bones_count, 
+            e_bone_flags flags, float time 
+        );
 
         ALWAYS_INLINE int seq_activity( const int seq );
 

@@ -217,4 +217,36 @@ namespace sdk::detail {
             };
         }
     };
+
+    template < typename _value_t >
+    struct base_vec_t< _value_t, 4u > final
+        : public vec_helper_t< _value_t, 4u, base_vec_t< _value_t, 4u > > {
+    private:
+        using base_t = vec_helper_t< _value_t, 4u, base_vec_t< _value_t, 4u > >;
+    public:
+        ALWAYS_INLINE constexpr base_vec_t( ) = default;
+
+        ALWAYS_INLINE constexpr base_vec_t( const _value_t value )
+            : base_t{ value, value, value, value } {}
+
+        ALWAYS_INLINE constexpr base_vec_t(
+            const _value_t x, const _value_t y, const _value_t z, const _value_t w
+        ) : base_t{ x, y, z, w } {}
+
+        ALWAYS_INLINE constexpr _value_t& x( ) { return base_t::at( 0u ); }
+
+        ALWAYS_INLINE constexpr _value_t x( ) const { return base_t::at( 0u ); }
+
+        ALWAYS_INLINE constexpr _value_t& y( ) { return base_t::at( 1u ); }
+
+        ALWAYS_INLINE constexpr _value_t y( ) const { return base_t::at( 1u ); }
+
+        ALWAYS_INLINE constexpr _value_t& z( ) { return base_t::at( 2u ); }
+
+        ALWAYS_INLINE constexpr _value_t z( ) const { return base_t::at( 2u ); }
+
+        ALWAYS_INLINE constexpr _value_t& w( ) { return base_t::at( 3u ); }
+
+        ALWAYS_INLINE constexpr _value_t w( ) const { return base_t::at( 3u ); }
+    };
 }

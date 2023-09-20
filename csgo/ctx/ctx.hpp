@@ -46,7 +46,7 @@ private:
                         m_accumulate_layers{}, m_is_extrapolated{},
                         m_should_hit_entity{}, m_should_hit_entity_two_entities{},
                         m_ret_anim_state_yaw{}, m_ret_anim_state_pitch{},
-                        m_ret_players_and_vecs{};
+                        m_ret_players_and_vecs{}, m_view_matrix{};
 
         struct {
             sdk::address_t m_init{}, m_load_from_buffer{};
@@ -69,7 +69,8 @@ private:
                             m_origin{}, m_velocity{},
                             m_abs_velocity{}, m_abs_rotation{}, 
                             m_move_type{}, m_mins{}, 
-                            m_maxs{}, m_eflags{};
+                            m_maxs{}, m_eflags{},
+                            m_collision_group{};
         }               m_base_entity{};
 
         struct {
